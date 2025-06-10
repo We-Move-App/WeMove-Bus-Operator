@@ -1,0 +1,20 @@
+.dashboardContainer {
+  display: flex;
+  gap: clamp(20px, 3vw, 45px);
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.contentArea {
+  /* flex-grow: 1; */
+  padding: clamp(20px, 3.5vw, 70px) clamp(20px, 2vw, 40px)
+    clamp(20px, 2vw, 40px);
+  background-color: #fff;
+  /* margin-left: 250px; */
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+/* .dashboardContainer.collapsed .contentArea {
+  padding-left: 80px; 
+} */

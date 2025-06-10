@@ -1,0 +1,78 @@
+.routeFrom {
+  background-color: var(--color-bg-btn);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-md);
+  padding: var(--gap-size);
+  width: 230px;
+  white-space: nowrap;
+}
+
+.routeTo {
+  background: var(--route-bg);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-md);
+  padding: var(--gap-size);
+  width: 230px;
+  white-space: nowrap;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.content h3 {
+  font-weight: 500;
+}
+
+.routeContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-md);
+  width: 100%;
+  overflow-x: auto;
+  margin-top: var(--gap-large);
+  padding-bottom: var(--gap-md);
+}
+.content h4 {
+  font-weight: 400;
+}
+
+.cardInfo {
+  display: flex;
+  color: #fff;
+  width: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.routeImgBlock {
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  max-width: 50px;
+}
+
+.routeImgBlock img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.routeCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}

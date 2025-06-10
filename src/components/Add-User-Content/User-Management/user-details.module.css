@@ -1,0 +1,32 @@
+.addUserGridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-large);
+  border-radius: 5px;
+  background-color: #2d6a4f1a;
+  padding: var(--gap-large) var(--gap-size);
+}
+
+.managerDetails,
+.accessDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-large);
+}
+
+.inputUserContainer .inputContainer {
+  display: flex !important;
+}
+
+.inputUserContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-large);
+}
+
+@media screen and (max-width: 1400px) {
+  .addUserGridContainer {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+}

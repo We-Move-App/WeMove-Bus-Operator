@@ -1,0 +1,30 @@
+.busDaysContainer .content h3 {
+  margin-bottom: var(--gap-size);
+}
+
+.daysContainer {
+  display: grid;
+  /* grid-template-columns: repeat(4, 1fr); */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.dayButton {
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: #f0f0f0;
+  color: #4f4f4f;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: auto;
+  padding: 0 20px; */
+}
+
+.dayButton.selected {
+  background: #2f604a;
+  color: white;
+}

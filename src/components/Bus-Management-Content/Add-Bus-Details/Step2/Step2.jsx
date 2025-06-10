@@ -1,0 +1,259 @@
+import React, { useState } from "react";
+import styles from "./step2.module.css";
+import ContentHeading from "../../../Reusable/Content-Heading/ContentHeading";
+import ProgressBar from "../Progress-Bar/ProgressBar";
+import CustomBtn from "../../../Reusable/Custom-Button/CustomBtn";
+import BusRoutes from "../Step1/Bus-Routes/BusRoutes";
+import SnackbarNotification from "../../../Reusable/Snackbar-Notification/SnackbarNotification";
+import { useDispatch, useSelector } from "react-redux";
+import useFetch from "../../../../hooks/useFetch";
+import { setBusData } from "../../../../redux/slices/busSlice";
+import { CiCircleMinus } from "react-icons/ci";
+import { CiCirclePlus } from "react-icons/ci";
+
+const Step2 = ({ onSubmit, onPrevious, step }) => {
+  const { fetchData } = useFetch();
+  const dispatch = useDispatch();
+  const [totalSeats, setTotalSeats] = useState(0);
+  const [stoppages, setStoppages] = useState({});
+  const formData = useSelector((state) => state.bus.formData);
+  const [routes, setRoutes] = useState([
+    {
+      id: 1,
+      from: "",
+      to: "",
+      departureTime: "00:00",
+      arrivalTime: "00:00",
+      price: 0,
+    },
+  ]);
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "error",
+  });
+
+  const showSnackbar = (message, severity = "error") => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbar({ open: false, message: "", severity: "error" });
+  };
+
+  const handleSave = async () => {
+    try {
+      // STEP 1: Create bus using POST API
+      const formDataToSend = new FormData();
+      formDataToSend.append("busName", formData.busName);
+      formDataToSend.append("busModelNumber", formData.busModelNumber);
+      formDataToSend.append("busRegNumber", formData.busRegNumber);
+      formDataToSend.append("assignedDriver", formData.assignedDriver || "");
+      formDataToSend.append("status", "active");
+      formDataToSend.append("rating", 1);
+
+      // Add amenities
+      formData.amenities.forEach((amenity, index) => {
+        formDataToSend.append(`amenities[${index}][name]`, amenity.name);
+      });
+
+      // Add running days
+      formData.runningDays.forEach((day) => {
+        formDataToSend.append("runningDays[]", day);
+      });
+
+      // Handle busLicenseFront as a File
+      if (formData.busLicenseFront?.previewURL) {
+        const blob = await fetch(formData.busLicenseFront.previewURL).then(
+          (r) => r.blob()
+        );
+        const file = new File([blob], "bus-license.jpg", { type: blob.type });
+        formDataToSend.append("bus_license_front", file);
+      }
+
+      // Handle bus images (either File or blob URL)
+      for (const image of formData.busImages) {
+        if (image instanceof File) {
+          formDataToSend.append("busImages", image);
+        } else if (typeof image === "string" && image.startsWith("blob:")) {
+          const blob = await fetch(image).then((r) => r.blob());
+          const file = new File([blob], "bus-image.jpg", { type: blob.type });
+          formDataToSend.append("busImages", file);
+        } else {
+          console.warn("Unsupported image type:", image);
+        }
+      }
+
+      // Call API to create bus
+      const response = await fetchData(
+        "/bus-operator/buses/add",
+        "POST",
+        formDataToSend,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (!response.success || !response.data?.newBus?._id) {
+        showSnackbar("Failed to create bus. Please try again.", "error");
+        return;
+      }
+
+      const busId = response.data._id || response.data.newBus?._id || "";
+
+      // STEP 2: Prepare route data
+      if (!busId) {
+        showSnackbar(
+          "Bus ID is missing. Please go back and re-enter bus details.",
+          "error"
+        );
+        return;
+      }
+
+      let allRoutesData = [];
+      for (const route of routes) {
+        const pickupPoints =
+          stoppages[route.id]?.pickup?.filter((p) => p.name && p.time) || [];
+        const dropPoints =
+          stoppages[route.id]?.drop?.filter((p) => p.name && p.time) || [];
+
+        const routePayload = {
+          busId: busId,
+          startLocation: route.from,
+          endLocation: route.to,
+          departureTime: route.departureTime,
+          arrivalTime: route.arrivalTime || "1:00 PM",
+          pricePerSeat: route.price || "1000",
+          pickups:
+            pickupPoints.length > 0
+              ? pickupPoints
+              : [{ name: "Default Pickup", time: "10:00 AM" }],
+          drops:
+            dropPoints.length > 0
+              ? dropPoints
+              : [{ name: "Default Drop", time: "1:00 PM" }],
+        };
+
+        const res = await fetchData("buses/bus-routes", "POST", routePayload);
+        if (res.success && res.data) {
+          allRoutesData.push(res.data);
+        }
+      }
+
+      if (allRoutesData.length > 0) {
+        // Save seat layout
+        const seatLayoutPayload = { noOfSeats: totalSeats };
+        const seatRes = await fetchData(
+          `buses/seat-layout/${busId}`,
+          "POST",
+          seatLayoutPayload
+        );
+
+        if (seatRes.success) {
+          dispatch(
+            setBusData({
+              ...formData,
+              _id: busId,
+              routes: allRoutesData,
+              noOfSeats: totalSeats,
+            })
+          );
+          showSnackbar(
+            "Bus routes and seat layout updated successfully!",
+            "success"
+          );
+          onSubmit({
+            ...formData,
+            _id: busId,
+            routes: allRoutesData,
+            noOfSeats: totalSeats,
+          });
+        } else {
+          showSnackbar("Bus routes saved, but seat layout failed!", "warning");
+        }
+      } else {
+        showSnackbar("No routes data returned from API", "error");
+      }
+    } catch (err) {
+      const errorMsg =
+        err?.response?.data?.message || err?.message || "Something went wrong!";
+      showSnackbar(errorMsg, "error");
+    }
+  };
+
+  return (
+    <div className={styles.stepContainer}>
+      <SnackbarNotification
+        snackbar={snackbar}
+        handleClose={handleSnackbarClose}
+      />
+      <ContentHeading
+        heading="Bus Management"
+        belowHeadingComponent={<ProgressBar step={step} />}
+        showSubHeading={true}
+        subHeading={
+          <div className={styles.seatCounterContainer}>
+            <span className={styles.label}>Total Seat Number:</span>
+            <div className={styles.counter}>
+              <button
+                onClick={() => setTotalSeats((prev) => Math.max(1, prev - 1))}
+              >
+                <CiCircleMinus />
+              </button>
+              <input
+                type="number"
+                value={totalSeats}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  if (value <= 100) {
+                    setTotalSeats(Math.max(1, value));
+                  } else {
+                    setTotalSeats(100);
+                  }
+                }}
+                style={{
+                  width: "97px",
+                  height: "47px",
+                  textAlign: "center",
+                  outline: "none",
+                }}
+              />
+              <button
+                onClick={() => setTotalSeats((prev) => Math.min(100, prev + 1))}
+              >
+                <CiCirclePlus />
+              </button>
+            </div>
+          </div>
+        }
+        showBreadcrumbs={true}
+        breadcrumbs="Add Bus Details"
+      />
+
+      {/* Pass routes and setRoutes to BusRoutes */}
+      <BusRoutes
+        // busId={busId}
+        routes={routes}
+        setRoutes={setRoutes}
+        stoppages={stoppages}
+        setStoppages={setStoppages}
+      />
+
+      <div className={styles.buttonContainer}>
+        <CustomBtn
+          onClick={onPrevious}
+          label="Previous"
+          className={styles.prevBtn}
+          width="160px"
+        />
+        <CustomBtn
+          className={styles.saveBtn}
+          onClick={handleSave}
+          label="Save"
+          width="160px"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Step2;

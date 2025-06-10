@@ -1,0 +1,22 @@
+.addBusGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-large);
+}
+
+.busInfoFlexBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size);
+}
+
+.butonForward {
+  display: flex;
+  justify-content: end;
+}
+
+@media screen and (max-width: 1450px) {
+  .addBusGrid {
+    grid-template-columns: 100%;
+  }
+}

@@ -1,0 +1,30 @@
+.manageBusContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.manageBusContainer h3 {
+  color: var(--color-grey);
+  font-weight: 400;
+}
+
+.manageBusContainer .searchFilterContainer {
+  width: 100% !important;
+}
+
+.customClass {
+  max-width: 55%;
+  width: 100%;
+}
+
+.customClass input::placeholder {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .customClass {
+    max-width: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,112 @@
+.mainRouteContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.busRoutesContainer {
+  display: flex;
+  width: 100%;
+  padding-bottom: var(--gap-md);
+  overflow-x: auto;
+}
+
+.routes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timeSection {
+  display: flex;
+  background-color: var(--color-bg-btn);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.timeSection h3 {
+  font-weight: 400;
+}
+
+.timeContainerBox {
+  width: 270px;
+  display: flex;
+  gap: var(--gap-sm);
+  align-items: center;
+  padding: var(--gap-size);
+  color: var(--color-bg);
+}
+
+.timeInputBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  width: 100%;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.line {
+  display: block;
+  width: 1px;
+  height: 100%;
+  background-color: #000000;
+}
+
+.timeSectionBox {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.timeSearchBox {
+  width: 270px;
+  display: flex;
+  gap: var(--gap-xs);
+  background-color: var(--route-bg);
+  align-items: center;
+  padding: var(--gap-size) var(--gap-large);
+  height: 100%;
+  color: var(--color-bg);
+}
+
+.searchInputBox {
+  width: 125px;
+  background-color: #2d6a4f33;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-bg-btn);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.busRoutesContainer input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--color-bg);
+  font-size: clamp(20px, 1.2vw, 24px);
+}
+
+.timeContainerBox svg,
+.timeSearchBox svg {
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.timeContainerBox svg,
+.timeSearchBox svg {
+  flex-shrink: 0;
+}
+
+.timeContainerBox,
+.timeSearchBox {
+  display: flex;
+  align-items: center;
+}

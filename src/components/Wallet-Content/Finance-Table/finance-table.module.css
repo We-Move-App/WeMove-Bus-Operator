@@ -1,0 +1,58 @@
+.financeTableContainer {
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  padding: 40px;
+  margin-top: clamp(15px, 2vw, 30px);
+  width: 100%;
+}
+
+.tabContainer {
+  display: flex;
+  gap: 30px;
+}
+
+.tabButton {
+  max-width: 229px;
+  width: 100%;
+  height: 48px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #2f604a;
+  border-radius: 4px;
+  outline: none;
+  font-size: clamp(20px, 1.2vw, 24px);
+  color: #2f604a;
+  font-family: var(--font-primary);
+}
+
+.tabButton:hover {
+  background: #2d6a4f;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.activeTab {
+  background: #2d6a4f;
+  color: white;
+}
+
+.tabContent {
+  padding: 30px 0 0;
+}
+
+#btn2 {
+  width: 153px;
+}
+
+@media screen and (max-width: 1024px) {
+  .tabContainer {
+    gap: 15px;
+  }
+  .financeTableContainer {
+    padding: 20px;
+  }
+  .tabContent {
+    padding: 20px 0 0;
+  }
+}

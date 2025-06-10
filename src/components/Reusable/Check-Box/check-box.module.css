@@ -1,0 +1,32 @@
+.checkboxItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--gap-size);
+  background-color: #2d6a4f1a;
+  border-radius: 5px;
+  height: clamp(50px, 4vw, 68px);
+  min-height: 50px;
+  max-height: 68px;
+}
+
+.checkboxLabel {
+  font-size: clamp(20px, 1.2vw, 24px);
+}
+
+.checkbox {
+  width: 40px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.checkbox.checked {
+  background-color: white;
+  color: #000;
+}

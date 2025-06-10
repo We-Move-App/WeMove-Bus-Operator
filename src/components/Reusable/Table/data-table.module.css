@@ -1,0 +1,107 @@
+.tableContainer {
+  width: 100%;
+  /* overflow-x: scroll;
+  overflow-y: hidden; */
+  padding-bottom: var(--gap-md);
+  position: relative;
+  z-index: 100;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: var(--gap-md) var(--gap-size);
+  text-align: left;
+  border-bottom: 5px solid var(--border-clr);
+  font-size: clamp(18px, 1.3vw, 20px);
+  white-space: nowrap;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+tr {
+  cursor: pointer;
+}
+
+.selectedRow {
+  background-color: #2d6a4f1a;
+}
+
+.link {
+  color: #3087cf;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.editButton {
+  background-color: var(--color-bg-btn);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.editButton:hover {
+  background-color: var(--color-bg-btn);
+}
+
+.driverIdContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.driverIdContainer .driverImageBlock {
+  width: 55px;
+  height: 55px;
+}
+
+.driverIdContainer .driverImageBlock img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.driverIdContainer span {
+  text-transform: uppercase;
+}
+
+.viewButton {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  color: #3087cf;
+  font-size: clamp(18px, 1.7vw, 20px);
+}
+
+.linkText {
+  text-decoration: underline;
+  color: #3087cf;
+}
+
+.statusLink {
+  background-color: var(--color-bg-btn);
+  padding: var(--gap-xs) var(--gap-sm);
+  border-radius: 8px;
+  color: #fff;
+}
+
+/* @media screen and (max-width: 1600px) {
+  .table th,
+  .table td {
+    font-size: 16px;
+  }
+} */

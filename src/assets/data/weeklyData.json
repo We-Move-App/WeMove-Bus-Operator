@@ -1,0 +1,74 @@
+{
+  "Jan": {
+    "Week 1": { "label": "Week 1", "value": 21427 },
+    "Week 2": { "label": "Week 2", "value": 8883 },
+    "Week 3": { "label": "Week 3", "value": 9474 },
+    "Week 4": { "label": "Week 4", "value": 25216 }
+  },
+  "Feb": {
+    "Week 1": { "label": "Week 1", "value": 18968 },
+    "Week 2": { "label": "Week 2", "value": 24396 },
+    "Week 3": { "label": "Week 3", "value": 10322 },
+    "Week 4": { "label": "Week 4", "value": 11314 }
+  },
+  "Mar": {
+    "Week 1": { "label": "Week 1", "value": 10323 },
+    "Week 2": { "label": "Week 2", "value": 4454 },
+    "Week 3": { "label": "Week 3", "value": 10616 },
+    "Week 4": { "label": "Week 4", "value": 16607 }
+  },
+  "Apr": {
+    "Week 1": { "label": "Week 1", "value": 18164 },
+    "Week 2": { "label": "Week 2", "value": 12419 },
+    "Week 3": { "label": "Week 3", "value": 25118 },
+    "Week 4": { "label": "Week 4", "value": 26299 }
+  },
+  "May": {
+    "Week 1": { "label": "Week 1", "value": 30260 },
+    "Week 2": { "label": "Week 2", "value": 13922 },
+    "Week 3": { "label": "Week 3", "value": 27651 },
+    "Week 4": { "label": "Week 4", "value": 13167 }
+  },
+  "June": {
+    "Week 1": { "label": "Week 1", "value": 37604 },
+    "Week 2": { "label": "Week 2", "value": 22090 },
+    "Week 3": { "label": "Week 3", "value": 32961 },
+    "Week 4": { "label": "Week 4", "value": 17345 }
+  },
+  "July": {
+    "Week 1": { "label": "Week 1", "value": 38316 },
+    "Week 2": { "label": "Week 2", "value": 23212 },
+    "Week 3": { "label": "Week 3", "value": 41132 },
+    "Week 4": { "label": "Week 4", "value": 12340 }
+  },
+  "Aug": {
+    "Week 1": { "label": "Week 1", "value": 38648 },
+    "Week 2": { "label": "Week 2", "value": 23474 },
+    "Week 3": { "label": "Week 3", "value": 26355 },
+    "Week 4": { "label": "Week 4", "value": 11523 }
+  },
+  "Sep": {
+    "Week 1": { "label": "Week 1", "value": 15759 },
+    "Week 2": { "label": "Week 2", "value": 14641 },
+    "Week 3": { "label": "Week 3", "value": 9233 },
+    "Week 4": { "label": "Week 4", "value": 25367 }
+  },
+  "Oct": {
+    "Week 1": { "label": "Week 1", "value": 23969 },
+    "Week 2": { "label": "Week 2", "value": 14045 },
+    "Week 3": { "label": "Week 3", "value": 8475 },
+    "Week 4": { "label": "Week 4", "value": 20511 }
+  },
+  "Nov": {
+    "Week 1": { "label": "Week 1", "value": 9430 },
+    "Week 2": { "label": "Week 2", "value": 16193 },
+    "Week 3": { "label": "Week 3", "value": 13255 },
+    "Week 4": { "label": "Week 4", "value": 13122 }
+  },
+  "Dec": {
+    "Week 1": { "label": "Week 1", "value": 21262 },
+    "Week 2": { "label": "Week 2", "value": 16399 },
+    "Week 3": { "label": "Week 3", "value": 9646 },
+    "Week 4": { "label": "Week 4", "value": 32693 }
+  }
+}

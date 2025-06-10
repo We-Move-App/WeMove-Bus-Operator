@@ -1,0 +1,44 @@
+.dashboardTwoHalves {
+  display: grid;
+  grid-template-columns: 1fr minmax(400px, 521px);
+  grid-template-areas: "left right";
+  gap: 15px;
+  margin-top: 30px;
+  transition: all 0.3s ease;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.dashboardTwoHalves.fullWidth {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "left"
+    "right";
+}
+
+.leftContent {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+}
+
+.rightContent {
+  grid-area: right;
+  max-width: 521px;
+  width: 100%;
+}
+
+@media (max-width: 1800px) {
+  .dashboardTwoHalves {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "left"
+      "right";
+  }
+
+  .rightContent {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,194 @@
+.bankDetailsContainer .mainHeading h5 {
+  font-family: var(--font-secondary);
+  font-weight: 500;
+}
+
+.bankDetailsContainer {
+  padding: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2vw, 40px);
+}
+
+.formContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 727px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  /* max-width: 352.45px; */
+}
+
+.inputField {
+  width: 100%;
+  height: 70px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #000000;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  outline: none;
+  font-family: var(--font-primary);
+}
+
+.inputField::placeholder {
+  font-size: clamp(20px, 1.2vw, 24px);
+  color: #000000;
+  font-family: var(--font-primary);
+  font-weight: 400;
+}
+
+.viewField {
+  width: 249px;
+  height: 70px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px dashed #e5e4e4;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.viewField h3 {
+  font-weight: 400;
+  color: #263238;
+  font-size: clamp(20px, 1.2vw, 24px);
+}
+
+.viewField h3 a {
+  text-decoration: none;
+  color: #263238;
+  font-size: clamp(16px, 1.2vw, 16px);
+}
+
+.withDrawBtnBlock {
+  display: flex;
+  justify-content: end;
+}
+
+.withdrawModal {
+  max-width: 569px;
+  width: 100%;
+  margin: auto;
+}
+
+.formContainerModal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 569px;
+  width: 100%;
+  margin: auto;
+}
+
+.formContainerCongrats {
+  align-items: center;
+  text-align: center;
+  width: 342px;
+  gap: 24px;
+}
+.formContainerCongrats h2 {
+  color: #353249;
+}
+
+.formContainerCongrats p {
+  color: #0c0c0c;
+}
+
+.formContainerModal h2 {
+  font-size: clamp(20px, 1.2vw, 24px);
+  font-weight: 400;
+}
+
+.radioLabel {
+  color: #000;
+}
+
+.radioLabel h3 {
+  font-weight: 400;
+  padding-bottom: 18px;
+}
+
+.inputBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.formContainerModal input[type="text"] {
+  background-color: #fff;
+  font-size: clamp(20px, 1.2vw, 24px);
+  font-family: var(--font-primary);
+}
+
+.inputBlock input[type="radio"] {
+  appearance: none; /* Removes default styling */
+  width: 18px;
+  height: 18px;
+  border: 2px solid #2d6a4f; /* Green border */
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.inputBlock input[type="radio"]:checked {
+  background-color: #2f604a; /* Green fill */
+  border: 4px solid #2d6a4f; /* Darker green border */
+}
+
+/* Add inner dot when checked */
+.inputBlock input[type="radio"]:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.inputBlockContent h5 {
+  font-weight: 500;
+}
+
+.inputBlockContent p {
+  font-weight: 400;
+}
+
+.imageBlockCongrats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: clamp(100px, 10vw, 144px);
+}
+
+.imageBlockCongrats img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 1024px) {
+  .bankDetailsContainer {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .formContainer {
+    grid-template-columns: 100%;
+    gap: 20px;
+    max-width: 100%;
+  }
+}
