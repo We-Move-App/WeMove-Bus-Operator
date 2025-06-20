@@ -17,7 +17,13 @@ const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
           {options.length > 0 ? (
             options.map((option, index) => (
               <React.Fragment key={index}>
-                <button className={styles.menuItem} onClick={option.onClick}>
+                <button
+                  className={styles.menuItem}
+                  onClick={() => {
+                    setOpen(false);
+                    option.onClick();
+                  }}
+                >
                   {option.label}
                 </button>
                 {index !== options.length - 1 && (
