@@ -1,17 +1,20 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { useLocation } from "react-router-dom";
 
 const PublicRoute = ({ children }) => {
-  const token = localStorage.getItem("accessToken");
+  const rawToken = localStorage.getItem("accessToken");
+  const token = rawToken?.trim(); // remove accidental whitespace
   const location = useLocation();
 
   let verificationStatus = null;
+
   try {
-    if (token) {
+    if (token && token.split(".").length === 3) {
       const decoded = jwtDecode(token);
       verificationStatus = decoded?.verificationStatus;
+    } else if (token) {
+      console.warn("Invalid token format:", token);
     }
   } catch (error) {
     console.error("Token decoding failed:", error);
