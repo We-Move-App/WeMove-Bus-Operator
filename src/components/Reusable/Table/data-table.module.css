@@ -4,7 +4,7 @@
   overflow-y: hidden; */
   padding-bottom: var(--gap-md);
   position: relative;
-  z-index: 100;
+  z-index: 80;
   overflow-x: auto;
 }
 

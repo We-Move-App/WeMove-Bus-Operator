@@ -9,6 +9,7 @@ import SnackbarNotification from "../../components/Reusable/Snackbar-Notificatio
 import axiosInstance, { setAuthToken } from "../../services/axiosInstance";
 import { FadeLoader } from "react-spinners";
 import { jwtDecode } from "jwt-decode";
+import { Skeleton } from "@mui/material";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -170,10 +171,65 @@ const Profile = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+  // if (loading) {
+  //   return (
+  //     <div className={styles.loaderContainer}>
+  //       <FadeLoader color="#123abc" />
+  //     </div>
+  //   );
+  // }
+
   if (loading) {
     return (
-      <div className={styles.loaderContainer}>
-        <FadeLoader color="#123abc" />
+      <div className={styles.profileContainer}>
+        <div className={styles.profileHalves}>
+          {/* Left Half - Skeleton */}
+          <div className={styles.leftHalf}>
+            <Skeleton
+              variant="circular"
+              width={100}
+              height={100}
+              animation="wave"
+            />
+            <Skeleton
+              width="60%"
+              height={24}
+              style={{ marginTop: 16 }}
+              animation="wave"
+            />
+            <Skeleton width="80%" height={20} animation="wave" />
+            <Skeleton width="70%" height={20} animation="wave" />
+          </div>
+
+          {/* Right Half - Skeleton Form */}
+          <div className={styles.rightHalf}>
+            <Skeleton width="40%" height={28} />
+            <div className={styles.inputFieldsContainer}>
+              <Skeleton
+                width="100%"
+                height={48}
+                style={{ marginBottom: 16 }}
+                animation="wave"
+              />
+              <Skeleton
+                width="100%"
+                height={48}
+                style={{ marginBottom: 16 }}
+                animation="wave"
+              />
+              <Skeleton
+                width="100%"
+                height={48}
+                style={{ marginBottom: 16 }}
+                animation="wave"
+              />
+              <Skeleton width="100%" height={48} animation="wave" />
+            </div>
+            <div className={styles.btnContainer}>
+              <Skeleton width={100} height={36} animation="wave" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
