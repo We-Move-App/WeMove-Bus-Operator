@@ -92,7 +92,7 @@ const DriverDetails = () => {
 
     try {
       const response = await fetch(
-        "http://139.59.20.155:8001/api/v1/buses/drivers",
+        "http://192.168.0.208:8000/api/v1/buses/drivers",
         {
           method: "POST",
           headers: {

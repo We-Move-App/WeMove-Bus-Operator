@@ -11,40 +11,56 @@ const TicketDetails = ({ onRouteSelect }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
+  // const calculateDuration = (start, end) => {
+  //   const [startHour, startMinute] = start.split(":").map(Number);
+  //   const [endHour, endMinute] = end.split(":").map(Number);
+
+  //   let startTotal = startHour * 60 + startMinute;
+  //   let endTotal = endHour * 60 + endMinute;
+
+  //   // Handle overnight trips
+  //   if (endTotal < startTotal) {
+  //     endTotal += 24 * 60;
+  //   }
+
+  //   const durationMinutes = endTotal - startTotal;
+  //   const hours = Math.floor(durationMinutes / 60);
+  //   const minutes = durationMinutes % 60;
+
+  //   return `${hours}h ${minutes}m`;
+  // };
+
+  const parseTime = (timeStr) => {
+    const match = timeStr.match(/^(\d{1,2}):(\d{2})\s?(am|pm)$/i);
+    if (!match) return null;
+
+    let [_, hour, minute, period] = match;
+    hour = parseInt(hour, 10);
+    minute = parseInt(minute, 10);
+
+    if (period.toLowerCase() === "pm" && hour !== 12) hour += 12;
+    if (period.toLowerCase() === "am" && hour === 12) hour = 0;
+
+    return hour * 60 + minute;
+  };
+
   const calculateDuration = (start, end) => {
-    const [startHour, startMinute] = start.split(":").map(Number);
-    const [endHour, endMinute] = end.split(":").map(Number);
+    const startTotal = parseTime(start);
+    const endTotal = parseTime(end);
 
-    let startTotal = startHour * 60 + startMinute;
-    let endTotal = endHour * 60 + endMinute;
+    if (startTotal === null || endTotal === null) return "Invalid time";
 
-    // Handle overnight trips
+    let adjustedEnd = endTotal;
     if (endTotal < startTotal) {
-      endTotal += 24 * 60;
+      adjustedEnd += 24 * 60; // Overnight trip
     }
 
-    const durationMinutes = endTotal - startTotal;
+    const durationMinutes = adjustedEnd - startTotal;
     const hours = Math.floor(durationMinutes / 60);
     const minutes = durationMinutes % 60;
 
     return `${hours}h ${minutes}m`;
   };
-
-  // useEffect(() => {
-  //   const fetchRoutes = async () => {
-  //     try {
-  //       const res = await axiosInstance.get("/buses/bus-routes/all-routes");
-  //       setRoutes(res.data.data.routes || []);
-  //     } catch (err) {
-  //       console.error("Failed to fetch routes:", err);
-  //       setError("Unable to load routes. Please make sure you're logged in.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchRoutes();
-  // }, []);
 
   useEffect(() => {
     const fetchRoutes = async () => {
@@ -120,7 +136,7 @@ const TicketDetails = ({ onRouteSelect }) => {
               <div className={styles.busDetailsLeft}>
                 <div className={styles.busDetailsTitle}>Bus Details</div>
                 <div className={styles.busDetailsName}>
-                  {route?.busId.busName}
+                  {route?.busId?.busName || "NA"}
                 </div>
                 <div className={styles.busDetailsType}>
                   {route.startLocation} → {route.endLocation}
@@ -169,7 +185,7 @@ const TicketDetails = ({ onRouteSelect }) => {
               <div className={styles.busDetailsRight}>
                 <div className={styles.amountLabel}>Amount</div>
                 <div className={styles.amountValue}>
-                  ${route.pricePerSeat.finalAmount}
+                  ${route.pricePerSeat?.finalAmount ?? "0.00"}
                 </div>
 
                 <div className={styles.priceLabel}>Price</div>

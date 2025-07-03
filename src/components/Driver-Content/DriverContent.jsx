@@ -24,7 +24,7 @@ const DriverContent = () => {
       try {
         const token = localStorage.getItem("dashboardAccessToken");
         const response = await fetch(
-          "http://139.59.20.155:8081/api/v1/buses/drivers",
+          "http://192.168.0.208:8000/api/v1/buses/drivers",
           {
             method: "GET",
             headers: {

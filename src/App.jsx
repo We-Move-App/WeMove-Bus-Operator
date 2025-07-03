@@ -12,7 +12,6 @@ const App = () => {
     const storedBusData = JSON.parse(localStorage.getItem("busFormData"));
 
     if (storedBusData && storedBusData._id) {
-      // console.log("Loaded bus form data from localStorage:", storedBusData);
       dispatch(setBusData(storedBusData));
     } else {
       console.warn("⚠️ No valid bus data found in localStorage.");
@@ -23,10 +22,8 @@ const App = () => {
   useEffect(() => {
     if (busFormData && busFormData._id) {
       localStorage.setItem("busFormData", JSON.stringify(busFormData));
-    } else {
-      // console.warn("⚠️ Not saving to localStorage due to missing _id");
     }
-  }, [busFormData]); // Only update when formData changes
+  }, [busFormData]);
   return (
     <>
       <AppRoutes />
