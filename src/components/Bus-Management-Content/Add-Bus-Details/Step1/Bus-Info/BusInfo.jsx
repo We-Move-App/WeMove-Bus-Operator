@@ -8,13 +8,28 @@ const BusInfo = ({ data, setData }) => {
   const dispatch = useDispatch();
   const [previewImages, setPreviewImages] = useState([]);
 
+  // useEffect(() => {
+  //   // Generate preview URLs when busImages is updated
+  //   if (data.busImages) {
+  //     const previews = data.busImages.map((file) =>
+  //       file instanceof File ? URL.createObjectURL(file) : file
+  //     );
+  //     setPreviewImages(previews);
+  //   }
+  // }, [data.busImages]);
+
   useEffect(() => {
-    // Generate preview URLs when busImages is updated
     if (data.busImages) {
-      const previews = data.busImages.map((file) =>
+      const imageArray = Array.isArray(data.busImages)
+        ? data.busImages
+        : [data.busImages];
+
+      const previews = imageArray.map((file) =>
         file instanceof File ? URL.createObjectURL(file) : file
       );
       setPreviewImages(previews);
+    } else {
+      setPreviewImages([]);
     }
   }, [data.busImages]);
 

@@ -44,6 +44,56 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
 
   const handleSave = async () => {
     try {
+      if (totalSeats <= 0) {
+        showSnackbar(
+          "Please enter a valid number of total seats before saving.",
+          "error"
+        );
+        return;
+      }
+      for (const [i, route] of routes.entries()) {
+        console.log("Checking route:", i, route);
+        if (
+          !route.from.trim() ||
+          !route.to.trim() ||
+          !route.departureTime ||
+          !route.arrivalTime ||
+          route.price === null ||
+          route.price === undefined ||
+          isNaN(route.price) ||
+          route.price <= 0
+        ) {
+          showSnackbar(
+            `Please fill all required fields in route ${i + 1}.`,
+            "error"
+          );
+          return;
+        }
+      }
+
+      for (const [i, route] of routes.entries()) {
+        const stops = stoppages[route.id];
+
+        if (!stops) {
+          showSnackbar(`Missing stoppage data for route ${i + 1}.`, "error");
+          return;
+        }
+
+        const pickupIncomplete = stops.pickup.some(
+          (stop) => !stop.name.trim() || !stop.time.trim()
+        );
+        const dropIncomplete = stops.drop.some(
+          (stop) => !stop.name.trim() || !stop.time.trim()
+        );
+
+        if (pickupIncomplete || dropIncomplete) {
+          showSnackbar(
+            `Please fill all pickup and drop fields in route ${i + 1}.`,
+            "error"
+          );
+          return;
+        }
+      }
       // STEP 1: Create bus using POST API
       const formDataToSend = new FormData();
       formDataToSend.append("busName", formData.busName);
@@ -121,16 +171,10 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
           startLocation: route.from,
           endLocation: route.to,
           departureTime: route.departureTime,
-          arrivalTime: route.arrivalTime || "1:00 PM",
-          pricePerSeat: route.price || "1000",
-          pickups:
-            pickupPoints.length > 0
-              ? pickupPoints
-              : [{ name: "Default Pickup", time: "10:00 AM" }],
-          drops:
-            dropPoints.length > 0
-              ? dropPoints
-              : [{ name: "Default Drop", time: "1:00 PM" }],
+          arrivalTime: route.arrivalTime,
+          pricePerSeat: route.price,
+          ...(pickupPoints.length > 0 && { pickups: pickupPoints }),
+          ...(dropPoints.length > 0 && { drops: dropPoints }),
         };
 
         const res = await fetchData("buses/bus-routes", "POST", routePayload);

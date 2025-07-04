@@ -10,6 +10,7 @@ import { addDriver } from "../../../redux/slices/driverSlice";
 import DriverLicense from "../Driver-License-Upload/DriverLicense";
 import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../services/axiosInstance";
 
 const DriverDetails = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -28,7 +29,7 @@ const DriverDetails = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "success", // 'success', 'error', 'warning', 'info'
+    severity: "success",
   });
 
   const handleSnackbarClose = () => {
@@ -85,56 +86,84 @@ const DriverDetails = () => {
     formDataToSend.append("driver_license_front", formData.driverLicenseFront);
     formDataToSend.append("avatar", formData.avatar);
 
-    console.log("🚀 FormData before sending:");
+    console.log("FormData before sending:");
     for (let [key, value] of formDataToSend.entries()) {
       console.log(`${key}:`, value);
     }
 
+    // try {
+    //   const response = await fetch(
+    //     "http://192.168.0.208:8000/api/v1/buses/drivers",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       body: formDataToSend,
+    //     }
+    //   );
+
+    //   const data = await response.json();
+
+    //   if (response.ok) {
+    //     setSnackbar({
+    //       open: true,
+    //       message: "Driver added successfully!",
+    //       severity: "success",
+    //     });
+
+    //     setTimeout(() => {
+    //       navigate("/driver-management");
+    //     }, 1000);
+    //   } else {
+    //     setSnackbar({
+    //       open: true,
+    //       message: data.message || "Failed to add driver.",
+    //       severity: "error",
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.error("❌ Error adding driver:", error);
+    //   setSnackbar({
+    //     open: true,
+    //     message: "Something went wrong. Please try again.",
+    //     severity: "error",
+    //   });
+    // }
+
     try {
-      const response = await fetch(
-        "http://192.168.0.208:8000/api/v1/buses/drivers",
+      const response = await axiosInstance.post(
+        "/buses/drivers",
+        formDataToSend,
         {
-          method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
-          body: formDataToSend,
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted);
+          },
         }
       );
 
-      const data = await response.json();
+      setSnackbar({
+        open: true,
+        message: "Driver added successfully!",
+        severity: "success",
+      });
 
-      if (response.ok) {
-        setSnackbar({
-          open: true,
-          message: "Driver added successfully!",
-          severity: "success",
-        });
-
-        // setShowAlert(true);
-        // setFormData({
-        //   fullName: "",
-        //   busRegNumber: "",
-        //   phoneNumber: "",
-        //   driverLicenseFront: null,
-        //   avatar: null,
-        // });
-        // setImage(null);
-        setTimeout(() => {
-          navigate("/driver-management");
-        }, 1000);
-      } else {
-        setSnackbar({
-          open: true,
-          message: data.message || "Failed to add driver.",
-          severity: "error",
-        });
-      }
+      setTimeout(() => {
+        navigate("/driver-management");
+      }, 1000);
     } catch (error) {
       console.error("❌ Error adding driver:", error);
       setSnackbar({
         open: true,
-        message: "Something went wrong. Please try again.",
+        message:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again.",
         severity: "error",
       });
     }

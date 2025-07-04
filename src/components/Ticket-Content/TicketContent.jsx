@@ -12,6 +12,7 @@ import DropdownMenu from "../Reusable/Drop-Down-Menu/DropdownMenu";
 import FormModal from "../Reusable/Form-Modal/FormModal";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import axiosInstance from "../../services/axiosInstance";
+import { Skeleton } from "@mui/material";
 
 const columns = [
   { key: "_id", title: "Customer ID" },
@@ -180,8 +181,30 @@ const TicketContent = () => {
           </div>
         }
       />
+      {/* {ticketData.length === 0 ? (
+        <div className={styles.noDataMessage}>No tickets data available</div>
+      ) : (
+        <DataTable
+          columns={columns}
+          data={ticketData}
+          rowsPerPage={5}
+          loading={loading}
+        />
+      )} */}
 
-      {ticketData.length === 0 ? (
+      {loading ? (
+        <>
+          {[...Array(5)].map((_, index) => (
+            <Skeleton
+              key={index}
+              variant="rectangular"
+              height={40}
+              animation="wave"
+              sx={{ borderRadius: 2, mb: 1 }}
+            />
+          ))}
+        </>
+      ) : ticketData.length === 0 ? (
         <div className={styles.noDataMessage}>No tickets data available</div>
       ) : (
         <DataTable
@@ -191,7 +214,6 @@ const TicketContent = () => {
           loading={loading}
         />
       )}
-
       {/* Filter Modal */}
       <FormModal
         isOpen={isModalOpen}

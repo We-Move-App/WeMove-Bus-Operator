@@ -5,6 +5,8 @@ import ContentHeading from "../Reusable/Content-Heading/ContentHeading";
 import Search from "../Reusable/Search-Box/Search";
 import CustomBtn from "../Reusable/Custom-Button/CustomBtn";
 import DataTable from "../Reusable/Table/DataTable";
+import axiosInstance from "../../services/axiosInstance";
+import { Skeleton } from "@mui/material";
 
 const columns = [
   { key: "DriverId", title: "Driver ID" },
@@ -18,26 +20,16 @@ const DriverContent = () => {
   const navigate = useNavigate();
   const [drivers, setDrivers] = useState([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchDrivers = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("dashboardAccessToken");
-        const response = await fetch(
-          "http://192.168.0.208:8000/api/v1/buses/drivers",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axiosInstance.get("/buses/drivers");
 
-        const result = await response.json();
-        // console.log("Fetched Drivers:", result);
+        const result = response.data;
 
-        if (response.ok && result.success) {
+        if (result.success) {
           const formattedData = result.data.busDrivers.map((driver, index) => ({
             DriverId: {
               image: driver.avatar?.url || "https://via.placeholder.com/50",
@@ -46,17 +38,9 @@ const DriverContent = () => {
             driverName: driver.fullName,
             regNumber: driver.assignedBus?.busRegNumber || "N/A",
             mobNumber: driver.phoneNumber,
-            // license: (
-            //   <a
-            //     href={driver.driverLicenseFront?.url}
-            //     target="_blank"
-            //     rel="noopener noreferrer"
-            //   >
-            //     View License
-            //   </a>
-            // ),
             license: driver.driverLicenseFront?.url || "",
           }));
+
           setDrivers(formattedData);
         } else {
           console.error("Error fetching drivers:", result.message);
@@ -92,7 +76,17 @@ const DriverContent = () => {
       />
       <div className={styles.routeContentBlock}>
         {loading ? (
-          <p>Loading drivers...</p>
+          <>
+            {[...Array(5)].map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rectangular"
+                height={40}
+                animation="wave"
+                sx={{ borderRadius: 2, mb: 1 }}
+              />
+            ))}
+          </>
         ) : drivers.length === 0 ? (
           <div className={styles.noDataMessage}>No drivers data available</div>
         ) : (

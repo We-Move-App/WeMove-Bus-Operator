@@ -11,48 +11,48 @@ const TicketDetails = ({ onRouteSelect }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
+
+  const parseTime = (timeStr) => {
+    const match = timeStr.match(/^(\d{1,2}):(\d{2})$/); // 24-hour format like "23:03"
+    if (!match) return null;
+
+    const hour = parseInt(match[1], 10);
+    const minute = parseInt(match[2], 10);
+
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
+
+    return hour * 60 + minute;
+  };
+
   // const calculateDuration = (start, end) => {
-  //   const [startHour, startMinute] = start.split(":").map(Number);
-  //   const [endHour, endMinute] = end.split(":").map(Number);
+  //   const startTotal = parseTime(start);
+  //   const endTotal = parseTime(end);
 
-  //   let startTotal = startHour * 60 + startMinute;
-  //   let endTotal = endHour * 60 + endMinute;
+  //   if (startTotal === null || endTotal === null) return "Invalid time";
 
-  //   // Handle overnight trips
+  //   let adjustedEnd = endTotal;
   //   if (endTotal < startTotal) {
-  //     endTotal += 24 * 60;
+  //     adjustedEnd += 24 * 60;
   //   }
 
-  //   const durationMinutes = endTotal - startTotal;
+  //   const durationMinutes = adjustedEnd - startTotal;
   //   const hours = Math.floor(durationMinutes / 60);
   //   const minutes = durationMinutes % 60;
 
   //   return `${hours}h ${minutes}m`;
   // };
 
-  const parseTime = (timeStr) => {
-    const match = timeStr.match(/^(\d{1,2}):(\d{2})\s?(am|pm)$/i);
-    if (!match) return null;
-
-    let [_, hour, minute, period] = match;
-    hour = parseInt(hour, 10);
-    minute = parseInt(minute, 10);
-
-    if (period.toLowerCase() === "pm" && hour !== 12) hour += 12;
-    if (period.toLowerCase() === "am" && hour === 12) hour = 0;
-
-    return hour * 60 + minute;
-  };
-
-  const calculateDuration = (start, end) => {
+  const calculateDuration = (start, end, isNextDay = false) => {
     const startTotal = parseTime(start);
     const endTotal = parseTime(end);
 
     if (startTotal === null || endTotal === null) return "Invalid time";
 
     let adjustedEnd = endTotal;
-    if (endTotal < startTotal) {
-      adjustedEnd += 24 * 60; // Overnight trip
+
+    // Explicitly add 24 hours if it's for the next day
+    if (isNextDay || endTotal <= startTotal) {
+      adjustedEnd += 24 * 60;
     }
 
     const durationMinutes = adjustedEnd - startTotal;

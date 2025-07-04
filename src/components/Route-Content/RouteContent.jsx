@@ -7,6 +7,7 @@ import styles from "./route-content.module.css";
 import axiosInstance from "../../services/axiosInstance";
 import { setBusData } from "../../redux/slices/busSlice";
 import ContentHeading from "../Reusable/Content-Heading/ContentHeading";
+import { Skeleton } from "@mui/material";
 
 const columns = [
   { key: "busRegNumber", title: "Bus Reg Number" },
@@ -28,6 +29,7 @@ const RouteContent = () => {
   const busId = useSelector((state) => state.bus?.formData?._id);
   // console.log("Bus Id:", busId);
   const [routeData, setRouteData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +67,7 @@ const RouteContent = () => {
       } catch (error) {
         console.error("❌ Error fetching data:", error);
       }
+      setLoading(false);
     };
 
     fetchData();
@@ -81,7 +84,24 @@ const RouteContent = () => {
       />
 
       <div className={styles.routeContentBlock}>
-        {routeData.length === 0 ? (
+        {/* {routeData.length === 0 ? (
+          <div className={styles.noDataMessage}>No route data available</div>
+        ) : (
+          <DataTable columns={columns} data={routeData} rowsPerPage={5} />
+        )} */}
+        {loading ? (
+          <>
+            {[...Array(5)].map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rectangular"
+                height={40}
+                animation="wave"
+                sx={{ borderRadius: 2, mb: 1 }}
+              />
+            ))}
+          </>
+        ) : routeData.length === 0 ? (
           <div className={styles.noDataMessage}>No route data available</div>
         ) : (
           <DataTable columns={columns} data={routeData} rowsPerPage={5} />

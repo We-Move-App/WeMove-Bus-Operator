@@ -10,7 +10,7 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
   // console.log("Bus ID in BusRoutes:", busId);
   const handleInputChange = (index, field, value) => {
     if (field === "price") {
-      value = value ? parseFloat(value) : 0;
+      value = value ? parseFloat(value) : null;
     }
 
     const updatedRoutes = routes.map((route, i) =>
@@ -137,12 +137,6 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
           </div>
         </div>
       ))}
-
-      {/* <PickupDropLocations
-        routeId={route.id}
-        stoppages={stoppages}
-        setStoppages={setStoppages}
-      /> */}
 
       {routes.map((route, index) => (
         <div key={index} className={styles.busRoutesContainer}>
