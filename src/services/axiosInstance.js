@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL = "http://192.168.0.206:8000";
-// export const BASE_URL = "http://139.59.20.155:8001";
+// export const BASE_URL = "http://192.168.0.208:8000";
+export const BASE_URL = "http://139.59.20.155:8001";
 export const API_VERSION = "v1";
 
 const axiosInstance = axios.create({
@@ -61,7 +61,7 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem("accessToken");
       }
 
-      window.location.href = "/"; // Redirect to login
+      window.location.href = "/";
     }
 
     return Promise.reject(error);

@@ -27,7 +27,7 @@ const UserDetails = () => {
 
   // State for checkboxes
   const [permissions, setPermissions] = useState({
-    dashboardManagement: false,
+    dashboardManagement: true,
     busManagement: false,
     routeManagement: false,
     driverManagement: false,
@@ -82,7 +82,7 @@ const UserDetails = () => {
     });
 
     setPermissions({
-      dashboardManagement: userPermissions.includes("dashboardManagement"),
+      dashboardManagement: true,
       busManagement: userPermissions.includes("busManagement"),
       routeManagement: userPermissions.includes("routeManagement"),
       driverManagement: userPermissions.includes("driverManagement"),
@@ -115,6 +115,15 @@ const UserDetails = () => {
     const selectedPermissions = Object.keys(permissions).filter(
       (key) => permissions[key]
     );
+
+    if (selectedPermissions.length === 0) {
+      setSnackbar({
+        open: true,
+        message: "Please select at least one permission.",
+        severity: "error",
+      });
+      return;
+    }
 
     const payload = {
       fullName: formData.fullName,
@@ -210,7 +219,9 @@ const UserDetails = () => {
               <CheckBoxItem
                 label="View Dashboard"
                 checked={permissions.dashboardManagement}
-                onChange={() => togglePermission("dashboardManagement")}
+                // onChange={() => togglePermission("dashboardManagement")}
+                onChange={() => {}}
+                disabled={true}
               />
               <CheckBoxItem
                 label="Bus Management"

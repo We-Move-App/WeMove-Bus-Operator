@@ -7,22 +7,13 @@ const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //   const handleLogout = async () => {
-  //     try {
-  //       await axiosInstance.post("/auth/logout");
-  //       localStorage.removeItem("accessToken");
-  //       localStorage.removeItem("refreshToken");
-  //       navigate("/");
-  //     } catch (error) {
-  //       console.error("Logout failed:", error.response?.data || error.message);
-  //     }
-  //   };
-
   const handleLogout = () => {
     dispatch(setBusData({}));
 
     localStorage.removeItem("dashboardAccessToken");
     localStorage.removeItem("dashboardRefreshToken");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userPermissions");
     console.log("User logged out. Cleared bus data");
     navigate("/", { replace: true });
   };

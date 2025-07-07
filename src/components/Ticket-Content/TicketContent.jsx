@@ -94,41 +94,44 @@ const TicketContent = () => {
       const bookings = response.data.data.bookings;
 
       const transformedData = bookings.flatMap((booking) =>
-        booking.passengers.map((passenger, index) => ({
-          _id: `ID_${passenger?._id.slice(-4).toUpperCase()}`,
-          name: passenger.name || "-",
-          busRegNumber: booking.busId?.busRegNumber || "-",
-          contactNumber: passenger.contactNumber || "-",
-          email: booking.passengers[0]?.email || "-",
-          journeyDate:
-            new Date(booking.journeyDate).getDate() +
-            "." +
-            String(new Date(booking.journeyDate).getMonth() + 1).padStart(
-              2,
-              "0"
-            ) +
-            "." +
-            new Date(booking.journeyDate).getFullYear(),
-          journeyTime: new Date(booking.createdAt).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          from: booking.from,
-          to: booking.to,
-          getStatus: getStatus(booking.status),
-          driverAction: (
-            <DropdownMenu
-              Icon={BsThreeDotsVertical}
-              options={[
-                { label: "Edit", onClick: () => console.log("Edit Ticket") },
-                {
-                  label: "Cancel",
-                  onClick: () => console.log("Cancel Ticket"),
-                },
-              ]}
-            />
-          ),
-        }))
+        booking.passengers.map((passenger) => {
+          const customer = booking.bookedByOperator || booking.bookedBy || {};
+
+          return {
+            _id: passenger?._id
+              ? `ID_${passenger._id.slice(-4).toUpperCase()}`
+              : customer?._id
+              ? `ID_${customer._id.slice(-4).toUpperCase()}`
+              : "ID_UNKNOWN",
+            name: passenger.name || customer.fullName || "-",
+            busRegNumber: booking.busId?.busRegNumber || "-",
+            contactNumber:
+              passenger.contactNumber || customer.phoneNumber || "-",
+            email: passenger?.email || customer.email || "-",
+            journeyDate: new Date(booking.journeyDate).toLocaleDateString(
+              "en-GB"
+            ),
+            journeyTime: new Date(booking.createdAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            from: booking.from || "-",
+            to: booking.to || "-",
+            getStatus: getStatus(booking.status),
+            driverAction: (
+              <DropdownMenu
+                Icon={BsThreeDotsVertical}
+                options={[
+                  { label: "Edit", onClick: () => console.log("Edit Ticket") },
+                  {
+                    label: "Cancel",
+                    onClick: () => console.log("Cancel Ticket"),
+                  },
+                ]}
+              />
+            ),
+          };
+        })
       );
 
       setTicketData(transformedData);

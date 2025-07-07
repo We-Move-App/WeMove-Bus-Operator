@@ -7,12 +7,15 @@ import DropdownMenu from "../Reusable/Drop-Down-Menu/DropdownMenu";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axiosInstance, { setAuthToken } from "../../services/axiosInstance";
+import { useDispatch } from "react-redux";
+import { setUserRoleAndPermissions } from "../../redux/slices/userSlice";
 
 const NavbarNew = ({ toggleSidebar }) => {
   const [name, setName] = useState("");
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
   const [avatarUrl, setAvatarUrl] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -20,15 +23,29 @@ const NavbarNew = ({ toggleSidebar }) => {
         const avatarRes = await axiosInstance.get("/bus-operator/get-avatar");
         const profileRes = await axiosInstance.get("/bus-operator/profile");
 
+        // const avatarUrl = avatarRes?.data?.data?.url;
+        // const userName = profileRes?.data?.data?.user?.fullName;
+
+        // if (avatarUrl) setAvatarUrl(avatarUrl);
+        // if (userName) setName(userName);
+
         const avatarUrl = avatarRes?.data?.data?.url;
-        const userName = profileRes?.data?.data?.user?.fullName;
+        const user = profileRes?.data?.data?.user;
 
         if (avatarUrl) setAvatarUrl(avatarUrl);
-        if (userName) setName(userName);
+        if (user?.fullName) setName(user.fullName);
+
+        dispatch(
+          setUserRoleAndPermissions({
+            role: user.role,
+            permissions: user.permissions,
+          })
+        );
       } catch (error) {
         console.error("Failed to fetch profile data:", error);
       }
     };
+
     setAuthToken("dashboard");
     fetchProfileData();
   }, []);
