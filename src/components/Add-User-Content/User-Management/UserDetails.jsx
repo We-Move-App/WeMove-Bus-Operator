@@ -38,7 +38,7 @@ const UserDetails = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "error", // or "error", "warning", "info"
+    severity: "error",
   });
 
   const handleSnackbarClose = () => {
