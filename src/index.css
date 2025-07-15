@@ -94,7 +94,7 @@ p {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: darkgreen;
+  background: #2d6a4f;
 }
 
 label {

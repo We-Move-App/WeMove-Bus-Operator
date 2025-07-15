@@ -41,7 +41,7 @@ const ResetByEmail = () => {
           <form onSubmit={handleSubmit} className="form">
             <div className="formFieldsContainer">
               <InputForm
-                label="User Name"
+                label="Email Address / Phone Number"
                 type="tel"
                 name="emailOrPhone"
                 value={formData.emailOrPhone}

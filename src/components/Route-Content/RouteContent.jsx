@@ -31,6 +31,20 @@ const RouteContent = () => {
   const [routeData, setRouteData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const formatTime = (timeStr) => {
+    if (!timeStr) return "N/A";
+
+    const [hourStr, minute] = timeStr.split(":");
+    let hour = parseInt(hourStr, 10);
+
+    if (isNaN(hour)) return "N/A";
+
+    const period = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+
+    return `${hour}:${minute} ${period}`;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,8 +53,6 @@ const RouteContent = () => {
           `/buses/bus-routes/all-routes`
         );
         // console.log("✅ Bus Data Fetched:", busResponse.data);
-
-        // Extract routes array properly
         const routes = busResponse.data?.data?.routes || [];
 
         // Dispatch routes to Redux store
@@ -50,10 +62,10 @@ const RouteContent = () => {
         const formattedData = routes.map((route) => ({
           busRegNumber: route.busRegNumber || "N/A",
           startLocation: route.startLocation || "N/A",
-          departureTime: route.departureTime || "N/A",
+          departureTime: formatTime(route.departureTime) || "N/A",
           pickups: route.pickups?.map((p) => ({ name: p.name })) || [],
           endLocation: route.endLocation || "N/A",
-          arrivalTime: route.arrivalTime || "N/A",
+          arrivalTime: formatTime(route.arrivalTime) || "N/A",
           drops: route.drops?.map((d) => ({ name: d.name })) || [],
           status: route.status || "inactive",
           pricePerSeat: route.pricePerSeat || "N/A",

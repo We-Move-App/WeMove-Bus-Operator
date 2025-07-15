@@ -62,6 +62,16 @@ const StepOneSummary = ({ step, busId }) => {
     navigate("/bus-management");
   };
 
+  const dayAbbreviations = {
+    Monday: "Mon",
+    Tuesday: "Tue",
+    Wednesday: "Wed",
+    Thursday: "Thu",
+    Friday: "Fri",
+    Saturday: "Sat",
+    Sunday: "Sun",
+  };
+
   return (
     <div>
       <ContentHeading
@@ -79,10 +89,7 @@ const StepOneSummary = ({ step, busId }) => {
               {Array.isArray(busImages) && busImages.length > 0 ? (
                 busImages.map((image, idx) => (
                   <div key={idx} className={styles.imageBlockContainer}>
-                    <img
-                      src={image.url} // Access the `url` field from each image object
-                      alt={`Bus Image ${idx}`}
-                    />
+                    <img src={image.url} alt={`Bus Image ${idx}`} />
                   </div>
                 ))
               ) : (
@@ -130,8 +137,13 @@ const StepOneSummary = ({ step, busId }) => {
             <div className={styles.contentBlock}>
               <h3>Days</h3>
               <h3 id={styles.daysClr}>
-                {busData?.runningDays?.length
+                {/* {busData?.runningDays?.length
                   ? busData.runningDays.map((day) => day.charAt(0)).join(" ")
+                  : "Not selected"} */}
+                {busData?.runningDays?.length
+                  ? busData.runningDays
+                      .map((day) => dayAbbreviations[day] || day)
+                      .join(" ")
                   : "Not selected"}
               </h3>
             </div>

@@ -5,7 +5,6 @@ const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
