@@ -1,7 +1,7 @@
 .amenitiesContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  flex-wrap: wrap;
 }
 
 .amenityBlock .content h3 {
@@ -19,7 +19,9 @@
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
+  white-space: nowrap;
 }
 
 .amenityButton.selected {
@@ -29,4 +31,11 @@
 
 .amenityButton.selected img {
   filter: invert(1);
+}
+
+@media screen and (max-width: 1350px) {
+  .amenitiesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 }

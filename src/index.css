@@ -50,6 +50,7 @@ body {
   color: var(--color-dark);
   font-family: var(--font-primary) !important;
   overflow-y: hidden !important;
+  cursor: context-menu;
 }
 
 h1 {
