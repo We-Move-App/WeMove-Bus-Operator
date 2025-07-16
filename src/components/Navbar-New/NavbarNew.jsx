@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import images from "../../assets/image";
 import styles from "./navbar-new.module.css";
 import { MdOutlineExpandMore } from "react-icons/md";
@@ -10,7 +10,7 @@ import axiosInstance, { setAuthToken } from "../../services/axiosInstance";
 import { useDispatch } from "react-redux";
 import { setUserRoleAndPermissions } from "../../redux/slices/userSlice";
 
-const NavbarNew = ({ toggleSidebar }) => {
+const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [name, setName] = useState("");
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
@@ -54,7 +54,7 @@ const NavbarNew = ({ toggleSidebar }) => {
     <nav className={styles.navbar}>
       <div className={styles.leftSection}>
         <button className={styles.menuButton} onClick={toggleSidebar}>
-          <Menu size={24} />
+          {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
         <div className={styles.logo}>
           <div className={styles.imageNavbar}>

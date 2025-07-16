@@ -13,7 +13,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import styles from "./sidebar-new.module.css";
 import { useSelector } from "react-redux";
 
-const SidebarNew = ({ isOpen }) => {
+const SidebarNew = ({ isOpen, toggle }) => {
   const location = useLocation();
   const { role, permissions } = useSelector((state) => state.user);
 
@@ -69,7 +69,8 @@ const SidebarNew = ({ isOpen }) => {
   };
 
   return (
-    <aside className={`${styles.sidebar} ${!isOpen ? styles.open : ""}`}>
+    // <aside className={`${styles.sidebar} ${!isOpen ? styles.open : ""}`}>
+    <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
       <nav className={styles.nav}>
         <div className={styles.menuItems}>
           {menuItems.map((item, index) => {
@@ -91,6 +92,7 @@ const SidebarNew = ({ isOpen }) => {
                     isActive ? styles.active : ""
                   }`}
                   key={index}
+                  onClick={toggle}
                 >
                   {React.createElement(item.icon, { size: 20 })}
                   <span className={styles.navText}>{item.text}</span>
@@ -109,6 +111,7 @@ const SidebarNew = ({ isOpen }) => {
               className={({ isActive }) =>
                 `${styles.navItem} ${isActive ? styles.active : ""}`
               }
+              onClick={toggle}
             >
               {React.createElement(feedbackItem.icon, { size: 20 })}
               <span className={styles.navText}>{feedbackItem.text}</span>

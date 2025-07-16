@@ -7,6 +7,7 @@ import ContentHeading from "../../../../Reusable/Content-Heading/ContentHeading"
 import CustomBtn from "../../../../Reusable/Custom-Button/CustomBtn";
 import ProgressBar from "../../Progress-Bar/ProgressBar";
 import styles from "./step-one-summary.module.css";
+import { resetBusData } from "../../../../../redux/slices/busSlice";
 
 const StepOneSummary = ({ step, busId }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ const StepOneSummary = ({ step, busId }) => {
 
     fetchBusData();
   }, [busId, dispatch]);
+
+  useEffect(() => {
+    dispatch(resetBusData());
+  }, [dispatch]);
 
   const licenseURL = useMemo(
     () => busData?.busLicenseFront?.url || null,
