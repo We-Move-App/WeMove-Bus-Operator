@@ -28,7 +28,6 @@ const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
     };
   }, [open]);
 
-  // Position menu near the button
   useEffect(() => {
     if (open && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
