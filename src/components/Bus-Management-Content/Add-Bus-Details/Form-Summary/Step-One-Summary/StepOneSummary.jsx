@@ -54,10 +54,6 @@ const StepOneSummary = ({ step, busId }) => {
     fetchBusData();
   }, [busId, dispatch]);
 
-  useEffect(() => {
-    dispatch(resetBusData());
-  }, [dispatch]);
-
   const licenseURL = useMemo(
     () => busData?.busLicenseFront?.url || null,
     [busData?.busLicenseFront]
@@ -65,6 +61,7 @@ const StepOneSummary = ({ step, busId }) => {
 
   const onNext = () => {
     navigate("/bus-management");
+    setTimeout(() => dispatch(resetBusData()), 100);
   };
 
   const dayAbbreviations = {

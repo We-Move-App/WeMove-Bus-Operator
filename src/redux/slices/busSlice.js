@@ -97,6 +97,7 @@ const busSlice = createSlice({
       // console.log("Resetting Bus Data...");
       state.formData = { ...initialState.formData };
       state.step = 1;
+      localStorage.removeItem("busFormData");
     },
   },
 });
