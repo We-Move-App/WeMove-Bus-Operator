@@ -22,11 +22,9 @@ const LogIn = () => {
   } = useLogInForm();
 
   const token = localStorage.getItem("dashboardAccessToken");
-
-  // ✅ Redirect logged-in users away from login page
   useEffect(() => {
     if (token) {
-      navigate("/dashboard", { replace: true }); // Prevents going back
+      navigate("/dashboard", { replace: true });
     }
   }, [token, navigate]);
 
