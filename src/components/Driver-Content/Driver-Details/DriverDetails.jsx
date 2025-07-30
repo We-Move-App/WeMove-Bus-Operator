@@ -55,7 +55,7 @@ const DriverDetails = () => {
   const handleSave = async () => {
     if (
       !formData.fullName ||
-      !formData.busRegNumber ||
+      // !formData.busRegNumber ||
       !formData.phoneNumber ||
       !formData.avatar ||
       !formData.driverLicenseFront
@@ -81,7 +81,7 @@ const DriverDetails = () => {
 
     const formDataToSend = new FormData();
     formDataToSend.append("fullName", formData.fullName);
-    formDataToSend.append("busRegNumber", formData.busRegNumber);
+    // formDataToSend.append("busRegNumber", formData.busRegNumber);
     formDataToSend.append("phoneNumber", formData.phoneNumber);
     formDataToSend.append("driver_license_front", formData.driverLicenseFront);
     formDataToSend.append("avatar", formData.avatar);
@@ -90,47 +90,6 @@ const DriverDetails = () => {
     for (let [key, value] of formDataToSend.entries()) {
       console.log(`${key}:`, value);
     }
-
-    // try {
-    //   const response = await fetch(
-    //     "http://192.168.0.208:8000/api/v1/buses/drivers",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //       body: formDataToSend,
-    //     }
-    //   );
-
-    //   const data = await response.json();
-
-    //   if (response.ok) {
-    //     setSnackbar({
-    //       open: true,
-    //       message: "Driver added successfully!",
-    //       severity: "success",
-    //     });
-
-    //     setTimeout(() => {
-    //       navigate("/driver-management");
-    //     }, 1000);
-    //   } else {
-    //     setSnackbar({
-    //       open: true,
-    //       message: data.message || "Failed to add driver.",
-    //       severity: "error",
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("❌ Error adding driver:", error);
-    //   setSnackbar({
-    //     open: true,
-    //     message: "Something went wrong. Please try again.",
-    //     severity: "error",
-    //   });
-    // }
-
     try {
       const response = await axiosInstance.post(
         "/buses/drivers",
@@ -227,7 +186,7 @@ const DriverDetails = () => {
                 }
               />
             </div>
-            <div className={`${styles.inputBlock} ${styles.inputNumber}`}>
+            {/* <div className={`${styles.inputBlock} ${styles.inputNumber}`}>
               <h3>Bus Registration Number</h3>
               <select
                 name="busRegNumber"
@@ -246,7 +205,7 @@ const DriverDetails = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
             <div className={styles.inputBlock}>
               <h3>Mobile Number</h3>
               <input

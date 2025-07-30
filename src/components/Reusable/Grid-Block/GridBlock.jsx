@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../../services/axiosInstance";
 import { setBusData, setStep } from "../../../redux/slices/busSlice";
+import DriverList from "../Driver-Dropdown-List/DriverList";
 
 const GridBlock = ({ _id, image, busName, modelNumber, regNumber, driver }) => {
   const navigate = useNavigate();
@@ -60,6 +61,13 @@ const GridBlock = ({ _id, image, busName, modelNumber, regNumber, driver }) => {
           <h4>
             Assigned Driver : <span className={styles.title}>{driver}</span>
           </h4>
+          {/* <DriverList
+            contacts={[
+              { id: 1, name: "Alice", mobile: "9876543210" },
+              { id: 2, name: "Bob", mobile: "9123456789" },
+            ]}
+            onSelect={(c) => console.log("Selected:", c)}
+          /> */}
           <div className={styles.gridBtnBlock}>
             <CustomBtn
               label="View Details"

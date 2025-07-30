@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./digital-card.module.css";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import axios from "axios";
 
 const DigitalCard = ({ showMidContent = true }) => {
   const [isCardNumberVisible, setIsCardNumberVisible] = useState(false);
@@ -11,6 +12,36 @@ const DigitalCard = ({ showMidContent = true }) => {
   const toggleCardNumberVisibility = () => {
     setIsCardNumberVisible(!isCardNumberVisible);
   };
+  const [walletDetails, setWalletDetails] = useState(null);
+  useEffect(() => {
+    const fetchAnalyticsAndWallet = async () => {
+      const token = localStorage.getItem("dashboardAccessToken");
+      if (!token) {
+        console.error("Access token not found in localStorage");
+        return;
+      }
+      console.log("Access token:", token);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      try {
+        const walletRes = await axios.get(
+          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/details",
+          config
+        );
+        setWalletDetails(walletRes.data.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchAnalyticsAndWallet();
+  }, []);
+
   return (
     <div className={styles.digitalCardContainer}>
       <div className={styles.digitalCardContent}>
@@ -30,15 +61,22 @@ const DigitalCard = ({ showMidContent = true }) => {
           </div>
         </div>
 
-        {showMidContent && (
+        {/* {showMidContent && (
           <div className={styles.midContent}>
-            <h3>12,000</h3>
+            <h3>{walletDetails.balance.toLocaleString()}</h3>
+          </div>
+        )} */}
+        {showMidContent && walletDetails && (
+          <div className={styles.midContent}>
+            <h3>
+              {walletDetails.balance.toLocaleString()} {walletDetails.currency}
+            </h3>
           </div>
         )}
 
-        <div className={styles.belowContent}>
+        {/* <div className={styles.belowContent}>
           <h4>Exp: 06/25</h4>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./transaction-table.module.css";
 import images from "../../../../assets/image";
+import axios from "axios";
 
 const transactions = [
   {
@@ -54,8 +55,36 @@ const transactions = [
 ];
 
 const TransactionTable = () => {
+  const [transactions, setTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 6;
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const token = localStorage.getItem("dashboardAccessToken");
+      if (!token) {
+        console.error("Access token not found in localStorage");
+        return;
+      }
+
+      try {
+        const res = await axios.get(
+          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/transactions?entity=busoperator",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setTransactions(res.data.data.transactions); // Adjust based on actual response
+        console.log("Fetched transactions:", res.data.data.transactions);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
 
   const indexOfLastTransaction = currentPage * transactionsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
@@ -66,12 +95,82 @@ const TransactionTable = () => {
 
   const totalPages = Math.ceil(transactions.length / transactionsPerPage);
 
+  // return (
+  //   <div className={styles.transactionContainer}>
+  //     <div className={styles.mainHeading}>
+  //       <h5>Transaction History</h5>
+
+  //       {/* Search Bar */}
+  //       <div className={styles.searchFilterContainer}>
+  //         <div className={styles.inputWrapper}>
+  //           <input
+  //             type="search"
+  //             placeholder="Search"
+  //             className={styles.searchInput}
+  //           />
+  //           <div className={styles.searchIcon}>
+  //             <span className={styles.line}></span>
+  //             <img src={images.searchIcon} alt="search-icon" />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <div className={styles.transactionTableWrapper}>
+  //       <table className={styles.transactionTable}>
+  //         <thead>
+  //           <tr>
+  //             <th>Transaction ID</th>
+  //             <th>User Name</th>
+  //             <th>Date</th>
+  //             <th>Time</th>
+  //             <th>Amount</th>
+  //             {/* <th>Available Balance</th> */}
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  //           {currentTransactions.map((transaction, index) => (
+  //             <tr key={`${transaction.id}-${index}`}>
+  //               <td>{transaction.id}</td>
+  //               <td>{transaction.user}</td>
+  //               <td>{transaction.date}</td>
+  //               <td>{transaction.time}</td>
+  //               <td>{transaction.amount}</td>
+  //               {/* <td>{transaction.balance}</td> */}
+  //             </tr>
+  //           ))}
+  //         </tbody>
+  //       </table>
+  //     </div>
+
+  //     <div className={styles.pagination}>
+  //       <button
+  //         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+  //         disabled={currentPage === 1}
+  //         className={styles.paginationButton}
+  //       >
+  //         Prev
+  //       </button>
+  //       <span className={styles.paginationInfo}>
+  //         Page {currentPage} of {totalPages}
+  //       </span>
+  //       <button
+  //         onClick={() =>
+  //           setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+  //         }
+  //         disabled={currentPage === totalPages}
+  //         className={styles.paginationButton}
+  //       >
+  //         Next
+  //       </button>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <div className={styles.transactionContainer}>
       <div className={styles.mainHeading}>
         <h5>Transaction History</h5>
 
-        {/* Search Bar */}
         <div className={styles.searchFilterContainer}>
           <div className={styles.inputWrapper}>
             <input
@@ -86,6 +185,7 @@ const TransactionTable = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.transactionTableWrapper}>
         <table className={styles.transactionTable}>
           <thead>
@@ -95,20 +195,32 @@ const TransactionTable = () => {
               <th>Date</th>
               <th>Time</th>
               <th>Amount</th>
-              <th>Available Balance</th>
+              {/* <th>Available Balance</th> */}
             </tr>
           </thead>
           <tbody>
-            {currentTransactions.map((transaction, index) => (
-              <tr key={`${transaction.id}-${index}`}>
-                <td>{transaction.id}</td>
-                <td>{transaction.user}</td>
-                <td>{transaction.date}</td>
-                <td>{transaction.time}</td>
-                <td>{transaction.amount}</td>
-                <td>{transaction.balance}</td>
-              </tr>
-            ))}
+            {currentTransactions.map((transaction, index) => {
+              const dateTime = new Date(transaction.createdAt); // assuming API includes `createdAt`
+              const formattedDate = dateTime.toLocaleDateString();
+              const formattedTime = dateTime.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
+              return (
+                <tr key={`${transaction._id}-${index}`}>
+                  {/* <td>{transaction.transactionId || transaction._id}</td> */}
+                  <td>{`OL${(index + 1).toString().padStart(6, "0")}`}</td>
+                  <td>{transaction.userName || "N/A"}</td>
+                  <td>{formattedDate}</td>
+                  <td>{formattedTime}</td>
+                  <td>
+                    {transaction.amount} {transaction.currency}
+                  </td>
+                  {/* <td>{transaction.balance}</td> */}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

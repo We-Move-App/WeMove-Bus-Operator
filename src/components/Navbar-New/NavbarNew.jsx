@@ -22,13 +22,6 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
       try {
         const avatarRes = await axiosInstance.get("/bus-operator/get-avatar");
         const profileRes = await axiosInstance.get("/bus-operator/profile");
-
-        // const avatarUrl = avatarRes?.data?.data?.url;
-        // const userName = profileRes?.data?.data?.user?.fullName;
-
-        // if (avatarUrl) setAvatarUrl(avatarUrl);
-        // if (userName) setName(userName);
-
         const avatarUrl = avatarRes?.data?.data?.url;
         const user = profileRes?.data?.data?.user;
 
@@ -66,7 +59,6 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
       <div className={styles.navbarRightBlock}>
         <div className={styles.imageNameBlock}>
           <div className={styles.imageBlock}>
-            {/* <img src={images.userImg} alt="user" /> */}
             <img src={avatarUrl || images.userImg} alt="user" />
           </div>
           <div className={styles.nameBlock}>

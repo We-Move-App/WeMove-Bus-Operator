@@ -16,7 +16,7 @@ const DashboardContent = () => {
       />
       <div className={styles.dashboardTwoHalves}>
         <div className={styles.leftContent}>
-          <CardDetails showIncomeCard={true} hideMidContent={true} />
+          <CardDetails showIncomeCard={true} hideMidContent={false} />
           <CustomBarChart />
         </div>
         <div className={styles.rightContent}>
