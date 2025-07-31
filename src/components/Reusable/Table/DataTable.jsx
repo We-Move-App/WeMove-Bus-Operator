@@ -93,6 +93,19 @@ const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
                           )
                         }
                       />
+                    ) : col.key === "action" ? (
+                      <button
+                        className={styles.editButton}
+                        onClick={() =>
+                          handleNavigate(
+                            `/driver-management/assign-driver/${
+                              row[col.key].driverId
+                            }`
+                          )
+                        }
+                      >
+                        {row.regNumber !== "N/A" ? "Edit" : "Assign"}
+                      </button>
                     ) : col.key === "DriverId" &&
                       typeof row[col.key] === "object" ? (
                       <div className={styles.driverIdContainer}>

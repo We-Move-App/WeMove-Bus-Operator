@@ -92,7 +92,9 @@ const SidebarNew = ({ isOpen, toggle }) => {
                     isActive ? styles.active : ""
                   }`}
                   key={index}
-                  onClick={toggle}
+                  onClick={() => {
+                    if (window.innerWidth < 1024) toggle();
+                  }}
                 >
                   {React.createElement(item.icon, { size: 20 })}
                   <span className={styles.navText}>{item.text}</span>

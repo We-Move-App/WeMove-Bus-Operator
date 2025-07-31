@@ -25,6 +25,9 @@ import ResetByEmail from "../pages/LogIn/Reset_Password/Reset_By_Email/ResetByEm
 import UpdatePassword from "../pages/LogIn/Reset_Password/Reset_By_Email/UpdatePassword";
 import PublicRoute from "../components/Public-Routes/PublicRoute";
 import LayoutNew from "../components/Layout-New/LayoutNew";
+import AssignDriver from "../pages/Assign-Driver/AssignDriver";
+import EditRouteDetails from "../pages/Route-Management/EditRouteDetails";
+
 import "../App.css";
 
 const publicRoutes = [
@@ -84,6 +87,18 @@ const AppRoutes = () => {
         <Route
           path="add-manage-user/user-management"
           element={<UserDetails />}
+        />
+        <Route
+          path="driver-management/assign-driver/:id"
+          element={<AssignDriver />}
+        />
+        {/* <Route
+          path="route-management/edit-route/:id"
+          element={<EditRouteDetails />}
+        /> */}
+        <Route
+          path="route-management/edit-route"
+          element={<EditRouteDetails />}
         />
       </Route>
     </Routes>

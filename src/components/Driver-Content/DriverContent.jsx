@@ -14,6 +14,7 @@ const columns = [
   { key: "regNumber", title: "Bus Reg Number" },
   { key: "mobNumber", title: "Mobile Number" },
   { key: "license", title: "License" },
+  { key: "action", title: "Action" },
 ];
 
 const DriverContent = () => {
@@ -39,6 +40,9 @@ const DriverContent = () => {
             regNumber: driver.assignedBus?.busRegNumber || "N/A",
             mobNumber: driver.phoneNumber,
             license: driver.driverLicenseFront?.url || "",
+            action: {
+              driverId: driver._id,
+            },
           }));
 
           setDrivers(formattedData);

@@ -1,0 +1,191 @@
+.busManagementContainer {
+  background-color: #ffffff;
+  padding: 40px 0;
+}
+
+.formContainer {
+  max-width: 800px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.formSection {
+  position: relative;
+}
+
+.registrationSection {
+  margin-bottom: 0;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 16px;
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 56px;
+  box-sizing: border-box;
+}
+
+.dropdownField:hover {
+  border-color: #9ca3af;
+}
+
+.dropdownField:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dropdownValue {
+  font-size: 16px;
+  color: #1a1a1a;
+  font-weight: 400;
+}
+
+.dropdownIcon {
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdownOption {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
+  color: #1a1a1a;
+}
+
+.dropdownOption:hover {
+  background-color: #f3f4f6;
+}
+
+.dropdownOption:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.inputWithIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.formInput {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #1a1a1a;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  min-height: 56px;
+}
+
+.registrationInput {
+  padding-right: 60px;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.searchButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButton:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.searchButton:active {
+  background-color: #e5e7eb;
+}
+
+@media (max-width: 768px) {
+  .busManagementContainer {
+    padding: 20px;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .formLabel {
+    font-size: 14px;
+  }
+
+  .dropdownField,
+  .formInput {
+    padding: 14px 16px;
+    font-size: 14px;
+    min-height: 48px;
+  }
+
+  .registrationInput {
+    padding-right: 50px;
+  }
+
+  .dropdownOption {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
