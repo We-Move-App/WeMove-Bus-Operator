@@ -69,7 +69,7 @@ const TransactionTable = () => {
 
       try {
         const res = await axios.get(
-          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/transactions?entity=busoperator",
+          "http://139.59.20.155:8001/api/v1/wallet/transactions?entity=busoperator",
           {
             headers: {
               Authorization: `Bearer ${token}`,

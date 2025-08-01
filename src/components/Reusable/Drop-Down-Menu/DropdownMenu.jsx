@@ -43,8 +43,8 @@ const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
         top: `${rect.bottom + window.scrollY}px`,
         left: `${adjustedLeft + window.scrollX}px`,
         zIndex: 1000,
-        width: estimatedWidth,
-        maxWidth: "200px",
+        // width: estimatedWidth,
+        // maxWidth: "200px",
       });
     }
   }, [open]);

@@ -92,12 +92,8 @@ const AppRoutes = () => {
           path="driver-management/assign-driver/:id"
           element={<AssignDriver />}
         />
-        {/* <Route
-          path="route-management/edit-route/:id"
-          element={<EditRouteDetails />}
-        /> */}
         <Route
-          path="route-management/edit-route"
+          path="route-management/edit-route/:id"
           element={<EditRouteDetails />}
         />
       </Route>

@@ -74,6 +74,7 @@
   justify-content: center;
   max-height: 100%;
   overflow-y: hidden;
+  gap: var(--gap-size);
 }
 
 .content img {

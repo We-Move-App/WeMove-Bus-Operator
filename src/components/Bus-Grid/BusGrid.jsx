@@ -53,7 +53,11 @@ const BusGrid = () => {
             busName={bus.busName}
             modelNumber={bus.busModelNumber}
             regNumber={bus.busRegNumber}
-            driver={bus.assignedDriver?.fullName || "Not Assigned"}
+            driver={
+              bus.assignedDriver?.length > 0
+                ? bus.assignedDriver.map((d) => d.fullName).join(", ")
+                : "Not Assigned"
+            }
           />
         ))
       ) : (

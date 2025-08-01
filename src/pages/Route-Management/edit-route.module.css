@@ -1,51 +1,70 @@
-.route-management-container {
-  background-color: #f8f9fa;
-  min-height: 100vh;
+.routeManagementContainer {
+  /* background-color: #f8f9fa; */
+  /* min-height: 100vh; */
   padding: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif; */
 }
 
-.route-management-header {
+.routeManagementHeader {
   background-color: #ffffff;
   padding: 24px 32px;
   border-bottom: 1px solid #e9ecef;
 }
 
-.route-management-header h1 {
+.routeManagementHeader h1 {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
   color: #333333;
 }
 
-.form-container {
+.formContainer {
   background-color: #ffffff;
   margin: 0;
-  padding: 32px;
-  min-height: calc(100vh - 80px);
+  padding: 10px 0 0;
+  /* min-height: calc(100vh - 80px); */
 }
 
-.form-section {
+.formSection {
   margin-bottom: 24px;
+  position: relative;
 }
 
-.form-row {
+.inputWithIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.timeIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 4px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  margin-bottom: 24px;
+  align-items: center;
+  /* margin-bottom: 24px; */
 }
 
-.form-label {
+.formLabel {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
   color: #333333;
-  font-size: 14px;
 }
 
-.form-input {
+.formInput {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #ddd;
@@ -57,68 +76,67 @@
   box-sizing: border-box;
 }
 
-.form-input:focus {
+.formInput:focus {
   outline: none;
-  border-color: #4a90a4;
+  border-color: var(--color-bg-btn);
   box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
 }
 
-.full-width {
+.fullWidth {
   width: 100%;
 }
 
-.points-row {
+.pointsRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
   margin-bottom: 32px;
 }
 
-.points-section {
+.pointsSection {
   background-color: #ffffff;
 }
 
-.points-header {
+.pointsHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
 
-.points-header h3 {
+.pointsHeader h3 {
   margin: 0;
-  font-size: 16px;
   font-weight: 600;
   color: #333333;
 }
 
-.add-button {
+.addButton {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
   background-color: transparent;
-  border: 1px solid #4a90a4;
+  border: 1px solid var(--color-bg-btn);
   border-radius: 6px;
-  color: #4a90a4;
+  color: var(--color-bg-btn);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.add-button:hover {
-  background-color: #4a90a4;
+.addButton:hover {
+  background-color: var(--color-bg-btn);
   color: #ffffff;
 }
 
-.points-list {
+.pointsList {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.point-item {
+.pointItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -128,15 +146,15 @@
   border: 1px solid #e9ecef;
 }
 
-.point-name {
+.pointName {
   font-size: 14px;
   color: #333333;
   font-weight: 500;
 }
 
-.edit-button {
+.editButton {
   padding: 6px 16px;
-  background-color: #4a90a4;
+  background-color: var(--color-bg-btn);
   color: #ffffff;
   border: none;
   border-radius: 6px;
@@ -146,19 +164,19 @@
   transition: background-color 0.2s ease;
 }
 
-.edit-button:hover {
-  background-color: #3a7a8a;
+.editButton:hover {
+  background-color: var(--color-bg-btn);
 }
 
-.save-section {
+.saveSection {
   display: flex;
   justify-content: flex-end;
   margin-top: 32px;
 }
 
-.save-button {
+.saveButton {
   padding: 12px 32px;
-  background-color: #4a90a4;
+  background-color: var(--color-bg-btn);
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -168,31 +186,44 @@
   transition: background-color 0.2s ease;
 }
 
-.save-button:hover {
-  background-color: #3a7a8a;
+.saveButton:hover {
+  background-color: var(--color-bg-btn);
+}
+
+.customTimePicker .MuiOutlinedInput-root {
+  height: 42px !important;
+  border-radius: 8px;
+}
+
+.customTimePicker .MuiOutlinedInput-input {
+  padding: 10px 14px;
+}
+
+.customTimePicker .MuiPickersInputBase-root {
+  height: 42px !important;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .form-row {
+  .formRow {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .points-row {
+  .pointsRow {
     grid-template-columns: 1fr;
     gap: 24px;
   }
 
-  .form-container {
+  .formContainer {
     padding: 16px;
   }
 
-  .route-management-header {
+  .routeManagementHeader {
     padding: 16px;
   }
 
-  .points-header {
+  .pointsHeader {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;

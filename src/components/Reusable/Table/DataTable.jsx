@@ -84,15 +84,25 @@ const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
                         row[col.key] || "N/A"
                       )
                     ) : col.key === "status" ? (
-                      <StatusToggle
-                        initialStatus={row[col.key]}
-                        onStatusChange={(newStatus) =>
-                          console.log(
-                            `Status changed for ${row.busRegNumber}:`,
-                            newStatus
+                      // <StatusToggle
+                      //   initialStatus={row[col.key]}
+                      //   onStatusChange={(newStatus) =>
+                      //     console.log(
+                      //       `Status changed for ${row.busRegNumber}:`,
+                      //       newStatus
+                      //     )
+                      //   }
+                      // />
+                      <button
+                        className={styles.editButton}
+                        onClick={() =>
+                          handleNavigate(
+                            `/route-management/edit-route/${row.status.routeId}`
                           )
                         }
-                      />
+                      >
+                        Edit
+                      </button>
                     ) : col.key === "action" ? (
                       <button
                         className={styles.editButton}

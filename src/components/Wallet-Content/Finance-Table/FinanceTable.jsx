@@ -31,7 +31,7 @@ const FinanceTable = () => {
           id={styles.btn2}
           onClick={() => handleTabChange("bankDetails")}
         >
-          Bank Details
+          Withdraw
         </button>
       </div>
       {/* Tab Content */}
@@ -39,7 +39,10 @@ const FinanceTable = () => {
         {activeTab === "transactions" ? (
           <TransactionHistory />
         ) : (
-          <BankDetails />
+          <BankDetails
+            openOnMount={true}
+            onWithdrawComplete={() => handleTabChange("transactions")}
+          />
         )}
       </div>
     </div>

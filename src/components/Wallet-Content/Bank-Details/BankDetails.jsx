@@ -5,11 +5,12 @@ import CustomBtn from "../../Reusable/Custom-Button/CustomBtn";
 import FormModal from "../../Reusable/Form-Modal/FormModal";
 import axiosInstance from "../../../services/axiosInstance";
 
-const BankDetails = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
+  const [isModalOpen, setIsModalOpen] = useState(openOnMount);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(true);
   const [bankData, setBankData] = useState(null);
+  const [withdrawAmount, setWithdrawAmount] = useState("");
 
   useEffect(() => {
     const fetchBankDetails = async () => {
@@ -24,9 +25,31 @@ const BankDetails = () => {
     fetchBankDetails();
   }, []);
 
+  const handleWithdraw = async () => {
+    try {
+      const payload = {
+        entity: "busOperator",
+        amount: parseFloat(withdrawAmount),
+        description: "Withdraw earnings from July bookings",
+      };
+
+      const response = await axiosInstance.post(
+        "http://139.59.20.155:8001/api/v1/momo/withdraw",
+        payload
+      );
+
+      console.log("Withdraw Success:", response.data);
+      setIsModalOpen(false);
+      setIsConfirmModalOpen(true);
+    } catch (error) {
+      console.error("Withdraw failed:", error);
+      alert("Withdrawal failed. Please try again.");
+    }
+  };
+
   return (
     <div className={styles.bankDetailsContainer}>
-      <div className={styles.mainHeading}>
+      {/* <div className={styles.mainHeading}>
         <h5>Bank Details</h5>
       </div>
       <div className={styles.formContainer}>
@@ -78,15 +101,15 @@ const BankDetails = () => {
             </h3>
           </div>
         </div>
-      </div>
-      <div className={styles.withDrawBtnBlock}>
+      </div> */}
+      {/* <div className={styles.withDrawBtnBlock}>
         <CustomBtn
           width="160px"
           label="Withdraw"
           className={styles.withdrawBtn}
           onClick={() => setIsModalOpen(true)}
         />
-      </div>
+      </div> */}
 
       {/* First Modal - Withdrawal Form */}
       <FormModal
@@ -95,9 +118,16 @@ const BankDetails = () => {
         content={
           <div className={styles.formContainerModal}>
             <h2>Withdraw Amount</h2>
-            <input type="text" className={styles.inputField} />
+            {/* <input type="text" className={styles.inputField} /> */}
+            <input
+              type="number"
+              className={styles.inputField}
+              value={withdrawAmount}
+              onChange={(e) => setWithdrawAmount(e.target.value)}
+              placeholder="Enter amount"
+            />
 
-            <label className={styles.radioLabel}>
+            {/* <label className={styles.radioLabel}>
               <h3>Your Wallet</h3>
               <div className={styles.inputBlock}>
                 <input
@@ -106,23 +136,17 @@ const BankDetails = () => {
                   checked={selectedOption}
                   onChange={() => setSelectedOption(true)}
                 />
+
                 <div className={styles.inputBlockContent}>
                   <h5>WeMove All </h5>
                   <p>12,000XAF</p>
                 </div>
               </div>
-            </label>
+            </label> */}
           </div>
         }
         actionButton={
-          <CustomBtn
-            width="160px"
-            label="Withdraw"
-            onClick={() => {
-              setIsModalOpen(false);
-              setIsConfirmModalOpen(true);
-            }}
-          />
+          <CustomBtn width="160px" label="Withdraw" onClick={handleWithdraw} />
         }
         customClassName={styles.withdrawModal}
       />
@@ -130,7 +154,10 @@ const BankDetails = () => {
       {/* Second Modal - Confirmation */}
       <FormModal
         isOpen={isConfirmModalOpen}
-        onClose={() => setIsConfirmModalOpen(false)}
+        onClose={() => {
+          setIsConfirmModalOpen(false);
+          onWithdrawComplete?.();
+        }}
         content={
           <div
             className={`${styles.formContainerModal} ${styles.formContainerCongrats}`}

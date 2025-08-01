@@ -32,17 +32,27 @@ const RouteContent = () => {
   const [loading, setLoading] = useState(true);
 
   const formatTime = (timeStr) => {
-    if (!timeStr) return "N/A";
+    if (!timeStr || typeof timeStr !== "string") return "N/A";
+
+    // If already includes AM/PM, return as-is
+    if (
+      timeStr.toLowerCase().includes("am") ||
+      timeStr.toLowerCase().includes("pm")
+    ) {
+      return timeStr;
+    }
+
+    if (!timeStr.includes(":")) return "N/A";
 
     const [hourStr, minute] = timeStr.split(":");
-    let hour = parseInt(hourStr, 10);
+    const hour = parseInt(hourStr, 10);
 
-    if (isNaN(hour)) return "N/A";
+    if (isNaN(hour) || isNaN(parseInt(minute, 10))) return "N/A";
 
     const period = hour >= 12 ? "PM" : "AM";
-    hour = hour % 12 || 12;
+    const displayHour = hour % 12 || 12;
 
-    return `${hour}:${minute} ${period}`;
+    return `${displayHour}:${minute} ${period}`;
   };
 
   useEffect(() => {
@@ -54,6 +64,7 @@ const RouteContent = () => {
         );
         // console.log("✅ Bus Data Fetched:", busResponse.data);
         const routes = busResponse.data?.data?.routes || [];
+        console.log("Route ID:", busResponse.data?.data?.routes[0]?._id);
 
         // Dispatch routes to Redux store
         dispatch(setBusData({ routes }));
@@ -67,11 +78,19 @@ const RouteContent = () => {
           endLocation: route.endLocation || "N/A",
           arrivalTime: formatTime(route.arrivalTime) || "N/A",
           drops: route.drops?.map((d) => ({ name: d.name })) || [],
-          status: route.status || "inactive",
+          status: {
+            routeId: route._id,
+            value: route.status || "inactive",
+          },
           pricePerSeat: route.pricePerSeat || "N/A",
           runningDays: route.runningDays?.join(", ") || "N/A",
           assignedDriver:
-            route.busId?.assignedDriver?.fullName || "Not Assigned",
+            Array.isArray(route.busId?.assignedDriver) &&
+            route.busId.assignedDriver.length > 0
+              ? route.busId.assignedDriver
+                  .map((driver) => driver.fullName)
+                  .join(", ")
+              : "Not Assigned",
         }));
 
         setRouteData(formattedData);

@@ -20,8 +20,6 @@ const DigitalCard = ({ showMidContent = true }) => {
         console.error("Access token not found in localStorage");
         return;
       }
-      console.log("Access token:", token);
-
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -30,10 +28,11 @@ const DigitalCard = ({ showMidContent = true }) => {
 
       try {
         const walletRes = await axios.get(
-          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/details",
+          "http://139.59.20.155:8001/api/v1/wallet/details",
           config
         );
         setWalletDetails(walletRes.data.data);
+        console.log("Wallet Details:", walletRes.data.data);
       } catch (error) {
         console.error("Error fetching data", error);
       }

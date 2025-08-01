@@ -103,7 +103,21 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
           </div>
         </div>
       ))}
-      <TicketDetails onRouteSelect={onRouteSelect} />
+      {/* <TicketDetails onRouteSelect={onRouteSelect} /> */}
+      <TicketDetails
+        onRouteSelect={(selectedRoute) => {
+          const updatedSchedules = [...formData.routes];
+          updatedSchedules[0].from = selectedRoute.startLocation;
+          updatedSchedules[0].to = selectedRoute.endLocation;
+
+          setFormData({ ...formData, routes: updatedSchedules });
+
+          // ✅ Call parent-provided handler to update selectedRouteDetails
+          if (onRouteSelect) {
+            onRouteSelect(selectedRoute);
+          }
+        }}
+      />
     </div>
   );
 };

@@ -13,56 +13,6 @@ const CustomBarChart = () => {
   const [yearlyData, setYearlyData] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const token = localStorage.getItem("dashboardAccessToken");
-  //     if (!token) {
-  //       console.error("Access token not found in localStorage");
-  //       return;
-  //     }
-
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     };
-
-  //     try {
-  //       // Monthly API call
-  //       const monthlyRes = await axios.get(
-  //         "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/analytics?entity=busoperator&filter=monthly",
-  //         config
-  //       );
-  //       const monthlyAnalytics = monthlyRes.data.data.analytics;
-
-  //       setMonthlyData(
-  //         monthlyAnalytics.map((item) => ({
-  //           label: item.month,
-  //           value: item.profit,
-  //         }))
-  //       );
-
-  //       // Yearly API call
-  //       const yearlyRes = await axios.get(
-  //         "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/analytics?entity=busoperator&filter=yearly",
-  //         config
-  //       );
-  //       const yearlyAnalytics = yearlyRes.data.data.analytics;
-
-  //       setYearlyData(
-  //         yearlyAnalytics.map((item) => ({
-  //           label: item.year.toString(),
-  //           value: item.profit,
-  //         }))
-  //       );
-  //     } catch (error) {
-  //       console.error("Error fetching analytics data", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("dashboardAccessToken");
@@ -80,7 +30,7 @@ const CustomBarChart = () => {
       try {
         // Monthly API call
         const monthlyRes = await axios.get(
-          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/analytics?entity=busoperator&filter=monthly",
+          "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=monthly",
           config
         );
         const monthlyAnalytics = monthlyRes.data.data.analytics;
@@ -94,7 +44,7 @@ const CustomBarChart = () => {
 
         // Yearly API call
         const yearlyRes = await axios.get(
-          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/analytics?entity=busoperator&filter=yearly",
+          "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=yearly",
           config
         );
         const yearlyAnalytics = yearlyRes.data.data.analytics;
@@ -108,7 +58,7 @@ const CustomBarChart = () => {
 
         // Weekly API call
         const weeklyRes = await axios.get(
-          "https://penalty-unto-stockholm-pickup.trycloudflare.com/api/v1/wallet/analytics?entity=busoperator&filter=weekly",
+          "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=weekly",
           config
         );
         const weeklyAnalytics = weeklyRes.data.data.analytics;

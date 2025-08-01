@@ -127,7 +127,8 @@ const AssignDriver = () => {
             </div>
             <div className={styles.driverDetails}>
               <h3>{driverData?.fullName}</h3>
-              <p>{driverData?._id}</p>
+              {/* <p>{driverData?._id}</p> */}
+              <p>ID_{driverData?._id?.slice(-4)}</p>
               <p>Phone: {driverData?.phoneNumber}</p>
             </div>
           </div>
