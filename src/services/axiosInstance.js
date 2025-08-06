@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // export const BASE_URL = "http://192.168.0.207:8000";
-export const BASE_URL = "http://139.59.20.155:8001";
+export const BASE_URL = "http://139.59.20.155:8081";
 // export const BASE_URL = "https://aluminum-mode-generations-citizens.trycloudflare.com";
 export const API_VERSION = "v1";
 

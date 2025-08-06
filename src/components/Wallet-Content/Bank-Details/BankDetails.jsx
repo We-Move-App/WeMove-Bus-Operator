@@ -33,10 +33,7 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
         description: "Withdraw earnings from July bookings",
       };
 
-      const response = await axiosInstance.post(
-        "http://139.59.20.155:8001/api/v1/momo/withdraw",
-        payload
-      );
+      const response = await axiosInstance.post("/momo/withdraw", payload);
 
       console.log("Withdraw Success:", response.data);
       setIsModalOpen(false);

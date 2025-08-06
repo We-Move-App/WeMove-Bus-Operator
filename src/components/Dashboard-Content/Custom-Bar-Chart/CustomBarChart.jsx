@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./custom-bar-chart.module.css";
 import { Chart as ChartJs, registerables } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
+import axiosInstance from "../../../services/axiosInstance";
 import Dropdown from "../../Reusable/Dropdown/Dropdown";
 
 ChartJs.register(...registerables);
@@ -13,28 +13,77 @@ const CustomBarChart = () => {
   const [yearlyData, setYearlyData] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const token = localStorage.getItem("dashboardAccessToken");
+  //     if (!token) {
+  //       console.error("Access token not found in localStorage");
+  //       return;
+  //     }
+
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+
+  //     try {
+  //       // Monthly API call
+  //       const monthlyRes = await axios.get(
+  //         "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=monthly",
+  //         config
+  //       );
+  //       const monthlyAnalytics = monthlyRes.data.data.analytics;
+
+  //       setMonthlyData(
+  //         monthlyAnalytics.map((item) => ({
+  //           label: item.month,
+  //           value: item.profit,
+  //         }))
+  //       );
+
+  //       // Yearly API call
+  //       const yearlyRes = await axios.get(
+  //         "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=yearly",
+  //         config
+  //       );
+  //       const yearlyAnalytics = yearlyRes.data.data.analytics;
+
+  //       setYearlyData(
+  //         yearlyAnalytics.map((item) => ({
+  //           label: item.year.toString(),
+  //           value: item.profit,
+  //         }))
+  //       );
+
+  //       // Weekly API call
+  //       const weeklyRes = await axios.get(
+  //         "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=weekly",
+  //         config
+  //       );
+  //       const weeklyAnalytics = weeklyRes.data.data.analytics;
+
+  //       setWeeklyData(
+  //         weeklyAnalytics.map((item) => ({
+  //           label: item.week,
+  //           value: item.profit,
+  //         }))
+  //       );
+  //     } catch (error) {
+  //       console.error("Error fetching analytics data", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("dashboardAccessToken");
-      if (!token) {
-        console.error("Access token not found in localStorage");
-        return;
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
       try {
-        // Monthly API call
-        const monthlyRes = await axios.get(
-          "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=monthly",
-          config
+        // Monthly
+        const monthlyRes = await axiosInstance.get(
+          "/wallet/analytics?entity=busoperator&filter=monthly"
         );
         const monthlyAnalytics = monthlyRes.data.data.analytics;
-
         setMonthlyData(
           monthlyAnalytics.map((item) => ({
             label: item.month,
@@ -42,13 +91,11 @@ const CustomBarChart = () => {
           }))
         );
 
-        // Yearly API call
-        const yearlyRes = await axios.get(
-          "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=yearly",
-          config
+        // Yearly
+        const yearlyRes = await axiosInstance.get(
+          "/wallet/analytics?entity=busoperator&filter=yearly"
         );
         const yearlyAnalytics = yearlyRes.data.data.analytics;
-
         setYearlyData(
           yearlyAnalytics.map((item) => ({
             label: item.year.toString(),
@@ -56,13 +103,11 @@ const CustomBarChart = () => {
           }))
         );
 
-        // Weekly API call
-        const weeklyRes = await axios.get(
-          "http://139.59.20.155:8001/api/v1/wallet/analytics?entity=busoperator&filter=weekly",
-          config
+        // Weekly
+        const weeklyRes = await axiosInstance.get(
+          "/wallet/analytics?entity=busoperator&filter=weekly"
         );
         const weeklyAnalytics = weeklyRes.data.data.analytics;
-
         setWeeklyData(
           weeklyAnalytics.map((item) => ({
             label: item.week,
@@ -76,7 +121,6 @@ const CustomBarChart = () => {
 
     fetchData();
   }, []);
-
   const generateChartData = (data) => ({
     labels: data.map((d) => d.label),
     datasets: [

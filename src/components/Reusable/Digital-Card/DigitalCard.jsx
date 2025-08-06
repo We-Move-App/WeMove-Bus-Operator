@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./digital-card.module.css";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import axios from "axios";
+import axiosInstance from "../../../services/axiosInstance";
 
 const DigitalCard = ({ showMidContent = true }) => {
   const [isCardNumberVisible, setIsCardNumberVisible] = useState(false);
@@ -15,26 +15,12 @@ const DigitalCard = ({ showMidContent = true }) => {
   const [walletDetails, setWalletDetails] = useState(null);
   useEffect(() => {
     const fetchAnalyticsAndWallet = async () => {
-      const token = localStorage.getItem("dashboardAccessToken");
-      if (!token) {
-        console.error("Access token not found in localStorage");
-        return;
-      }
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
       try {
-        const walletRes = await axios.get(
-          "http://139.59.20.155:8001/api/v1/wallet/details",
-          config
-        );
+        const walletRes = await axiosInstance.get("/wallet/details");
         setWalletDetails(walletRes.data.data);
         console.log("Wallet Details:", walletRes.data.data);
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.error("Error fetching wallet details", error);
       }
     };
 

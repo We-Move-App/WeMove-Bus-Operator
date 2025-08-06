@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./transaction-table.module.css";
 import images from "../../../../assets/image";
-import axios from "axios";
+import axiosInstance from "../../../../services/axiosInstance";
 
 const transactions = [
   {
@@ -59,25 +59,41 @@ const TransactionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 6;
 
+  // useEffect(() => {
+  //   const fetchTransactions = async () => {
+  //     const token = localStorage.getItem("dashboardAccessToken");
+  //     if (!token) {
+  //       console.error("Access token not found in localStorage");
+  //       return;
+  //     }
+
+  //     try {
+  //       const res = await axios.get(
+  //         "http://139.59.20.155:8001/api/v1/wallet/transactions?entity=busoperator",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setTransactions(res.data.data.transactions); // Adjust based on actual response
+  //       console.log("Fetched transactions:", res.data.data.transactions);
+  //     } catch (error) {
+  //       console.error("Error fetching transactions:", error);
+  //     }
+  //   };
+
+  //   fetchTransactions();
+  // }, []);
+
   useEffect(() => {
     const fetchTransactions = async () => {
-      const token = localStorage.getItem("dashboardAccessToken");
-      if (!token) {
-        console.error("Access token not found in localStorage");
-        return;
-      }
-
       try {
-        const res = await axios.get(
-          "http://139.59.20.155:8001/api/v1/wallet/transactions?entity=busoperator",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const res = await axiosInstance.get(
+          "/wallet/transactions?entity=busoperator"
         );
-        setTransactions(res.data.data.transactions); // Adjust based on actual response
-        console.log("Fetched transactions:", res.data.data.transactions);
+        console.log("Fetched transactions:", res.data?.data?.transactions);
+        setTransactions(res.data?.data?.transactions || []);
       } catch (error) {
         console.error("Error fetching transactions:", error);
       }
