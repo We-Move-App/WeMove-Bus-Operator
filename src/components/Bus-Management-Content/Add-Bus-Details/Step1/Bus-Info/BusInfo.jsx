@@ -83,7 +83,7 @@ const BusInfo = ({ data, setData }) => {
       {/* Input Fields */}
       <div className={styles.busInfoFields}>
         <div className={styles.busFields}>
-          <label>Bus Name</label>
+          <label>Company Name</label>
           <input
             type="text"
             name="busName"

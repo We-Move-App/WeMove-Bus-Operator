@@ -40,7 +40,8 @@ const SignUp = () => {
   } = useSignUpForm(
     {
       name: "",
-      address: "",
+      companyName: "",
+      companyAddress: "",
       mobile: "",
       email: "",
       password: "",
@@ -61,7 +62,7 @@ const SignUp = () => {
           <form onSubmit={handleSubmit} className="form">
             <div className="formFieldsContainer">
               <InputForm
-                label="Name"
+                label="Full Name"
                 type="text"
                 name="name"
                 value={formData.name}
@@ -70,12 +71,21 @@ const SignUp = () => {
               />
 
               <InputForm
-                label="Address"
+                label="Company Name"
                 type="text"
-                name="address"
-                value={formData.address}
+                name="companyName"
+                value={formData.companyName}
                 onChange={handleChange}
-                error={errors.address}
+                error={errors.companyName}
+              />
+
+              <InputForm
+                label="Company Address"
+                type="text"
+                name="companyAddress"
+                value={formData.companyAddress}
+                onChange={handleChange}
+                error={errors.companyAddress}
               />
 
               <div className="twoColumnInputContainer">

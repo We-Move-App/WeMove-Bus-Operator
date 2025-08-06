@@ -15,7 +15,7 @@ const IncomeCard = () => {
           response.data.data.analytics[0].incoming
         );
 
-        const income = response.data?.data?.analytics?.[0]?.incoming;
+        const income = response.data?.data?.analytics?.[0]?.profit;
         setDailyIncome(income ?? 0);
       } catch (error) {
         console.error("❌ Error fetching income:", error);

@@ -30,8 +30,8 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       isValid = false;
     }
 
-    if (!formData.address.trim()) {
-      newErrors.address = "Address is required.";
+    if (!formData.companyAddress.trim()) {
+      newErrors.companyAddress = "Company address is required.";
       isValid = false;
     }
 
@@ -114,8 +114,10 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       fullName: formData.name,
       password: formData.password,
       phoneNumber: `+91${formData.mobile}`,
-      address: formData.address,
+      companyAddress: formData.companyAddress,
+      companyName: formData.companyName,
     };
+    console.log("Registration Payload:", payload);
 
     try {
       const response = await axiosInstance.post(
@@ -279,9 +281,8 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       if (!value.trim()) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          [field]: `Enter a valid ${
-            field === "mobile" ? "mobile number" : "email"
-          } first.`,
+          [field]: `Enter a valid ${field === "mobile" ? "mobile number" : "email"
+            } first.`,
         }));
         return;
       }
