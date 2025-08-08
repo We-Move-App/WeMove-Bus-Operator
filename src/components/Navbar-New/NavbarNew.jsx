@@ -17,16 +17,47 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [avatarUrl, setAvatarUrl] = useState("");
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   const fetchProfileData = async () => {
+  //     try {
+  //       const avatarRes = await axiosInstance.get("/bus-operator/get-avatar");
+  //       const profileRes = await axiosInstance.get("/bus-operator/profile");
+  //       const avatarUrl = avatarRes?.data?.data?.url;
+  //       const user = profileRes?.data?.data?.user;
+
+  //       if (avatarUrl) setAvatarUrl(avatarUrl);
+  //       if (user?.fullName) setName(user.fullName);
+
+  //       dispatch(
+  //         setUserRoleAndPermissions({
+  //           role: user.role,
+  //           permissions: user.permissions,
+  //         })
+  //       );
+  //     } catch (error) {
+  //       console.error("Failed to fetch profile data:", error);
+  //     }
+  //   };
+
+  //   setAuthToken("dashboard");
+  //   fetchProfileData();
+  // }, []);
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const avatarRes = await axiosInstance.get("/bus-operator/get-avatar");
         const profileRes = await axiosInstance.get("/bus-operator/profile");
+
         const avatarUrl = avatarRes?.data?.data?.url;
         const user = profileRes?.data?.data?.user;
 
         if (avatarUrl) setAvatarUrl(avatarUrl);
         if (user?.fullName) setName(user.fullName);
+
+        // ✅ Save companyName in localStorage
+        if (user?.companyName) {
+          localStorage.setItem("companyName", user.companyName);
+        }
 
         dispatch(
           setUserRoleAndPermissions({

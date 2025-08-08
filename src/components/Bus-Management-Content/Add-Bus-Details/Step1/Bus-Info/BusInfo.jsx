@@ -7,6 +7,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 const BusInfo = ({ data, setData }) => {
   const dispatch = useDispatch();
   const [previewImages, setPreviewImages] = useState([]);
+  //   useEffect(() => {
+  //   const companyName = localStorage.getItem("companyName") || "";
+  //   setData((prev) => ({
+  //     ...prev,
+  //     companyName,
+  //   }));
+  // }, []);
 
   // useEffect(() => {
   //   // Generate preview URLs when busImages is updated
@@ -84,6 +91,17 @@ const BusInfo = ({ data, setData }) => {
       <div className={styles.busInfoFields}>
         <div className={styles.busFields}>
           <label>Company Name</label>
+          <input
+            type="text"
+            name="busName"
+            // value={data.companyName || ""}
+            value={localStorage.getItem("companyName") || ""}
+            readOnly
+            // onChange={(e) => setData({ ...data, busName: e.target.value })}
+          />
+        </div>
+        <div className={styles.busFields}>
+          <label>Bus Name</label>
           <input
             type="text"
             name="busName"
