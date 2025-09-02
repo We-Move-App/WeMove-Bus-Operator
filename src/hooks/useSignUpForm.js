@@ -116,6 +116,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       phoneNumber: `+91${formData.mobile}`,
       companyAddress: formData.companyAddress,
       companyName: formData.companyName,
+      branch: formData.branch,
     };
     console.log("Registration Payload:", payload);
 

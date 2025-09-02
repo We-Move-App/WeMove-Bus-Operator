@@ -153,6 +153,7 @@ function MultiStepForm() {
                 <RightSection
                   heading="Upload Photo"
                   description="Upload your profile photo."
+                  required={true}
                 />
                 <div className="DropContainer">
                   <DragFile setAvatar={setAvatar} />

@@ -8,6 +8,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import OtpModal from "../../components/Otp-Modal/OtpModal";
 import useSignUpForm from "../../hooks/useSignUpForm";
 import SnackbarNotification from "../../components/Reusable/Snackbar-Notification/SnackbarNotification";
+import BranchSelect from "../../components/Branch-Select/BranchSelect";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ const SignUp = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      branchId: "",
     },
     setSnackbar
   );
@@ -86,6 +88,16 @@ const SignUp = () => {
                 value={formData.companyAddress}
                 onChange={handleChange}
                 error={errors.companyAddress}
+              />
+
+              <BranchSelect
+                label="Choose Branch"
+                required={true}
+                name="branchId" // <-- Important: tell it which field to update
+                value={formData.branchId}
+                onChange={handleChange}
+                onBlur={handleChange} // if your hook tracks blur
+                error={errors.branchId}
               />
 
               <div className="twoColumnInputContainer">

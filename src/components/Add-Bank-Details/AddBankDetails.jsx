@@ -83,6 +83,7 @@ const AddBankDetails = () => {
                 name="bankName"
                 value={formData.bankName}
                 onChange={handleInputChange}
+                required={false}
               />
               <InputForm
                 label="Bank Account Number"
@@ -90,6 +91,7 @@ const AddBankDetails = () => {
                 name="accountNumber"
                 value={formData.accountNumber}
                 onChange={handleInputChange}
+                required={false}
               />
               <InputForm
                 label="Account Holder Name"
@@ -97,6 +99,7 @@ const AddBankDetails = () => {
                 name="accountHolderName"
                 value={formData.accountHolderName}
                 onChange={handleInputChange}
+                required={false}
               />
               <UploadFile
                 label="Bank Account Details"
@@ -105,6 +108,7 @@ const AddBankDetails = () => {
                 className="customUpload"
                 wrapperClassName="uploadWrapperStyle1"
               />
+
               <div className="formSubmitBtn">
                 <LogInBtn data="Continue" type="submit" />
               </div>
