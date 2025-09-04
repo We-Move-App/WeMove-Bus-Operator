@@ -77,7 +77,7 @@ const LogIn = () => {
 
               <Snackbar
                 open={Boolean(errorMessage)}
-                autoHideDuration={4000}
+                autoHideDuration={null}
                 onClose={() => setErrorMessage("")}
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
               >

@@ -8,7 +8,6 @@ const useLogInForm = () => {
   const [errors, setErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
 
   // OTP
@@ -19,7 +18,7 @@ const useLogInForm = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
-    setErrorMessage("");
+    // ✅ don’t clear global errorMessage here
   };
 
   const validate = () => {
@@ -59,11 +58,26 @@ const useLogInForm = () => {
     if (!validate()) return;
 
     try {
-      console.log("Sending data:", formData);
+      let payload = { ...formData };
+
+      // Check if emailOrPhone is a number or email
+      if (payload.emailOrPhone) {
+        const isNumber = /^\d+$/.test(payload.emailOrPhone.trim());
+
+        if (isNumber) {
+          if (!payload.emailOrPhone.startsWith("+91")) {
+            payload.emailOrPhone = `+91${payload.emailOrPhone.trim()}`;
+          }
+        } else {
+          payload.emailOrPhone = payload.emailOrPhone.trim();
+        }
+      }
+
+      console.log("Sending data:", payload);
 
       const response = await axiosInstance.post(
         "/bus-management/auth/login",
-        formData
+        payload
       );
 
       console.log("Response:", response.data);
@@ -71,16 +85,14 @@ const useLogInForm = () => {
       if (response.status === 200 && response.data.success) {
         const { accessToken, refreshToken } = response.data.data;
 
-        // Store tokens before navigation
         localStorage.setItem("dashboardAccessToken", accessToken);
         localStorage.setItem("dashboardRefreshToken", refreshToken);
         setAuthToken(accessToken);
-
+        console.log("✅ Navigation triggered");
         navigate("/dashboard", { replace: true });
       } else {
         console.log("Login failed");
         setErrorMessage("Login failed. Please try again.");
-        // clearFormAfterDelay();
       }
     } catch (error) {
       console.error("Login Error:", error.response?.data || error.message);
@@ -95,20 +107,9 @@ const useLogInForm = () => {
       } else if (status === 500) {
         message = "Server error. Please try again later.";
       }
-
       setErrorMessage(message);
-
-      // clearFormAfterDelay();
     }
   };
-
-  // Helper function to clear form and error after delay
-  // const clearFormAfterDelay = () => {
-  //   setTimeout(() => {
-  //     setFormData({ emailOrPhone: "", password: "" });
-  //     setErrorMessage("");
-  //   }, 5000); // 3 seconds delay
-  // };
 
   const handleSendOtp = async () => {
     const value = formData.emailOrPhone.trim();

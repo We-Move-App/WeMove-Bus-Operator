@@ -2,7 +2,7 @@ import axios from "axios";
 
 // export const BASE_URL = "http://192.168.0.207:8000";
 export const BASE_URL = "http://139.59.20.155:8000";
-// export const BASE_URL = "https://owners-manager-sufficient-bikini.trycloudflare.com";
+// export const BASE_URL = "https://margaret-could-truth-behalf.trycloudflare.com";
 export const API_VERSION = "v1";
 
 const axiosInstance = axios.create({
@@ -45,11 +45,11 @@ axiosInstance.interceptors.response.use(
     if (
       error.response &&
       error.response.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/login")
     ) {
       originalRequest._retry = true;
 
-      // Check if it's a dashboard session
       const isDashboardToken = axiosInstance.defaults.headers.common[
         "Authorization"
       ]?.includes(localStorage.getItem("dashboardAccessToken"));
@@ -68,5 +68,6 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;
