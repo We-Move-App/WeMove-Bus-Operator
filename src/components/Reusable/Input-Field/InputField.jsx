@@ -6,6 +6,7 @@ const InputField = ({
   type = "text",
   layout = "column",
   className,
+  rightIcon,
   ...props
 }) => {
   const containerStyle =
@@ -14,7 +15,10 @@ const InputField = ({
   return (
     <div className={`${containerStyle} ${className || ""}`}>
       <label className={styles.label}>{label}</label>
-      <input type={type} className={styles.input} {...props} />
+      <div className={styles.inputWrapper}>
+        <input type={type} className={styles.input} {...props} />
+        {rightIcon && <span className={styles.icon}>{rightIcon}</span>}
+      </div>
     </div>
   );
 };

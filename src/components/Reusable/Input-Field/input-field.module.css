@@ -49,3 +49,20 @@
 .inputContainerRow label {
   color: #000;
 }
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper input {
+  flex: 1;
+  /* padding-right: 2rem; */
+}
+
+.icon {
+  position: absolute;
+  right: 0.5rem;
+  cursor: pointer;
+}
