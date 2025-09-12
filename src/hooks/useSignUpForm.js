@@ -282,8 +282,9 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       if (!value.trim()) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          [field]: `Enter a valid ${field === "mobile" ? "mobile number" : "email"
-            } first.`,
+          [field]: `Enter a valid ${
+            field === "mobile" ? "mobile number" : "email"
+          } first.`,
         }));
         return;
       }

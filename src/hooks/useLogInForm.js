@@ -126,7 +126,8 @@ const useLogInForm = () => {
 
     try {
       const response = await axiosInstance.post(
-        "/verification/send-otp-email-phone",
+        // "/verification/send-otp-email-phone",
+        "bus-management/auth/resend-otp-without-auth",
         { emailOrPhone: value }
       );
 

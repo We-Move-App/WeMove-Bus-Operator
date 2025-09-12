@@ -27,13 +27,21 @@ const UpdatePassword = () => {
 
   const emailOrPhone = emailOrPhoneFromLocation || emailOrPhoneFromStorage;
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
   useEffect(() => {
     if (!emailOrPhone) {
       setErrorMessage("Email or phone is missing. Please try again.");
       navigate("/reset-password");
     }
   }, [emailOrPhone]);
+
   console.log("Received emailOrPhone from location:", emailOrPhone);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -68,29 +76,34 @@ const UpdatePassword = () => {
     }
 
     try {
-      const response = await axiosInstance.put(
-        "/bus-operator/reset-password-new",
-        {
-          emailOrPhone,
-          password,
-          confirmPassword,
-        }
-      );
-
-      setSuccessMessage("Password reset successfully");
-      setFormData({
-        password: "",
-        confirmPassword: "",
+      await axiosInstance.put("/bus-operator/reset-password-new", {
+        emailOrPhone,
+        password,
+        confirmPassword,
       });
 
+      setSnackbar({
+        open: true,
+        message: "Password updated successfully",
+        severity: "success",
+      });
+
+      setFormData({ password: "", confirmPassword: "" });
       localStorage.removeItem("resetEmailOrPhone");
 
+      // ✅ Navigate after short delay (so snackbar is visible)
       setTimeout(() => {
-        navigate("/");
-      }, 2000);
+        navigate("/", {
+          state: { successMessage: "Password updated successfully" },
+        });
+      }, 1500);
     } catch (error) {
       console.error("Password Reset API Error:", error.response?.data);
-      setErrorMessage(error.response?.data?.message || "Something went wrong!");
+      setSnackbar({
+        open: true,
+        message: error.response?.data?.message || "Something went wrong!",
+        severity: "error",
+      });
     }
   };
 
@@ -127,27 +140,23 @@ const UpdatePassword = () => {
             <div className="formSubmitBtn">
               <LogInBtn data="Continue" type="submit" />
 
-              {/* Error Snackbar */}
               <Snackbar
-                open={Boolean(errorMessage)}
-                autoHideDuration={4000}
-                onClose={() => setErrorMessage("")}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              >
-                <Alert severity="error" onClose={() => setErrorMessage("")}>
-                  {errorMessage}
-                </Alert>
-              </Snackbar>
-
-              {/* Success Snackbar */}
-              <Snackbar
-                open={Boolean(successMessage)}
+                open={snackbar.open}
                 autoHideDuration={3000}
-                onClose={() => setSuccessMessage("")}
+                onClose={() => {
+                  setSnackbar({ ...snackbar, open: false });
+                  if (snackbar.severity === "success") {
+                    navigate("/");
+                  }
+                }}
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
               >
-                <Alert severity="success" onClose={() => setSuccessMessage("")}>
-                  {successMessage}
+                <Alert
+                  severity={snackbar.severity}
+                  onClose={() => setSnackbar({ ...snackbar, open: false })}
+                  sx={{ width: "100%" }}
+                >
+                  {snackbar.message}
                 </Alert>
               </Snackbar>
             </div>

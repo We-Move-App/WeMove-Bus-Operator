@@ -47,7 +47,7 @@ const SignUp = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      branchId: "",
+      branch: "",
     },
     setSnackbar
   );
@@ -93,11 +93,11 @@ const SignUp = () => {
               <BranchSelect
                 label="Choose Branch"
                 required={true}
-                name="branchId" // <-- Important: tell it which field to update
-                value={formData.branchId}
+                name="branch"
+                value={formData.branch}
                 onChange={handleChange}
-                onBlur={handleChange} // if your hook tracks blur
-                error={errors.branchId}
+                onBlur={handleChange}
+                error={errors.branch}
               />
 
               <div className="twoColumnInputContainer">
