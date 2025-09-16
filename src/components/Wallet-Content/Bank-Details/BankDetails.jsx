@@ -4,6 +4,7 @@ import images from "../../../assets/image";
 import CustomBtn from "../../Reusable/Custom-Button/CustomBtn";
 import FormModal from "../../Reusable/Form-Modal/FormModal";
 import axiosInstance from "../../../services/axiosInstance";
+import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
 
 const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
   const [isModalOpen, setIsModalOpen] = useState(openOnMount);
@@ -11,6 +12,15 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
   const [selectedOption, setSelectedOption] = useState(true);
   const [bankData, setBankData] = useState(null);
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   useEffect(() => {
     const fetchBankDetails = async () => {
@@ -40,7 +50,20 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
       setIsConfirmModalOpen(true);
     } catch (error) {
       console.error("Withdraw failed:", error);
-      alert("Withdrawal failed. Please try again.");
+
+      // extract backend error message safely
+      const errorMessage =
+        error?.response?.data?.message || // backend's "message"
+        (Array.isArray(error?.response?.data?.errors) &&
+          error.response.data.errors[0]) || // first error in array
+        error?.message || // axios/network error
+        "Withdrawal failed. Please try again."; // fallback
+
+      setSnackbar({
+        open: true,
+        message: errorMessage,
+        severity: "error",
+      });
     }
   };
 
@@ -170,6 +193,10 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
           </div>
         }
         customClassName={styles.confirmModal}
+      />
+      <SnackbarNotification
+        snackbar={snackbar}
+        handleClose={handleCloseSnackbar}
       />
     </div>
   );

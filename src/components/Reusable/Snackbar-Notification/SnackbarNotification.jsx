@@ -8,6 +8,7 @@ const SnackbarNotification = ({ snackbar, handleClose }) => {
       autoHideDuration={8000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      sx={{ zIndex: 20000 }}
     >
       <Alert
         onClose={handleClose}
