@@ -86,7 +86,7 @@ const AddUser = () => {
           </div>
           <div className={styles.branchName}>
             <FaUserLarge size={50} />
-            <h3>{user.fullName}</h3>
+            <h3 className={styles.userName}>{user.fullName}</h3>
           </div>
         </div>
       ))}

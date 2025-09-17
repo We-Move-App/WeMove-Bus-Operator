@@ -21,12 +21,20 @@ const DriverContent = () => {
   const navigate = useNavigate();
   const [drivers, setDrivers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({ search: "" });
+  const handleSearch = (params) => {
+    setFilters((prev) => ({ ...prev, ...params }));
+  };
 
   useEffect(() => {
     const fetchDrivers = async () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/buses/drivers");
+        const response = await axiosInstance.get("/buses/drivers", {
+          params: {
+            ...filters,
+          },
+        });
 
         const result = response.data;
 
@@ -34,7 +42,7 @@ const DriverContent = () => {
           const formattedData = result.data.busDrivers.map((driver, index) => ({
             DriverId: {
               image: driver.avatar?.url || "https://via.placeholder.com/50",
-              id: `ID_${driver._id.slice(-4)}`,
+              id: driver._id,
             },
             driverName: driver.fullName,
             regNumber: driver.assignedBus?.busRegNumber || "N/A",
@@ -58,13 +66,19 @@ const DriverContent = () => {
     };
 
     fetchDrivers();
-  }, []);
+  }, [filters]);
 
   return (
     <div>
       <ContentHeading
         heading="Driver Management"
-        belowHeadingComponent={<Search />}
+        belowHeadingComponent={
+          <Search
+            paramKey="search"
+            onSearch={handleSearch}
+            placeholder="Search Driver ID"
+          />
+        }
         showSubHeading={true}
         subHeading="Driver Details"
         showBreadcrumbs={false}

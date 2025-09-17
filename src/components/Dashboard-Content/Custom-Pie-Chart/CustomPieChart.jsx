@@ -32,38 +32,81 @@ const CustomPieChart = () => {
   }, [timePeriod]);
 
   // Fixed Pie Chart Data (Max: 80%, Min: 20%)
+  // const pieData = {
+  //   labels: ["Maximum Percentage: 80%", "Minimum Percentage: 20%"],
+  //   datasets: [
+  //     {
+  //       data: [80, 20],
+  //       backgroundColor: ["#2D6A4F", "#FFB85A"],
+  //       hoverBackgroundColor: ["#2D6A4F", "#FFB85A"],
+  //     },
+  //   ],
+  // };
+
   const pieData = {
-    labels: ["Maximum Percentage: 80%", "Minimum Percentage: 20%"],
+    labels: busData.map(
+      (bus) => `${bus.busRegNumber} (${bus.bookingPercentage}%)`
+    ),
     datasets: [
       {
-        data: [80, 20],
-        backgroundColor: ["#2D6A4F", "#FFB85A"],
-        hoverBackgroundColor: ["#2D6A4F", "#FFB85A"],
+        data: busData.map((bus) => bus.bookingPercentage),
+        backgroundColor: [
+          "#2D6A4F",
+          "#FFB85A",
+          "#6C63FF",
+          "#FF6B6B",
+          "#FFD93D",
+          "#1E88E5",
+        ],
+        hoverBackgroundColor: [
+          "#2D6A4F",
+          "#FFB85A",
+          "#6C63FF",
+          "#FF6B6B",
+          "#FFD93D",
+          "#1E88E5",
+        ],
       },
     ],
   };
 
+  // const options = {
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  //   plugins: {
+  //     legend: {
+  //       display: true,
+  //       position: "right",
+  //       labels: {
+  //         boxWidth: 30,
+  //         padding: 10,
+  //         borderRadius: 50,
+  //       },
+  //     },
+  //     datalabels: {
+  //       display: true,
+  //       color: "#fff",
+  //       font: {
+  //         weight: "normal",
+  //         size: 20,
+  //       },
+  //       formatter: (value) => `${value}%`,
+  //     },
+  //   },
+  // };
+
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: true,
-        position: "right",
-        labels: {
-          boxWidth: 30,
-          padding: 10,
-          borderRadius: 50,
-        },
-      },
       datalabels: {
         display: true,
         color: "#fff",
         font: {
-          weight: "normal",
-          size: 20,
+          size: 14,
         },
-        formatter: (value) => `${value}%`,
+        formatter: (value, context) => {
+          const label = context.chart.data.labels[context.dataIndex];
+          return `${value}%`; // show percentage only
+        },
       },
     },
   };

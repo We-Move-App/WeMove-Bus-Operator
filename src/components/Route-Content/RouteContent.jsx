@@ -29,7 +29,12 @@ const RouteContent = () => {
   const busId = useSelector((state) => state.bus?.formData?._id);
   // console.log("Bus Id:", busId);
   const [routeData, setRouteData] = useState([]);
+  const [filters, setFilters] = useState({ search: "" });
   const [loading, setLoading] = useState(true);
+
+  const handleSearch = (params) => {
+    setFilters((prev) => ({ ...prev, ...params }));
+  };
 
   const formatTime = (timeStr) => {
     if (!timeStr || typeof timeStr !== "string") return "N/A";
@@ -60,7 +65,12 @@ const RouteContent = () => {
       try {
         // console.log("🔄 Fetching bus data...");
         const busResponse = await axiosInstance.get(
-          `/buses/bus-routes/all-routes`
+          `/buses/bus-routes/all-routes`,
+          {
+            params: {
+              ...filters,
+            },
+          }
         );
         // console.log("✅ Bus Data Fetched:", busResponse.data);
         const routes = busResponse.data?.data?.routes || [];
@@ -102,13 +112,19 @@ const RouteContent = () => {
     };
 
     fetchData();
-  }, [busId, dispatch]);
+  }, [busId, dispatch, filters]);
 
   return (
     <>
       <ContentHeading
         heading="Route Management"
-        belowHeadingComponent={<Search />}
+        belowHeadingComponent={
+          <Search
+            paramKey="search"
+            onSearch={handleSearch}
+            placeholder="Search Routes"
+          />
+        }
         showSubHeading={true}
         subHeading="Route Details"
         showBreadcrumbs={false}

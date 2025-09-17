@@ -13,9 +13,11 @@ import FormModal from "../Reusable/Form-Modal/FormModal";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import axiosInstance from "../../services/axiosInstance";
 import { Skeleton } from "@mui/material";
+import { fi } from "date-fns/locale";
 
 const columns = [
-  { key: "_id", title: "Customer ID" },
+  // { key: "_id", title: "Booking ID" },
+  { key: "bookingId", title: "Booking ID" },
   { key: "name", title: "Name" },
   { key: "busRegNumber", title: "Bus Reg Number" },
   { key: "contactNumber", title: "Mobile Number" },
@@ -25,7 +27,7 @@ const columns = [
   { key: "from", title: "Pick Up" },
   { key: "to", title: "Drop" },
   { key: "getStatus", title: "Status" },
-  { key: "driverAction", title: "Action", className: styles.driverAction },
+  // { key: "driverAction", title: "Action", className: styles.driverAction },
 ];
 
 const getStatus = (status) => {
@@ -78,6 +80,11 @@ const TicketContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ticketData, setTicketData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({ search: "" });
+
+  const handleSearch = (params) => {
+    setFilters((prev) => ({ ...prev, ...params }));
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -90,7 +97,11 @@ const TicketContent = () => {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get("/bus-operator/bookings");
+      const response = await axiosInstance.get("/bus-operator/bookings", {
+        params: {
+          ...filters,
+        },
+      });
       const bookings = response.data.data.bookings;
 
       const transformedData = bookings.flatMap((booking) =>
@@ -98,11 +109,13 @@ const TicketContent = () => {
           const customer = booking.bookedByOperator || booking.bookedBy || {};
 
           return {
-            _id: passenger?._id
-              ? `ID_${passenger._id.slice(-4).toUpperCase()}`
-              : customer?._id
-              ? `ID_${customer._id.slice(-4).toUpperCase()}`
-              : "ID_UNKNOWN",
+            // _id: passenger?._id
+            //   ? `ID_${passenger._id.slice(-4).toUpperCase()}`
+            //   : customer?._id
+            //   ? `ID_${customer._id.slice(-4).toUpperCase()}`
+            //   : "ID_UNKNOWN",
+            _id: booking._id, // keep the actual booking id for searching
+            bookingId: booking.bookingId, // pretty display ID
             name: passenger.name || customer.fullName || "-",
             busRegNumber: booking.busId?.busRegNumber || "-",
             contactNumber:
@@ -144,7 +157,7 @@ const TicketContent = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, []);
+  }, [filters]);
 
   return (
     <>
@@ -165,7 +178,11 @@ const TicketContent = () => {
         showBreadcrumbs={false}
         rightComponent={
           <div className={styles.btnContainer}>
-            <Search />
+            <Search
+              paramKey="search"
+              onSearch={handleSearch}
+              placeholder="Search Customer ID"
+            />
             <CustomBtn
               label="Filter"
               showIcon={true}

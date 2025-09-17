@@ -2,7 +2,7 @@ import axios from "axios";
 
 // export const BASE_URL = "http://192.168.0.207:8000";
 export const BASE_URL = "http://139.59.20.155:8000";
-// export const BASE_URL = "https://theft-pure-jail-proposed.trycloudflare.com";
+// export const BASE_URL = "https://inspired-knows-star-opposed.trycloudflare.com";
 export const API_VERSION = "v1";
 
 const axiosInstance = axios.create({

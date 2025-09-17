@@ -83,3 +83,12 @@
   display: flex;
   gap: var(--gap-size);
 }
+
+.branchName h3.userName {
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  max-width: 100%;
+  margin: 0 20px;
+}
