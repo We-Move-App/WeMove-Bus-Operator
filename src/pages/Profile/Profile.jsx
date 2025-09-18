@@ -260,6 +260,20 @@ const Profile = () => {
                 </div>
               </div>
             </div>
+
+            <div className={styles.userDetails}>
+              <div className={styles.title}>
+                <h3>Company Details</h3>
+              </div>
+              <div className={styles.contentBlock}>
+                <div className={styles.name}>
+                  <h4>{user?.companyName || "Loading..."}</h4>
+                </div>
+                <div className={styles.emailDetails}>
+                  <h4>{user?.companyAddress || "Loading..."}</h4>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Half - Bank Details */}

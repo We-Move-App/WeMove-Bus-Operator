@@ -51,20 +51,56 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
         );
         return;
       }
+      // for (const [i, route] of routes.entries()) {
+      //   console.log("Checking route:", i, route);
+      //   if (
+      //     !route.from.trim() ||
+      //     !route.to.trim() ||
+      //     !route.departureTime ||
+      //     !route.arrivalTime ||
+      //     route.price === null ||
+      //     route.price === undefined ||
+      //     isNaN(route.price) ||
+      //     route.price <= 0
+      //   ) {
+      //     showSnackbar(
+      //       `Please fill all required fields in route ${i + 1}.`,
+      //       "error"
+      //     );
+      //     return;
+      //   }
+      // }
       for (const [i, route] of routes.entries()) {
-        console.log("Checking route:", i, route);
+        if (!route.from.trim()) {
+          showSnackbar(`Route ${i + 1}: "From" location is required.`, "error");
+          return;
+        }
+        if (!route.to.trim()) {
+          showSnackbar(`Route ${i + 1}: "To" location is required.`, "error");
+          return;
+        }
+        if (!route.departureTime) {
+          showSnackbar(`Route ${i + 1}: Departure time is required.`, "error");
+          return;
+        }
+        if (!route.arrivalTime) {
+          showSnackbar(`Route ${i + 1}: Arrival time is required.`, "error");
+          return;
+        }
         if (
-          !route.from.trim() ||
-          !route.to.trim() ||
-          !route.departureTime ||
-          !route.arrivalTime ||
           route.price === null ||
           route.price === undefined ||
-          isNaN(route.price) ||
-          route.price <= 0
+          isNaN(route.price)
         ) {
           showSnackbar(
-            `Please fill all required fields in route ${i + 1}.`,
+            `Route ${i + 1}: Price must be a valid number.`,
+            "error"
+          );
+          return;
+        }
+        if (route.price <= 0) {
+          showSnackbar(
+            `Route ${i + 1}: Price must be greater than 0.`,
             "error"
           );
           return;

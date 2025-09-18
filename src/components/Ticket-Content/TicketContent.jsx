@@ -81,6 +81,10 @@ const TicketContent = () => {
   const [ticketData, setTicketData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ search: "" });
+  const [filterValues, setFilterValues] = useState({
+    pickup: "",
+    drop: "",
+  });
 
   const handleSearch = (params) => {
     setFilters((prev) => ({ ...prev, ...params }));
@@ -109,13 +113,8 @@ const TicketContent = () => {
           const customer = booking.bookedByOperator || booking.bookedBy || {};
 
           return {
-            // _id: passenger?._id
-            //   ? `ID_${passenger._id.slice(-4).toUpperCase()}`
-            //   : customer?._id
-            //   ? `ID_${customer._id.slice(-4).toUpperCase()}`
-            //   : "ID_UNKNOWN",
-            _id: booking._id, // keep the actual booking id for searching
-            bookingId: booking.bookingId, // pretty display ID
+            _id: booking._id,
+            bookingId: booking.bookingId,
             name: passenger.name || customer.fullName || "-",
             busRegNumber: booking.busId?.busRegNumber || "-",
             contactNumber:
@@ -163,16 +162,16 @@ const TicketContent = () => {
     <>
       <ContentHeading
         heading="Ticket Management"
-        belowHeadingComponent={
-          <CustomBtn
-            label="Export"
-            showIcon={true}
-            width="163px"
-            className={styles.ticketBtn}
-            icon={RiShareBoxFill}
-            iconSize={24}
-          />
-        }
+        // belowHeadingComponent={
+        //   <CustomBtn
+        //     label="Export"
+        //     showIcon={true}
+        //     width="163px"
+        //     className={styles.ticketBtn}
+        //     icon={RiShareBoxFill}
+        //     iconSize={24}
+        //   />
+        // }
         showSubHeading={true}
         subHeading="Customer Details"
         showBreadcrumbs={false}
@@ -235,7 +234,7 @@ const TicketContent = () => {
         />
       )}
       {/* Filter Modal */}
-      <FormModal
+      {/* <FormModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         showClose={false}
@@ -247,14 +246,6 @@ const TicketContent = () => {
             <div className={styles.filterGridContainer}>
               <div className={styles.datePicker}>
                 <FaRegCalendarAlt />
-                <p>From Start Date</p>
-              </div>
-              <div className={styles.datePicker}>
-                <FaRegCalendarAlt />
-                <p>From End Date</p>
-              </div>
-              <div className={styles.datePicker}>
-                <FaRegCalendarAlt />
                 <p>From Pick Up Point</p>
               </div>
               <div className={styles.datePicker}>
@@ -264,6 +255,83 @@ const TicketContent = () => {
             </div>
             <div className={styles.applyFilterBtn}>
               <CustomBtn label="Apply Filter" onClick={handleCloseModal} />
+            </div>
+          </div>
+        }
+      /> */}
+      <FormModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        showClose={true}
+        content={
+          <div className={styles.ticketFilterModal}>
+            <div className={styles.filterHeading}>
+              <p>Apply Filters</p>
+            </div>
+            <div className={styles.filterGridContainer}>
+              {/* <div className={styles.datePicker}>
+                <FaRegCalendarAlt />
+                <input
+                  type="date"
+                  value={filterValues.startDate}
+                  onChange={(e) =>
+                    setFilterValues((prev) => ({
+                      ...prev,
+                      startDate: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className={styles.datePicker}>
+                <FaRegCalendarAlt />
+                <input
+                  type="date"
+                  value={filterValues.endDate}
+                  onChange={(e) =>
+                    setFilterValues((prev) => ({
+                      ...prev,
+                      endDate: e.target.value,
+                    }))
+                  }
+                />
+              </div> */}
+              <div className={styles.datePicker}>
+                <FaRegCalendarAlt />
+                <input
+                  type="text"
+                  placeholder="Pickup Point"
+                  value={filterValues.pickup}
+                  onChange={(e) =>
+                    setFilterValues((prev) => ({
+                      ...prev,
+                      pickup: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className={styles.datePicker}>
+                <FaRegCalendarAlt />
+                <input
+                  type="text"
+                  placeholder="Drop Point"
+                  value={filterValues.drop}
+                  onChange={(e) =>
+                    setFilterValues((prev) => ({
+                      ...prev,
+                      drop: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+            <div className={styles.applyFilterBtn}>
+              <CustomBtn
+                label="Apply Filter"
+                onClick={() => {
+                  setFilters((prev) => ({ ...prev, ...filterValues }));
+                  handleCloseModal();
+                }}
+              />
             </div>
           </div>
         }

@@ -41,7 +41,11 @@ const FinanceTable = () => {
         ) : (
           <BankDetails
             openOnMount={true}
-            onWithdrawComplete={() => handleTabChange("transactions")}
+            // onWithdrawComplete={() => handleTabChange("transactions")}
+            onWithdrawComplete={() => {
+              setActiveTab("transactions");
+              setKey((prev) => prev + 1);
+            }}
           />
         )}
       </div>

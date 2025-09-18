@@ -119,9 +119,9 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
           <div className={`${styles.scheduleRow} ${styles.priceRow}`}>
             <div className={styles.priceSection}>
               <span className={styles.line}></span>
-              <span className={styles.priceIcon}>
+              {/* <span className={styles.priceIcon}>
                 <LiaDollarSignSolid size={30} />
-              </span>
+              </span> */}
               <div className={styles.timeInputBox}>
                 <span>PRICE</span>
                 <input

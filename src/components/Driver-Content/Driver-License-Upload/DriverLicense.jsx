@@ -117,7 +117,7 @@ const DriverLicense = ({
             <div className={styles.progressBlock}>
               <div className={styles.fileInfo}>
                 <span>{formData[fieldKey].name}</span>
-                <div className={styles.controlButtons}>
+                {/* <div className={styles.controlButtons}>
                   {isPaused ? (
                     <button
                       className={`${styles.controlButton} ${styles.play}`}
@@ -133,6 +133,30 @@ const DriverLicense = ({
                       <Pause />
                     </button>
                   )}
+                  <button
+                    className={`${styles.controlButton} ${styles.close}`}
+                    onClick={handleClose}
+                  >
+                    <X />
+                  </button>
+                </div> */}
+                <div className={styles.controlButtons}>
+                  {uploadProgress < 100 &&
+                    (isPaused ? (
+                      <button
+                        className={`${styles.controlButton} ${styles.play}`}
+                        onClick={handlePlay}
+                      >
+                        <Play />
+                      </button>
+                    ) : (
+                      <button
+                        className={`${styles.controlButton} ${styles.pause}`}
+                        onClick={handlePause}
+                      >
+                        <Pause />
+                      </button>
+                    ))}
                   <button
                     className={`${styles.controlButton} ${styles.close}`}
                     onClick={handleClose}

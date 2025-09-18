@@ -265,17 +265,40 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     setOtpModalOpen,
     otpField,
     setOtpField,
+    // handleChange: (e) => {
+    //   const { name, value } = e.target;
+    //   setFormData((prevData) => ({
+    //     ...prevData,
+    //     [name]: value,
+    //   }));
+    //   setErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     [name]: "",
+    //   }));
+    // },
     handleChange: (e) => {
       const { name, value } = e.target;
+
+      let newValue = value;
+
+      if (name === "mobile") {
+        // remove non-digits
+        newValue = newValue.replace(/\D/g, "");
+        // limit to 15 digits
+        newValue = newValue.slice(0, 15);
+      }
+
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value,
+        [name]: newValue,
       }));
+
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: "",
       }));
     },
+
     handleVerify: async (field) => {
       const value = formData[field];
 

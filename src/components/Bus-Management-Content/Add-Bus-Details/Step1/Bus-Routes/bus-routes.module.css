@@ -100,6 +100,8 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .timeInputBox input {
@@ -111,6 +113,7 @@
   font-weight: 500 !important;
   width: 100%;
   font-family: var(--font-primary) !important;
+  text-align: center;
 }
 
 .timeInputBox select {

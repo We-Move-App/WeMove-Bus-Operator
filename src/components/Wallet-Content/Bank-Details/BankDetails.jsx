@@ -69,72 +69,13 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
 
   return (
     <div className={styles.bankDetailsContainer}>
-      {/* <div className={styles.mainHeading}>
-        <h5>Bank Details</h5>
-      </div>
-      <div className={styles.formContainer}>
-        <div className={styles.formGroup}>
-          <label>Bank Name</label>
-          <input
-            type="text"
-            className={styles.inputField}
-            value={bankData?.bankName || ""}
-            placeholder="Bank of Africa"
-            readOnly
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Bank Account Number</label>
-          <input
-            type="text"
-            className={styles.inputField}
-            placeholder="26578901YUOP"
-            value={bankData?.accountNumber || ""}
-            readOnly
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Account Holder Name</label>
-          <input
-            type="text"
-            className={styles.inputField}
-            placeholder="Hamidu"
-            value={bankData?.accountHolderName || ""}
-            readOnly
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Bank Account Details</label>
-          <div className={styles.viewField}>
-            <div className={styles.uploadIconBlock}>
-              <img src={images.uploadIcon} alt="upload-icon" />
-            </div>
-            <h3>
-              {" "}
-              <a
-                href={bankData?.bankDocs?.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View file
-              </a>
-            </h3>
-          </div>
-        </div>
-      </div> */}
-      {/* <div className={styles.withDrawBtnBlock}>
-        <CustomBtn
-          width="160px"
-          label="Withdraw"
-          className={styles.withdrawBtn}
-          onClick={() => setIsModalOpen(true)}
-        />
-      </div> */}
-
       {/* First Modal - Withdrawal Form */}
       <FormModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          onWithdrawComplete?.();
+        }}
         content={
           <div className={styles.formContainerModal}>
             <h2>Withdraw Amount</h2>
