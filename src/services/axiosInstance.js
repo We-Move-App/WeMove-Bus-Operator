@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// export const BASE_URL = "http://192.168.0.207:8000";
 export const BASE_URL = "http://139.59.20.155:8000";
-// export const BASE_URL = "https://inspired-knows-star-opposed.trycloudflare.com";
+// export const BASE_URL =
+//   "https://paragraph-joe-later-discover.trycloudflare.com";
 export const API_VERSION = "v1";
 
 const axiosInstance = axios.create({
@@ -37,36 +37,36 @@ if (localStorage.getItem("dashboardAccessToken")) {
 }
 
 // Response interceptor
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url.includes("/auth/login")
-    ) {
-      originalRequest._retry = true;
+//     if (
+//       error.response &&
+//       error.response.status === 401 &&
+//       !originalRequest._retry &&
+//       !originalRequest.url.includes("/auth/login")
+//     ) {
+//       originalRequest._retry = true;
 
-      const isDashboardToken = axiosInstance.defaults.headers.common[
-        "Authorization"
-      ]?.includes(localStorage.getItem("dashboardAccessToken"));
+//       const isDashboardToken = axiosInstance.defaults.headers.common[
+//         "Authorization"
+//       ]?.includes(localStorage.getItem("dashboardAccessToken"));
 
-      if (isDashboardToken) {
-        localStorage.removeItem("dashboardAccessToken");
-        localStorage.removeItem("dashboardRefreshToken");
-        localStorage.removeItem("busFormData");
-      } else {
-        localStorage.removeItem("accessToken");
-      }
+//       if (isDashboardToken) {
+//         localStorage.removeItem("dashboardAccessToken");
+//         localStorage.removeItem("dashboardRefreshToken");
+//         localStorage.removeItem("busFormData");
+//       } else {
+//         localStorage.removeItem("accessToken");
+//       }
 
-      window.location.href = "/";
-    }
+//       window.location.href = "/";
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 export default axiosInstance;

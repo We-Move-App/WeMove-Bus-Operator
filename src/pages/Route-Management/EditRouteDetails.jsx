@@ -23,6 +23,7 @@ const EditRouteDetails = () => {
     busRegistrationNumber: "DU0978-7898",
     departure: "Hola Road",
     departureTime: "06.00 AM",
+    pricePerSeat: "",
     arrival: "Cameroon",
     arrivalTime: "06.00 AM",
   });
@@ -59,22 +60,8 @@ const EditRouteDetails = () => {
     }));
   };
 
-  // const handleEdit = (type, id) => {
-  //   let point;
-  //   if (type === "pickup") {
-  //     point = pickupPoints.find((p) => p._id === id);
-  //   } else if (type === "drop") {
-  //     point = dropPoints.find((p) => p._id === id);
-  //   }
-
-  //   if (point) {
-  //     setSelectedPickup({ ...point });
-  //     setShowModal(true);
-  //   }
-  // };
-
   const handleEdit = (type, id) => {
-    setEditingType(type); // <-- Add this
+    setEditingType(type);
 
     let point;
     if (type === "pickup") {
@@ -93,15 +80,6 @@ const EditRouteDetails = () => {
     setSelectedPickup((prev) => ({ ...prev, [field]: value }));
   };
 
-  // const handleSaveModal = () => {
-  //   setPickupPoints((prev) =>
-  //     prev.map((p) =>
-  //       p._id === selectedPickup._id ? { ...selectedPickup } : p
-  //     )
-  //   );
-  //   setShowModal(false);
-  // };
-
   const handleSaveModal = () => {
     if (editingType === "pickup") {
       setPickupPoints((prev) =>
@@ -113,7 +91,7 @@ const EditRouteDetails = () => {
       );
     }
     setShowModal(false);
-    setEditingType(null); // Reset after save
+    setEditingType(null);
   };
 
   useEffect(() => {
@@ -127,6 +105,7 @@ const EditRouteDetails = () => {
           busId: data.busId || "",
           departure: data.startLocation || "",
           departureTime: data.departureTime || "",
+          pricePerSeat: data.pricePerSeat || "",
           arrival: data.endLocation || "",
           arrivalTime: data.arrivalTime || "",
         });
@@ -168,7 +147,8 @@ const EditRouteDetails = () => {
 
   const handleSaveDetails = async () => {
     try {
-      const payload = {
+      // 1️⃣ Update route details
+      const routePayload = {
         busId: formData.busId,
         busRegNumber: formData.busRegistrationNumber,
         startLocation: formData.departure,
@@ -179,27 +159,38 @@ const EditRouteDetails = () => {
         drops: dropPoints,
       };
 
-      const response = await axiosInstance.put(
+      const routeResponse = await axiosInstance.put(
         `/buses/bus-routes/edit/${id}`,
-        payload
+        routePayload
       );
-      console.log("✅ Route updated successfully:", response.data);
+      console.log("Route updated successfully:", routeResponse.data);
+
+      // 2️⃣ Update price per seat
+      const pricePayload = {
+        routeId: id,
+        pricePerSeat: Number(formData.pricePerSeat),
+      };
+
+      const priceResponse = await axiosInstance.post(
+        `/buses/bus-routes/update-price`,
+        pricePayload
+      );
+      console.log("Price updated successfully:", priceResponse.data);
 
       setSnackbar({
         open: true,
-        message: "Route updated successfully!",
+        message: "Route and price updated successfully!",
         severity: "success",
       });
 
-      // Navigate after short delay to allow user to read the message
       setTimeout(() => {
         navigate("/route-management");
       }, 1500);
     } catch (error) {
-      console.error("❌ Failed to update route:", error);
+      console.error("❌ Failed to update route or price:", error);
       setSnackbar({
         open: true,
-        message: "Failed to update route.",
+        message: "Failed to update route or price.",
         severity: "error",
       });
     }
@@ -390,6 +381,17 @@ const EditRouteDetails = () => {
                 </div>
               ))}
             </div>
+          </div>
+          <div className={styles.formSection}>
+            <h3 className={styles.formLabel}>Price</h3>
+            <input
+              type="text"
+              name="pricePerSeat"
+              // value={formData.arrival}
+              value={formData.pricePerSeat}
+              onChange={handleInputChange}
+              className={styles.formInput}
+            />
           </div>
         </div>
 

@@ -31,7 +31,7 @@ const useMultiStepForm = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "error", // or "success" if needed
+    severity: "error",
   });
 
   // Save to localStorage when formData or activeStep changes
