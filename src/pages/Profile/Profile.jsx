@@ -10,6 +10,7 @@ import axiosInstance, { setAuthToken } from "../../services/axiosInstance";
 import { FadeLoader } from "react-spinners";
 import { jwtDecode } from "jwt-decode";
 import { Skeleton } from "@mui/material";
+import { BadgeCheck } from "lucide-react";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -251,7 +252,11 @@ const Profile = () => {
               <div className={styles.contentBlock}>
                 <div className={styles.name}>
                   <h4>{user?.fullName || "Loading..."}</h4>
+                  {user?.batchVerified && (
+                    <BadgeCheck size={18} color="#4CAF50" title="Verified" />
+                  )}
                 </div>
+
                 <div className={styles.num}>
                   <h4>{user?.phoneNumber || "Loading..."}</h4>
                 </div>

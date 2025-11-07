@@ -39,6 +39,12 @@
   font-weight: 500;
 }
 
+.name {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-xs);
+}
+
 .name h4,
 .num h4 {
   font-weight: 500;

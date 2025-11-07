@@ -284,10 +284,10 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
                 value={totalSeats}
                 onChange={(e) => {
                   const value = Number(e.target.value);
-                  if (value <= 100) {
+                  if (value <= 200) {
                     setTotalSeats(Math.max(1, value));
                   } else {
-                    setTotalSeats(100);
+                    setTotalSeats(200);
                   }
                 }}
                 style={{

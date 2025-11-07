@@ -99,6 +99,12 @@
   object-fit: cover;
 }
 
+.nameBlock {
+  display: flex;
+  gap: var(--gap-xs);
+  align-items: center;
+}
+
 .nameBlock h2 {
   font-size: clamp(16px, 1.5vw, 24px);
   font-weight: 400;
