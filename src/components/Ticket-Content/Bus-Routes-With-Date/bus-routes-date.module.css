@@ -94,6 +94,10 @@
   font-size: clamp(20px, 1.2vw, 24px);
 }
 
+.busRoutesContainer input::placeholder {
+  color: white;
+}
+
 .timeContainerBox svg,
 .timeSearchBox svg {
   min-width: 32px;

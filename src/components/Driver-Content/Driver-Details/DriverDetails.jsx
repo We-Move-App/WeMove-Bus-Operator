@@ -224,7 +224,7 @@ const DriverDetails = () => {
             formData={formData}
             setFormData={setFormData}
             title="Add Driver License"
-            uploadText="Drag and drop or browse your files"
+            uploadText="Upload your files"
             height="253px"
             fieldKey="driverLicenseFront"
             uploadProgress={uploadProgress}

@@ -13,7 +13,7 @@ const TicketDetails = ({ onRouteSelect }) => {
   const [selectedRoute, setSelectedRoute] = useState(null);
 
   const parseTime = (timeStr) => {
-    const match = timeStr.match(/^(\d{1,2}):(\d{2})$/); // 24-hour format like "23:03"
+    const match = timeStr.match(/^(\d{1,2}):(\d{2})$/);
     if (!match) return null;
 
     const hour = parseInt(match[1], 10);
@@ -23,24 +23,6 @@ const TicketDetails = ({ onRouteSelect }) => {
 
     return hour * 60 + minute;
   };
-
-  // const calculateDuration = (start, end) => {
-  //   const startTotal = parseTime(start);
-  //   const endTotal = parseTime(end);
-
-  //   if (startTotal === null || endTotal === null) return "Invalid time";
-
-  //   let adjustedEnd = endTotal;
-  //   if (endTotal < startTotal) {
-  //     adjustedEnd += 24 * 60;
-  //   }
-
-  //   const durationMinutes = adjustedEnd - startTotal;
-  //   const hours = Math.floor(durationMinutes / 60);
-  //   const minutes = durationMinutes % 60;
-
-  //   return `${hours}h ${minutes}m`;
-  // };
 
   const calculateDuration = (start, end, isNextDay = false) => {
     const startTotal = parseTime(start);
@@ -91,7 +73,7 @@ const TicketDetails = ({ onRouteSelect }) => {
 
   return (
     <div className={styles.ticketFilterContainer}>
-      <div className={styles.ticketFilterItems}>
+      {/* <div className={styles.ticketFilterItems}>
         <div className={styles.filterHeading}>
           <p>Filter By</p>
         </div>
@@ -115,7 +97,7 @@ const TicketDetails = ({ onRouteSelect }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className={styles.busDetailsContainer}>
         {routes.map((route) => {
@@ -185,7 +167,7 @@ const TicketDetails = ({ onRouteSelect }) => {
               <div className={styles.busDetailsRight}>
                 <div className={styles.amountLabel}>Amount</div>
                 <div className={styles.amountValue}>
-                  ${route.pricePerSeat?.finalAmount ?? "0.00"}
+                  ${route.pricePerSeat ?? "0.00"}
                 </div>
 
                 <div className={styles.priceLabel}>Price</div>

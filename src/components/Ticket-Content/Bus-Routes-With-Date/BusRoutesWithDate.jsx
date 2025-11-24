@@ -13,8 +13,8 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
         routes: [
           {
             date: new Date().toISOString().split("T")[0],
-            from: "Enter City",
-            to: "Enter City",
+            from: "",
+            to: "",
           },
         ],
       });
@@ -62,6 +62,7 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
                   <input
                     type="text"
                     value={schedule.from}
+                    placeholder="Enter City"
                     onChange={(e) =>
                       handleInputChange(index, "from", e.target.value)
                     }
@@ -87,6 +88,7 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
                     <input
                       type="text"
                       value={schedule.to}
+                      placeholder="Enter City"
                       onChange={(e) =>
                         handleInputChange(index, "to", e.target.value)
                       }
@@ -112,7 +114,6 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
 
           setFormData({ ...formData, routes: updatedSchedules });
 
-          // ✅ Call parent-provided handler to update selectedRouteDetails
           if (onRouteSelect) {
             onRouteSelect(selectedRoute);
           }

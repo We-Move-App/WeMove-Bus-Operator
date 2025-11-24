@@ -1,4 +1,3 @@
-// BusGrid.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GridBlock from "../Reusable/Grid-Block/GridBlock";
@@ -22,9 +21,9 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
           null,
           {
             params: {
-              page: currentPage, // pass current page
-              limit: 4, // backend may support pagination size
-              ...filters, // add search filters
+              page: currentPage,
+              limit: 4,
+              ...filters,
             },
           }
         );
@@ -33,7 +32,6 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
         setBuses(fetchedBuses);
         dispatch(setBusData(fetchedBuses));
 
-        // use totalPages directly from API
         const pages = response?.data?.totalPages || 1;
         setTotalPages(pages);
       } catch (err) {
