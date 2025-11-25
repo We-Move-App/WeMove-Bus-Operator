@@ -14,7 +14,7 @@ import { CiCirclePlus } from "react-icons/ci";
 const Step2 = ({ onSubmit, onPrevious, step }) => {
   const { fetchData } = useFetch();
   const dispatch = useDispatch();
-  const [totalSeats, setTotalSeats] = useState(0);
+  const [totalSeats, setTotalSeats] = useState("");
   const [stoppages, setStoppages] = useState({});
   const formData = useSelector((state) => state.bus.formData);
   const [routes, setRoutes] = useState([
@@ -51,25 +51,6 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
         );
         return;
       }
-      // for (const [i, route] of routes.entries()) {
-      //   console.log("Checking route:", i, route);
-      //   if (
-      //     !route.from.trim() ||
-      //     !route.to.trim() ||
-      //     !route.departureTime ||
-      //     !route.arrivalTime ||
-      //     route.price === null ||
-      //     route.price === undefined ||
-      //     isNaN(route.price) ||
-      //     route.price <= 0
-      //   ) {
-      //     showSnackbar(
-      //       `Please fill all required fields in route ${i + 1}.`,
-      //       "error"
-      //     );
-      //     return;
-      //   }
-      // }
       for (const [i, route] of routes.entries()) {
         if (!route.from.trim()) {
           showSnackbar(`Route ${i + 1}: "From" location is required.`, "error");

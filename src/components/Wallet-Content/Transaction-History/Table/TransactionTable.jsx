@@ -44,7 +44,7 @@ const TransactionTable = () => {
       <div className={styles.mainHeading}>
         <h5>Transaction History</h5>
 
-        <div className={styles.searchFilterContainer}>
+        {/* <div className={styles.searchFilterContainer}>
           <div className={styles.inputWrapper}>
             <input
               type="search"
@@ -56,7 +56,7 @@ const TransactionTable = () => {
               <img src={images.searchIcon} alt="search-icon" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className={styles.transactionTableWrapper}>
