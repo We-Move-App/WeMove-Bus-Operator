@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styles from "./ticket-details.module.css";
 import { BsClock } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -6,11 +6,38 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 import { IoBusOutline } from "react-icons/io5";
 import axiosInstance from "../../../services/axiosInstance";
 
-const TicketDetails = ({ onRouteSelect }) => {
+const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
+
+  useEffect(() => {
+    if (Array.isArray(routesOverride)) {
+      setRoutes(routesOverride);
+      setLoading(false);
+      return;
+    }
+
+    const fetchRoutes = async () => {
+      try {
+        const res = await axiosInstance.get("/buses/bus-routes/all-routes");
+        const fetchedRoutes = res.data.data.routes;
+        if (fetchedRoutes && fetchedRoutes.length > 0) {
+          setRoutes(fetchedRoutes);
+        } else {
+          setError("No bus routes available.");
+        }
+      } catch (err) {
+        console.error("Failed to fetch routes:", err);
+        setError("Unable to load routes. Please make sure you're logged in.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoutes();
+  }, [routesOverride]);
 
   const parseTime = (timeStr) => {
     const match = timeStr.match(/^(\d{1,2}):(\d{2})$/);
@@ -31,8 +58,6 @@ const TicketDetails = ({ onRouteSelect }) => {
     if (startTotal === null || endTotal === null) return "Invalid time";
 
     let adjustedEnd = endTotal;
-
-    // Explicitly add 24 hours if it's for the next day
     if (isNextDay || endTotal <= startTotal) {
       adjustedEnd += 24 * 60;
     }
@@ -66,41 +91,40 @@ const TicketDetails = ({ onRouteSelect }) => {
     fetchRoutes();
   }, []);
 
+  const filteredRoutes = useMemo(() => {
+    if (!filters) return routes; 
+
+    const { from, to, date } = filters;
+
+    return routes.filter((route) => {
+      const matchFrom = from
+        ? route.startLocation.toLowerCase().includes(from.toLowerCase())
+        : true;
+
+      const matchTo = to
+        ? route.endLocation.toLowerCase().includes(to.toLowerCase())
+        : true;
+
+      const matchDate = date ? true : true;
+
+      return matchFrom && matchTo && matchDate;
+    });
+  }, [routes, filters]);
+
   if (loading) return <p className={styles.loading}>Loading bus routes...</p>;
   if (error) return <p className={styles.error}>{error}</p>;
-  // if (routes.length === 0)
-  //   return <p className={styles.error}>No bus routes available.</p>;
 
   return (
     <div className={styles.ticketFilterContainer}>
-      {/* <div className={styles.ticketFilterItems}>
-        <div className={styles.filterHeading}>
-          <p>Filter By</p>
-        </div>
-        <div className={styles.filterBlock}>
-          <div className={styles.ticketFilter}>
-            <BsClock />
-            <div className={styles.items}>
-              Time <MdOutlineKeyboardArrowDown />
-            </div>
-          </div>
-          <div className={styles.ticketFilter}>
-            <LiaRupeeSignSolid />
-            <div className={styles.items}>
-              Price <MdOutlineKeyboardArrowDown />
-            </div>
-          </div>
-          <div className={styles.ticketFilter}>
-            <IoBusOutline />
-            <div className={styles.items}>
-              Type <MdOutlineKeyboardArrowDown />
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       <div className={styles.busDetailsContainer}>
-        {routes.map((route) => {
+        {/* No matching routes */}
+        {filteredRoutes.length === 0 && (
+          <p style={{ padding: "1rem", color: "#666" }}>
+            No routes found for this search.
+          </p>
+        )}
+
+        {filteredRoutes.map((route) => {
           const isSelected = selectedRoute?._id === route._id;
           return (
             <div
@@ -108,8 +132,6 @@ const TicketDetails = ({ onRouteSelect }) => {
                 isSelected ? styles.selectedCard : ""
               }`}
               onClick={() => {
-                console.log("Selected Route ID:", route._id);
-                console.log("Selected Bus ID:", route.busId?._id);
                 setSelectedRoute(route);
                 onRouteSelect(route);
               }}
@@ -137,7 +159,9 @@ const TicketDetails = ({ onRouteSelect }) => {
                       "Friday",
                       "Saturday",
                     ][i];
+
                     const isActive = route.runningDays.includes(fullDay);
+
                     return (
                       <span
                         key={i}
@@ -169,7 +193,6 @@ const TicketDetails = ({ onRouteSelect }) => {
                 <div className={styles.amountValue}>
                   ${route.pricePerSeat ?? "0.00"}
                 </div>
-
                 <div className={styles.priceLabel}>Price</div>
               </div>
             </div>

@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./bus-routes-date.module.css";
 import { IoIosSearch } from "react-icons/io";
 import { PiCalendarDotsLight } from "react-icons/pi";
 import { GiBus } from "react-icons/gi";
 import TicketDetails from "../Ticket-Details/TicketDetails";
+import axiosInstance from "../../../services/axiosInstance";
 
 const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
   useEffect(() => {
-    if (formData.routes.length === 0) {
-      setFormData({
-        ...formData,
+    if (!formData.routes || formData.routes.length === 0) {
+      setFormData((prev) => ({
+        ...prev,
         routes: [
           {
             date: new Date().toISOString().split("T")[0],
@@ -17,16 +18,64 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
             to: "",
           },
         ],
-      });
+      }));
     }
-  }, [formData, setFormData]);
+  }, []);
 
   const schedules = formData.routes || [];
 
   const handleInputChange = (index, field, value) => {
     const updatedSchedules = [...schedules];
-    updatedSchedules[index][field] = value;
+    updatedSchedules[index] = {
+      ...updatedSchedules[index],
+      [field]: value,
+    };
     setFormData({ ...formData, routes: updatedSchedules });
+  };
+
+  const [searchedRoutes, setSearchedRoutes] = useState(null);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState("");
+
+  const handleSearchClick = async (index) => {
+    const schedule = schedules[index] || {};
+    const payload = {
+      date: schedule.date || "",
+      from: schedule.from || "",
+      to: schedule.to || "",
+    };
+
+    if (!payload.from && !payload.to && !payload.date) {
+      setSearchError("Please enter at least one filter (from / to / date).");
+      return;
+    }
+
+    setSearchError("");
+    setSearching(true);
+
+    try {
+      const res = await axiosInstance.get("buses/bus-routes/all-routes", {
+        params: {
+          from: payload.from,
+          to: payload.to,
+          date: payload.date,
+        },
+      });
+      const filtered = res.data?.data?.routes ?? [];
+
+      setSearchedRoutes(filtered);
+    } catch (err) {
+      console.error("Search API failed:", err);
+      setSearchError("Failed to fetch filtered routes. Try again.");
+      setSearchedRoutes([]);
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchedRoutes(null);
+    setSearchError("");
   };
 
   return (
@@ -72,7 +121,7 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
             </div>
           </div>
 
-          {/* Arrival Section - "To" is Separate */}
+          {/* Arrival Section - "To" + Search */}
           <div className={styles.routes}>
             <div className={styles.scheduleRow}>
               <div className={styles.scheduleHeader}>
@@ -96,27 +145,51 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
                   </div>
                 </div>
               </div>
+
+              {/* SEARCH BUTTON */}
               <div className={styles.searchInputBox}>
-                <div className={styles.searchBox}>
-                  <IoIosSearch size={20} className={styles.searchIcon} />
-                </div>
+                <button
+                  type="button"
+                  className={styles.searchBox}
+                  onClick={() => handleSearchClick(index)}
+                >
+                  <IoIosSearch size={30} className={styles.searchIcon} />
+                </button>
               </div>
             </div>
           </div>
         </div>
       ))}
-      {/* <TicketDetails onRouteSelect={onRouteSelect} /> */}
+
+      {/* show search error or loading */}
+      {searchError && (
+        <div style={{ color: "red", padding: "8px 0" }}>{searchError}</div>
+      )}
+      {searching && <div style={{ padding: "8px 0" }}>Searching...</div>}
+
+      {/* CLEAR SEARCH BUTTON (visible only when a filtered result is shown) */}
+      {searchedRoutes !== null && (
+        <div style={{ margin: "8px 0" }}>
+          <button onClick={clearSearch} className={styles.clearSearchBtn}>
+            Clear search
+          </button>
+        </div>
+      )}
+
       <TicketDetails
+        routesOverride={searchedRoutes}
         onRouteSelect={(selectedRoute) => {
-          const updatedSchedules = [...formData.routes];
-          updatedSchedules[0].from = selectedRoute.startLocation;
-          updatedSchedules[0].to = selectedRoute.endLocation;
+          console.log("selectedRoute at parent:", selectedRoute);
+          const updatedSchedules = [...(formData.routes || [])];
+          updatedSchedules[0] = {
+            ...updatedSchedules[0],
+            from: selectedRoute.startLocation,
+            to: selectedRoute.endLocation,
+          };
 
           setFormData({ ...formData, routes: updatedSchedules });
 
-          if (onRouteSelect) {
-            onRouteSelect(selectedRoute);
-          }
+          if (onRouteSelect) onRouteSelect(selectedRoute);
         }}
       />
     </div>

@@ -182,7 +182,7 @@ const TicketContent = () => {
               onSearch={handleSearch}
               placeholder="Search Customer ID"
             />
-            <CustomBtn
+            {/* <CustomBtn
               label="Filter"
               showIcon={true}
               width="166px"
@@ -190,7 +190,7 @@ const TicketContent = () => {
               icon={CiFilter}
               iconSize={20}
               onClick={handleOpenModal}
-            />
+            /> */}
             <CustomBtn
               onClick={() => navigate("/ticket-management/add-ticket")}
               label="Add Ticket"

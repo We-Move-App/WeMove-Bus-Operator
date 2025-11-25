@@ -73,7 +73,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
       termAndConditions: true,
       from: selectedRoute.from,
       to: selectedRoute.to,
-      price: selectedRouteDetails?.pricePerSeat?.finalAmount,
+      price: selectedRouteDetails?.pricePerSeat,
     };
 
     try {
