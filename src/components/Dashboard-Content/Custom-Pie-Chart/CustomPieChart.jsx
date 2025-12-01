@@ -171,49 +171,49 @@ const CustomPieChart = () => {
         },
         formatter: (value, context) => {
           const label = context.chart.data.labels[context.dataIndex];
-          return `${value}%`; 
+          return `${value}%`;
         },
       },
     },
   };
 
-return (
-  <div className={styles.customPieContainer}>
-    <div className={styles.header}>
-      <Dropdown
-        heading="Bus Usage"
-        value={timePeriod}
-        onChange={(e) => setTimePeriod(e.target.value)}
-        options={[
-          { label: "Monthly", value: "monthly" },
-          { label: "Weekly", value: "weekly" },
-        ]}
-      />
-    </div>
-
-    {/* Pie Chart */}
-    <div className={styles.chartWrapper}>
-      {busData.length > 0 ? (
-        <Pie data={pieData} options={options} />
-      ) : (
-        <div className={styles.noDataMsg}>
-          No bus analytics available for this period.
-        </div>
-      )}
-    </div>
-
-    <div className={styles.flexPieBox}>
-      {busData.map((bus) => (
-        <BusPie
-          key={bus.busId}
-          busNumber={bus.busRegNumber}
-          progress={bus.bookingPercentage}
+  return (
+    <div className={styles.customPieContainer}>
+      <div className={styles.header}>
+        <Dropdown
+          heading="Bus Usage"
+          value={timePeriod}
+          onChange={(e) => setTimePeriod(e.target.value)}
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Weekly", value: "weekly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
         />
-      ))}
-    </div>
-  </div>
-);
+      </div>
 
+      {/* Pie Chart */}
+      <div className={styles.chartWrapper}>
+        {busData.length > 0 ? (
+          <Pie data={pieData} options={options} />
+        ) : (
+          <div className={styles.noDataMsg}>
+            No bus analytics available for this period.
+          </div>
+        )}
+      </div>
+
+      <div className={styles.flexPieBox}>
+        {busData.map((bus) => (
+          <BusPie
+            key={bus.busId}
+            busNumber={bus.busRegNumber}
+            progress={bus.bookingPercentage}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default CustomPieChart;
