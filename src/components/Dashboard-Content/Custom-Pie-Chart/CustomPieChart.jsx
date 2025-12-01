@@ -15,16 +15,82 @@ const CustomPieChart = () => {
   const [busData, setBusData] = useState([]);
 
   useEffect(() => {
+    console.log("busData", busData);
+  }, [busData]);
+
+  // useEffect(() => {
+  //   const fetchBusAnalytics = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(
+  //         `/bus-operator/analytics/buses?filter=${timePeriod}`
+  //       );
+  //       if (response?.data?.success) {
+  //         setBusData(response.data.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch bus analytics:", error);
+  //     }
+  //   };
+
+  //   fetchBusAnalytics();
+  // }, [timePeriod]);
+
+  useEffect(() => {
     const fetchBusAnalytics = async () => {
       try {
+        console.log(
+          "[CustomPieChart] fetching bus analytics, filter=",
+          timePeriod
+        );
         const response = await axiosInstance.get(
           `/bus-operator/analytics/buses?filter=${timePeriod}`
         );
-        if (response?.data?.success) {
-          setBusData(response.data.data);
+
+        console.log("[CustomPieChart] raw response:", response);
+
+        // Helpful normalization: some APIs wrap in data.data, some in data.payload
+        const success = response?.data?.success ?? null;
+        const payload = response?.data?.data ?? response?.data?.payload ?? null;
+
+        console.log("[CustomPieChart] success:", success);
+        console.log("[CustomPieChart] payload (data):", payload);
+
+        if (success === false) {
+          console.warn(
+            "[CustomPieChart] API reported success:false",
+            response.data
+          );
+          setBusData([]); // keep empty but log
+          return;
         }
+
+        if (!payload || !Array.isArray(payload) || payload.length === 0) {
+          console.warn("[CustomPieChart] payload is empty or not an array");
+          setBusData([]); // empty
+          return;
+        }
+
+        // ensure bookingPercentage is numeric
+        const normalized = payload.map((b) => ({
+          ...b,
+          bookingPercentage: Number(b.bookingPercentage) || 0,
+        }));
+
+        console.log("[CustomPieChart] normalized payload:", normalized);
+
+        setBusData(normalized);
       } catch (error) {
-        console.error("Failed to fetch bus analytics:", error);
+        console.error("[CustomPieChart] Failed to fetch bus analytics:", error);
+        // show network-level error details
+        if (error?.response) {
+          console.error(
+            "status",
+            error.response.status,
+            "data",
+            error.response.data
+          );
+        }
+        setBusData([]); // keep empty
       }
     };
 
@@ -105,42 +171,49 @@ const CustomPieChart = () => {
         },
         formatter: (value, context) => {
           const label = context.chart.data.labels[context.dataIndex];
-          return `${value}%`; // show percentage only
+          return `${value}%`; 
         },
       },
     },
   };
 
-  return (
-    <div className={styles.customPieContainer}>
-      <div className={styles.header}>
-        <Dropdown
-          heading="Bus Usage"
-          value={timePeriod}
-          onChange={(e) => setTimePeriod(e.target.value)}
-          options={[
-            { label: "Monthly", value: "monthly" },
-            { label: "Weekly", value: "weekly" },
-          ]}
-        />
-      </div>
-
-      {/* Pie Chart */}
-      <div className={styles.chartWrapper}>
-        <Pie data={pieData} options={options} />
-      </div>
-
-      <div className={styles.flexPieBox}>
-        {busData.map((bus) => (
-          <BusPie
-            key={bus.busId}
-            busNumber={bus.busRegNumber}
-            progress={bus.bookingPercentage}
-          />
-        ))}
-      </div>
+return (
+  <div className={styles.customPieContainer}>
+    <div className={styles.header}>
+      <Dropdown
+        heading="Bus Usage"
+        value={timePeriod}
+        onChange={(e) => setTimePeriod(e.target.value)}
+        options={[
+          { label: "Monthly", value: "monthly" },
+          { label: "Weekly", value: "weekly" },
+        ]}
+      />
     </div>
-  );
+
+    {/* Pie Chart */}
+    <div className={styles.chartWrapper}>
+      {busData.length > 0 ? (
+        <Pie data={pieData} options={options} />
+      ) : (
+        <div className={styles.noDataMsg}>
+          No bus analytics available for this period.
+        </div>
+      )}
+    </div>
+
+    <div className={styles.flexPieBox}>
+      {busData.map((bus) => (
+        <BusPie
+          key={bus.busId}
+          busNumber={bus.busRegNumber}
+          progress={bus.bookingPercentage}
+        />
+      ))}
+    </div>
+  </div>
+);
+
 };
 
 export default CustomPieChart;
