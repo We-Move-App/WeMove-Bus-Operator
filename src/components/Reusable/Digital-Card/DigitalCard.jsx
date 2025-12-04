@@ -34,7 +34,10 @@ const DigitalCard = ({ showMidContent = true }) => {
           <h4>Digital Debit Card</h4>
           <div className={styles.digitalCardNumberBlock}>
             <div className={styles.cardNumber}>
-              {isCardNumberVisible ? cardNumber : "**** **** **** ****"}
+              {/* {isCardNumberVisible ? cardNumber : "**** **** **** ****"} */}
+              <span style={{ fontFamily: "monospace", letterSpacing: "0.5px" }}>
+                {isCardNumberVisible ? cardNumber : "**** **** **** ****"}
+              </span>
             </div>
             <div onClick={toggleCardNumberVisibility} className={styles.icon}>
               {isCardNumberVisible ? (
