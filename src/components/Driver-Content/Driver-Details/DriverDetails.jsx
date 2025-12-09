@@ -212,9 +212,15 @@ const DriverDetails = () => {
                 type="text"
                 name="phoneNumber"
                 value={formData.phoneNumber}
-                onChange={(e) =>
-                  setFormData({ ...formData, phoneNumber: e.target.value })
-                }
+                maxLength={9}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*$/.test(value)) {
+                    setFormData({ ...formData, phoneNumber: value });
+                  }
+                }}
+                pattern="\d{9}"
+                placeholder="Enter 9-digit number"
               />
             </div>
           </div>

@@ -116,7 +116,8 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
               label="Mobile Number"
               type="tel"
               value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
+              maxLength={9}
+              onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
             />
             <InputField
               label="E-mail ID"

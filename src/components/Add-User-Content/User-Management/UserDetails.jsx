@@ -50,9 +50,13 @@ const UserDetails = () => {
 
   // Handle input changes
   const handleInputChange = (field) => (e) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, "");
+    if (value.length > 9) value = value.slice(0, 9);
+
     setFormData({
       ...formData,
-      [field]: e.target.value,
+      [field]: value,
     });
   };
 
@@ -95,96 +99,6 @@ const UserDetails = () => {
   }, [existingUser]);
 
   // Handle form submission
-
-  // const handleSubmit = async () => {
-  //   if (
-  //     !formData.fullName ||
-  //     !formData.phoneNumber ||
-  //     !formData.email ||
-  //     !formData.password ||
-  //     !formData.idNumber ||
-  //     !formData.dob
-  //   ) {
-  //     setSnackbar({
-  //       open: true,
-  //       message: "Kindly fill up all required details.",
-  //       severity: "error",
-  //     });
-  //     return;
-  //   }
-  //   const today = new Date();
-  //   const dobDate = new Date(formData.dob);
-  //   let age = today.getFullYear() - dobDate.getFullYear();
-  //   const m = today.getMonth() - dobDate.getMonth();
-
-  //   if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
-  //     age--;
-  //   }
-
-  //   if (age < 18) {
-  //     setSnackbar({
-  //       open: true,
-  //       message: "User must be at least 18 years old.",
-  //       severity: "error",
-  //     });
-  //     return;
-  //   }
-
-  //   const selectedPermissions = Object.keys(permissions).filter(
-  //     (key) => permissions[key]
-  //   );
-
-  //   if (selectedPermissions.length === 0) {
-  //     setSnackbar({
-  //       open: true,
-  //       message: "Please select at least one permission.",
-  //       severity: "error",
-  //     });
-  //     return;
-  //   }
-
-  //   // ✅ Get company name from localStorage
-  //   const companyName =
-  //     localStorage.getItem("companyName") || "Unknown Company";
-
-  //   const payload = {
-  //     fullName: formData.fullName,
-  //     companyName: companyName,
-  //     phoneNumber: formData.phoneNumber,
-  //     email: formData.email,
-  //     idNumber: formData.idNumber,
-  //     dob: formData.dob,
-  //     permissions: selectedPermissions,
-  //     authorities: selectedPermissions,
-  //   };
-
-  //   if (formData.password) {
-  //     payload.password = formData.password;
-  //   }
-
-  //   console.log("Payload:", payload);
-
-  //   try {
-  //     if (existingUser?._id) {
-  //       const response = await axiosInstance.put(
-  //         `/bus-operator/members/${existingUser._id}`,
-  //         payload
-  //       );
-  //       console.log("User updated successfully:", response.data);
-  //     } else {
-  //       const response = await axiosInstance.post(
-  //         "/bus-operator/members/add",
-  //         payload
-  //       );
-  //       console.log("User added successfully:", response.data);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error adding user:", err);
-  //   }
-
-  //   navigate("/add-manage-user", { state: { shouldRefresh: true } });
-  // };
-
   const handleSubmit = async () => {
     if (
       !formData.fullName ||
@@ -233,7 +147,6 @@ const UserDetails = () => {
       return;
     }
 
-    // ✅ Get company name from localStorage
     const companyName =
       localStorage.getItem("companyName") || "Unknown Company";
 
@@ -270,7 +183,6 @@ const UserDetails = () => {
         console.log("User added successfully:", response.data);
       }
 
-      // ✅ Show success snackbar & navigate only on success
       setSnackbar({
         open: true,
         message: response.data?.message || "User saved successfully!",
@@ -281,7 +193,6 @@ const UserDetails = () => {
     } catch (err) {
       console.error("Error adding user:", err);
 
-      // ✅ Show error message without navigation
       setSnackbar({
         open: true,
         message:

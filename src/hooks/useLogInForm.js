@@ -16,17 +16,22 @@ const useLogInForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    let newValue = value;
+    if (name === "emailOrPhone") {
+      if (/^\d/.test(value)) {
+        newValue = value.replace(/\D/g, "").slice(0, 9);
+      }
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
-    // ✅ don’t clear global errorMessage here
   };
 
   const validate = () => {
     let isValid = true;
     const newErrors = {};
-    const isValidPhone =
-      /^\d{10}$/.test(formData.emailOrPhone) ||
-      /^\+\d{12}$/.test(formData.emailOrPhone);
+
+    const isValidPhone = /^\d{9}$/.test(formData.emailOrPhone);
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
       formData.emailOrPhone
     );
@@ -35,7 +40,7 @@ const useLogInForm = () => {
       newErrors.emailOrPhone = "Email or Mobile number is required.";
       isValid = false;
     } else if (!isValidPhone && !isValidEmail) {
-      newErrors.emailOrPhone = "Invalid email or mobile number.";
+      newErrors.emailOrPhone = "Invalid email or 9-digit mobile number.";
       isValid = false;
     }
 

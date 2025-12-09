@@ -282,10 +282,8 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       let newValue = value;
 
       if (name === "mobile") {
-        // remove non-digits
         newValue = newValue.replace(/\D/g, "");
-        // limit to 15 digits
-        newValue = newValue.slice(0, 15);
+        newValue = newValue.slice(0, 9);
       }
 
       setFormData((prevData) => ({

@@ -42,7 +42,7 @@ const DriverContent = () => {
           const formattedData = result.data.busDrivers.map((driver, index) => ({
             DriverId: {
               image: driver.avatar?.url || "https://via.placeholder.com/50",
-              id: driver._id,
+              id: driver.busDriverId,
             },
             driverName: driver.fullName,
             regNumber: driver.assignedBus?.busRegNumber || "N/A",
