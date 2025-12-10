@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./step2.module.css";
 import ContentHeading from "../../../Reusable/Content-Heading/ContentHeading";
 import ProgressBar from "../Progress-Bar/ProgressBar";
@@ -12,6 +12,7 @@ import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
 
 const Step2 = ({ onSubmit, onPrevious, step }) => {
+  const topRef = useRef(null);
   const { fetchData } = useFetch();
   const dispatch = useDispatch();
   const [totalSeats, setTotalSeats] = useState("");
@@ -27,20 +28,36 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
       price: 0,
     },
   ]);
-
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
     severity: "error",
   });
-
   const showSnackbar = (message, severity = "error") => {
     setSnackbar({ open: true, message, severity });
   };
-
   const handleSnackbarClose = () => {
     setSnackbar({ open: false, message: "", severity: "error" });
   };
+
+  useEffect(() => {
+    const el = topRef.current;
+    if (el) {
+      el.scrollIntoView({ block: "start", behavior: "auto" });
+      const header =
+        document.querySelector("header") ||
+        document.querySelector(".app-header");
+      if (header && header.offsetHeight) {
+        window.scrollBy(0, -header.offsetHeight);
+      }
+      window.scrollTo({
+        top: Math.max(0, window.pageYOffset),
+        behavior: "auto",
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  }, []);
 
   const handleSave = async () => {
     try {
@@ -243,6 +260,7 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
 
   return (
     <div className={styles.stepContainer}>
+      <div ref={topRef} />
       <SnackbarNotification
         snackbar={snackbar}
         handleClose={handleSnackbarClose}
