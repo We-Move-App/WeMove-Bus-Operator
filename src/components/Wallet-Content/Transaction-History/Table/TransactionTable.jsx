@@ -64,30 +64,41 @@ const TransactionTable = () => {
           <thead>
             <tr>
               <th>Transaction ID</th>
-              <th>User Name</th>
+              <th>Transaction Type</th>
+              <th>Source / Description</th>
               <th>Date</th>
               <th>Time</th>
               <th>Amount</th>
             </tr>
           </thead>
-
           <tbody>
             {transactions.map((tx, idx) => {
               const createdAt = new Date(tx.createdAt);
+
               const formattedDate = createdAt.toLocaleDateString();
               const formattedTime = createdAt.toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               });
 
+              // Source / Description column
+              const sourceOrDescription = tx.withdraw
+                ? "Wallet Withdrawal"
+                : tx.meta?.from?.name || tx.description || "N/A";
+
+              // Amount (prefer amountPaid when available)
+              const amount = tx.amountPaid ?? tx.amount;
+
               return (
                 <tr key={tx._id || idx}>
                   <td>{tx.transactionId}</td>
-                  <td>{tx.userName || "N/A"}</td>
+                  <td>{tx.transactionType}</td>
+                  <td>{sourceOrDescription}</td>
                   <td>{formattedDate}</td>
                   <td>{formattedTime}</td>
                   <td>
-                    {tx.amount} {tx.currency}
+                    {tx.type === "DEBIT" ? "-" : "+"}
+                    {amount} {tx.currency}
                   </td>
                 </tr>
               );
@@ -96,7 +107,7 @@ const TransactionTable = () => {
         </table>
       </div>
 
-      {/* ✅ YOUR PAGINATION COMPONENT HERE */}
+      {/* YOUR PAGINATION COMPONENT HERE */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
