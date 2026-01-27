@@ -42,7 +42,7 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
           setUserRoleAndPermissions({
             role: user.role,
             permissions: user.permissions,
-          })
+          }),
         );
       } catch (error) {
         console.error("Failed to fetch profile data:", error);

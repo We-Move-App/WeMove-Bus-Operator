@@ -15,7 +15,7 @@ const TransactionTable = () => {
     async (page = 1) => {
       try {
         const res = await axiosInstance.get(
-          `/wallet/transactions?entity=busoperator&page=${page}&limit=${transactionsPerPage}`
+          `/wallet/transactions?entity=busoperator&page=${page}&limit=${transactionsPerPage}`,
         );
 
         const payload = res?.data?.data || {};
@@ -32,7 +32,7 @@ const TransactionTable = () => {
         console.error("Fetch error:", error);
       }
     },
-    [transactionsPerPage]
+    [transactionsPerPage],
   );
 
   useEffect(() => {

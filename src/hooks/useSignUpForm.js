@@ -78,9 +78,8 @@ const useSignUpForm = (initialValues, setSnackbar) => {
 
   const setAuthToken = (token) => {
     if (token) {
-      axiosInstance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${token}`;
+      axiosInstance.defaults.headers.common["Authorization"] =
+        `Bearer ${token}`;
     } else {
       delete axiosInstance.defaults.headers.common["Authorization"];
     }
@@ -123,7 +122,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     try {
       const response = await axiosInstance.post(
         "/bus-management/auth/register",
-        payload
+        payload,
       );
 
       const { success, data } = response.data;
@@ -310,7 +309,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
         return;
       }
 
-      if (field === "mobile" && !/^\d{10}$/.test(value)) {
+      if (field === "mobile" && !/^\d{9}$/.test(value)) {
         setErrors((prevErrors) => ({
           ...prevErrors,
           mobile: "Invalid mobile number.",
@@ -336,7 +335,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
 
         const response = await axiosInstance.post(
           "/verification/send-otp-email-phone",
-          payload
+          payload,
         );
 
         if (response.status === 200 && response.data.success) {

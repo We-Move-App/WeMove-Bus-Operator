@@ -105,7 +105,6 @@ label {
   width: 100%;
 }
 
-/* Always keep Google Translate dropdown visible and clickable */
 .goog-te-banner-frame.skiptranslate,
 .goog-te-menu-frame.skiptranslate {
   z-index: 2147483647 !important;
@@ -120,12 +119,10 @@ body {
   top: 0 !important;
 }
 
-/* Hide the ugly Google bar at top */
 body > .skiptranslate {
   display: none !important;
 }
 
-/* Make translate dropdown look cleaner */
 #google_translate_element select {
   background: #fff;
   border: 1px solid #ddd;

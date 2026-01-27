@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Globe, ChevronDown, Check } from "lucide-react";
-import GoogleTranslateLoaderSafe from "./GoogleTrnslateLoaderSafe";
+import GoogleTranslateLoaderSafe from "./GoogleTranslateLoaderSafe";
 import styles from "./language-selector.module.css";
 
 const languages = [

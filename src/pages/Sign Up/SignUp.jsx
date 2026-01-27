@@ -49,7 +49,7 @@ const SignUp = () => {
       confirmPassword: "",
       branch: "",
     },
-    setSnackbar
+    setSnackbar,
   );
 
   return (
