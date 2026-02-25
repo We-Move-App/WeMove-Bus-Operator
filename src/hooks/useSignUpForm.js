@@ -38,7 +38,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     if (!formData.mobile.trim()) {
       newErrors.mobile = "Mobile number is required.";
       isValid = false;
-    } else if (!/^\d{10}$/.test(formData.mobile)) {
+    } else if (!/^\d{9}$/.test(formData.mobile)) {
       newErrors.mobile = "Invalid mobile number.";
       isValid = false;
     }
