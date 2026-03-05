@@ -19,7 +19,13 @@ const CustomBtn = ({
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: positionStyles[position] }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: positionStyles[position],
+        flexShrink: 0,
+      }}
+    >
       <button
         className={`${styles.button} ${className}`}
         onClick={onClick}

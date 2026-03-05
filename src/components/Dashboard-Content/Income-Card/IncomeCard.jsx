@@ -8,11 +8,11 @@ const IncomeCard = () => {
     const fetchIncomeData = async () => {
       try {
         const response = await axiosInstance.get(
-          "/wallet/analytics?entity=busoperator&filter=daily"
+          "/wallet/analytics?entity=busoperator&filter=daily",
         );
         console.log(
           "💰 Income API Response:",
-          response.data.data.analytics[0].incoming
+          response.data.data.analytics[0].incoming,
         );
 
         const income = response.data?.data?.analytics?.[0]?.profit;
@@ -27,6 +27,7 @@ const IncomeCard = () => {
   }, []);
   return (
     <div className={styles.incomeCardContainer}>
+      <span className={styles.todayBadge}>Today</span>
       <h4>Per Day Income</h4>
       <h2>{dailyIncome?.toLocaleString("en-IN")}</h2>
     </div>

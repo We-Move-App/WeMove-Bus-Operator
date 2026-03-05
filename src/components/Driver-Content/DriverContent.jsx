@@ -88,7 +88,7 @@ const DriverContent = () => {
             label="Add New Driver"
             className={styles.addBusBtn}
             showIcon={true}
-            width="264px"
+            // width="264px"
           />
         }
       />

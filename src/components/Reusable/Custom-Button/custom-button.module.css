@@ -17,7 +17,8 @@
   justify-content: center;
   gap: var(--gap-sm);
   padding: 10px 16px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  white-space: normal;
 }
 
 .button:hover {
@@ -28,6 +29,11 @@
 .button .icon {
   flex-shrink: 0;
   font-size: clamp(20px, 2vw, 32px);
+}
+
+.addBusBtn {
+  white-space: nowrap;
+  padding: 10px 16px;
 }
 
 @media (max-width: 768px) {
