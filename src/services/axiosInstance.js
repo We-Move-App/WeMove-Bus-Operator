@@ -29,44 +29,10 @@ export const setAuthToken = (type = "access") => {
   }
 };
 
-// Set token on app start (prioritizing dashboard token)
 if (localStorage.getItem("dashboardAccessToken")) {
   setAuthToken("dashboard");
 } else if (localStorage.getItem("accessToken")) {
   setAuthToken("access");
 }
-
-// Response interceptor
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
-
-//     if (
-//       error.response &&
-//       error.response.status === 401 &&
-//       !originalRequest._retry &&
-//       !originalRequest.url.includes("/auth/login")
-//     ) {
-//       originalRequest._retry = true;
-
-//       const isDashboardToken = axiosInstance.defaults.headers.common[
-//         "Authorization"
-//       ]?.includes(localStorage.getItem("dashboardAccessToken"));
-
-//       if (isDashboardToken) {
-//         localStorage.removeItem("dashboardAccessToken");
-//         localStorage.removeItem("dashboardRefreshToken");
-//         localStorage.removeItem("busFormData");
-//       } else {
-//         localStorage.removeItem("accessToken");
-//       }
-
-//       window.location.href = "/";
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
 
 export default axiosInstance;
