@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setUserRoleAndPermissions } from "../../redux/slices/userSlice";
 import LanguageSelector from "../GoogleTranslate/LanguageSelector";
 import { BadgeCheck } from "lucide-react";
+import { Bell } from "lucide-react";
 
 const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [name, setName] = useState("");
@@ -131,11 +132,25 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
             />
           </div>
         </div>
-        <div
+        {/* <div
           className={styles.notificationBlock}
           onClick={handleNotificationClick}
         >
           <img src={images.bellIcon} alt="bell-icon" />
+        </div> */}
+        <div
+          className={styles.notificationBlock}
+          onClick={handleNotificationClick}
+        >
+          <div className={styles.bellWrapper}>
+            <Bell size={35} color="#FFC107" fill="#FFC107" strokeWidth={1.5} />
+
+            {notifications.length > 0 && (
+              <span className={styles.notificationCount}>
+                {notifications.length > 99 ? "99+" : notifications.length}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Dropdown */}

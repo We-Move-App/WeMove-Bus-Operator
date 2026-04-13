@@ -51,13 +51,21 @@ const UserDetails = () => {
   // Handle input changes
   const handleInputChange = (field) => (e) => {
     let value = e.target.value;
-    value = value.replace(/\D/g, "");
-    if (value.length > 9) value = value.slice(0, 9);
 
-    setFormData({
-      ...formData,
+    // Phone & ID → numbers only
+    if (field === "phoneNumber" || field === "idNumber") {
+      value = value.replace(/\D/g, "").slice(0, 10);
+    }
+
+    // Name → only alphabets + spaces
+    if (field === "fullName") {
+      value = value.replace(/[^a-zA-Z\s]/g, "");
+    }
+
+    setFormData((prev) => ({
+      ...prev,
       [field]: value,
-    });
+    }));
   };
 
   // Handle checkbox changes
@@ -135,7 +143,7 @@ const UserDetails = () => {
     }
 
     const selectedPermissions = Object.keys(permissions).filter(
-      (key) => permissions[key]
+      (key) => permissions[key],
     );
 
     if (selectedPermissions.length === 0) {
@@ -165,6 +173,29 @@ const UserDetails = () => {
       payload.password = formData.password;
     }
 
+    // Name validation
+    const nameRegex = /^[A-Za-z\s]{2,50}$/;
+    if (!nameRegex.test(formData.fullName.trim())) {
+      setSnackbar({
+        open: true,
+        message:
+          "Name should contain only letters and be at least 2 characters.",
+        severity: "error",
+      });
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid email address.",
+        severity: "error",
+      });
+      return;
+    }
+
     console.log("Payload:", payload);
 
     try {
@@ -172,13 +203,13 @@ const UserDetails = () => {
       if (existingUser?._id) {
         response = await axiosInstance.put(
           `/bus-operator/members/${existingUser._id}`,
-          payload
+          payload,
         );
         console.log("User updated successfully:", response.data);
       } else {
         response = await axiosInstance.post(
           "/bus-operator/members/add",
-          payload
+          payload,
         );
         console.log("User added successfully:", response.data);
       }

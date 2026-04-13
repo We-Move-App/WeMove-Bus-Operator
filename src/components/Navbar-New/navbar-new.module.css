@@ -74,7 +74,7 @@
 .navbarRightBlock {
   display: flex;
   align-items: center;
-  gap: clamp(20px, 3vw, 45px);
+  gap: clamp(20px, 3vw, 20px);
   justify-content: center;
 }
 
@@ -204,6 +204,27 @@
   text-align: center;
   padding: 20px;
   font-size: 14px;
+}
+
+.bellWrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.notificationCount {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1;
 }
 
 @media (max-width: 1024px) {
