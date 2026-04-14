@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import styles from "./dropdown-menu.module.css";
+import { useTranslation } from "react-i18next";
 
-const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
+const DropdownMenu = ({ options, Icon, buttonLabel }) => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
   const [menuStyles, setMenuStyles] = useState({});
+  const { t } = useTranslation();
+
+  const label = buttonLabel || t("dropdown.viewList");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,7 +66,7 @@ const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
             className={styles.viewButton}
             onClick={() => setOpen((prev) => !prev)}
           >
-            {buttonLabel}
+            {label}
           </button>
         )}
       </span>
@@ -88,10 +92,10 @@ const DropdownMenu = ({ options, Icon, buttonLabel = "View List" }) => {
                 </React.Fragment>
               ))
             ) : (
-              <div className={styles.noData}>No Data Available</div>
+              <div className={styles.noData}>{t("dropdown.noData")}</div>
             )}
           </div>,
-          document.body
+          document.body,
         )}
     </>
   );

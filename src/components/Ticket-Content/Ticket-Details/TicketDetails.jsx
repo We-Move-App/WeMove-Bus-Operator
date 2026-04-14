@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
 import styles from "./ticket-details.module.css";
-import { BsClock } from "react-icons/bs";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { LiaRupeeSignSolid } from "react-icons/lia";
-import { IoBusOutline } from "react-icons/io5";
 import axiosInstance from "../../../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
+  const { t } = useTranslation();
+
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -23,21 +22,22 @@ const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
       try {
         const res = await axiosInstance.get("/buses/bus-routes/all-routes");
         const fetchedRoutes = res.data.data.routes;
+
         if (fetchedRoutes && fetchedRoutes.length > 0) {
           setRoutes(fetchedRoutes);
         } else {
-          setError("No bus routes available.");
+          setError(t("ticketDetails.noRoutes"));
         }
       } catch (err) {
         console.error("Failed to fetch routes:", err);
-        setError("Unable to load routes. Please make sure you're logged in.");
+        setError(t("ticketDetails.loadError"));
       } finally {
         setLoading(false);
       }
     };
 
     fetchRoutes();
-  }, [routesOverride]);
+  }, [routesOverride, t]);
 
   const parseTime = (timeStr) => {
     const match = timeStr.match(/^(\d{1,2}):(\d{2})$/);
@@ -55,7 +55,8 @@ const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
     const startTotal = parseTime(start);
     const endTotal = parseTime(end);
 
-    if (startTotal === null || endTotal === null) return "Invalid time";
+    if (startTotal === null || endTotal === null)
+      return t("ticketDetails.invalidTime");
 
     let adjustedEnd = endTotal;
     if (isNextDay || endTotal <= startTotal) {
@@ -69,30 +70,8 @@ const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
     return `${hours}h ${minutes}m`;
   };
 
-  useEffect(() => {
-    const fetchRoutes = async () => {
-      try {
-        const res = await axiosInstance.get("/buses/bus-routes/all-routes");
-        const fetchedRoutes = res.data.data.routes;
-
-        if (fetchedRoutes && fetchedRoutes.length > 0) {
-          setRoutes(fetchedRoutes);
-        } else {
-          setError("No bus routes available.");
-        }
-      } catch (err) {
-        console.error("Failed to fetch routes:", err);
-        setError("Unable to load routes. Please make sure you're logged in.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRoutes();
-  }, []);
-
   const filteredRoutes = useMemo(() => {
-    if (!filters) return routes; 
+    if (!filters) return routes;
 
     const { from, to, date } = filters;
 
@@ -111,23 +90,26 @@ const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
     });
   }, [routes, filters]);
 
-  if (loading) return <p className={styles.loading}>Loading bus routes...</p>;
+  if (loading)
+    return <p className={styles.loading}>{t("ticketDetails.loading")}</p>;
+
   if (error) return <p className={styles.error}>{error}</p>;
 
   return (
     <div className={styles.ticketFilterContainer}>
       <div className={styles.busDetailsContainer}>
-        {/* No matching routes */}
         {filteredRoutes.length === 0 && (
           <p style={{ padding: "1rem", color: "#666" }}>
-            No routes found for this search.
+            {t("ticketDetails.noMatch")}
           </p>
         )}
 
         {filteredRoutes.map((route) => {
           const isSelected = selectedRoute?._id === route._id;
+
           return (
             <div
+              key={route._id}
               className={`${styles.busDetailsCard} ${
                 isSelected ? styles.selectedCard : ""
               }`}
@@ -135,13 +117,16 @@ const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
                 setSelectedRoute(route);
                 onRouteSelect(route);
               }}
-              key={route._id}
             >
               <div className={styles.busDetailsLeft}>
-                <div className={styles.busDetailsTitle}>Bus Details</div>
-                <div className={styles.busDetailsName}>
-                  {route?.busId?.busName || "NA"}
+                <div className={styles.busDetailsTitle}>
+                  {t("ticketDetails.busDetails")}
                 </div>
+
+                <div className={styles.busDetailsName}>
+                  {route?.busId?.busName || t("ticketDetails.na")}
+                </div>
+
                 <div className={styles.busDetailsType}>
                   {route.startLocation} → {route.endLocation}
                 </div>
@@ -176,24 +161,28 @@ const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
                 <div className={styles.busDetailSeparator}></div>
 
                 <div className={styles.busDetailsTime}>
-                  <div className={styles.departureTime}>
-                    {route.departureTime}
-                  </div>
+                  <div>{route.departureTime}</div>
                   <div className={styles.timeSeparator}></div>
-                  <div className={styles.arrivalTime}>{route.arrivalTime}</div>
+                  <div>{route.arrivalTime}</div>
                   <div className={styles.lineTime}></div>
-                  <div className={styles.journeyDuration}>
+                  <div>
                     {calculateDuration(route.departureTime, route.arrivalTime)}
                   </div>
                 </div>
               </div>
 
               <div className={styles.busDetailsRight}>
-                <div className={styles.amountLabel}>Amount</div>
+                <div className={styles.amountLabel}>
+                  {t("ticketDetails.amount")}
+                </div>
+
                 <div className={styles.amountValue}>
                   ${route.pricePerSeat ?? "0.00"}
                 </div>
-                <div className={styles.priceLabel}>Price</div>
+
+                <div className={styles.priceLabel}>
+                  {t("ticketDetails.price")}
+                </div>
               </div>
             </div>
           );

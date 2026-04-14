@@ -5,11 +5,13 @@ import Pagination from "../Pagination/Pagination";
 import FormModal from "../Form-Modal/FormModal";
 import StatusToggle from "../Toggle-Button/StatusToggle";
 import DropdownMenu from "../Drop-Down-Menu/DropdownMenu";
+import { useTranslation } from "react-i18next";
 
 const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedLicense, setSelectedLicense] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
 
   const paginatedData = data.slice(
     (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    currentPage * rowsPerPage,
   );
 
   return (
@@ -66,10 +68,10 @@ const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
                             handleOpenModal(row[col.key]);
                           }}
                         >
-                          View
+                          {t("dataTable.view")}
                         </button>
                       ) : (
-                        "N/A"
+                        t("dataTable.na")
                       )
                     ) : col.key === "pickups" || col.key === "drops" ? (
                       Array.isArray(row[col.key]) ? (
@@ -97,11 +99,11 @@ const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
                         className={styles.editButton}
                         onClick={() =>
                           handleNavigate(
-                            `/route-management/edit-route/${row.status.routeId}`
+                            `/route-management/edit-route/${row.status.routeId}`,
                           )
                         }
                       >
-                        Edit
+                        {t("dataTable.edit")}
                       </button>
                     ) : col.key === "action" ? (
                       <button
@@ -110,11 +112,13 @@ const DataTable = ({ columns, data, rowsPerPage = 5 }) => {
                           handleNavigate(
                             `/driver-management/assign-driver/${
                               row[col.key].driverId
-                            }`
+                            }`,
                           )
                         }
                       >
-                        {row.regNumber !== "N/A" ? "Edit" : "Assign"}
+                        {row.regNumber !== "N/A"
+                          ? t("dataTable.edit")
+                          : t("dataTable.assign")}
                       </button>
                     ) : col.key === "DriverId" &&
                       typeof row[col.key] === "object" ? (

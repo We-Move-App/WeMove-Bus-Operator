@@ -4,52 +4,62 @@ import { Chart as ChartJs, registerables } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import axiosInstance from "../../../services/axiosInstance";
 import Dropdown from "../../Reusable/Dropdown/Dropdown";
+import { useTranslation } from "react-i18next";
 
 ChartJs.register(...registerables);
 
 const CustomBarChart = () => {
+  const { t, i18n } = useTranslation();
+
   const [timePeriod, setTimePeriod] = useState("weekly");
   const [monthlyData, setMonthlyData] = useState([]);
   const [yearlyData, setYearlyData] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
 
+  const formatLabel = (type, value) => {
+    if (type === "month") {
+      return t(`dashboard.months.${value}`, value);
+    }
+    if (type === "week") {
+      return t(`dashboard.weeks.${value}`, value);
+    }
+    return value;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Monthly
         const monthlyRes = await axiosInstance.get(
-          "/wallet/analytics?entity=busoperator&filter=monthly"
+          "/wallet/analytics?entity=busoperator&filter=monthly",
         );
-        const monthlyAnalytics = monthlyRes.data.data.analytics;
+
         setMonthlyData(
-          monthlyAnalytics.map((item) => ({
+          monthlyRes.data.data.analytics.map((item) => ({
             label: item.month,
             value: item.profit,
-          }))
+          })),
         );
 
-        // Yearly
         const yearlyRes = await axiosInstance.get(
-          "/wallet/analytics?entity=busoperator&filter=yearly"
+          "/wallet/analytics?entity=busoperator&filter=yearly",
         );
-        const yearlyAnalytics = yearlyRes.data.data.analytics;
+
         setYearlyData(
-          yearlyAnalytics.map((item) => ({
+          yearlyRes.data.data.analytics.map((item) => ({
             label: item.year.toString(),
             value: item.profit,
-          }))
+          })),
         );
 
-        // Weekly
         const weeklyRes = await axiosInstance.get(
-          "/wallet/analytics?entity=busoperator&filter=weekly"
+          "/wallet/analytics?entity=busoperator&filter=weekly",
         );
-        const weeklyAnalytics = weeklyRes.data.data.analytics;
+
         setWeeklyData(
-          weeklyAnalytics.map((item) => ({
+          weeklyRes.data.data.analytics.map((item) => ({
             label: item.week,
             value: item.profit,
-          }))
+          })),
         );
       } catch (error) {
         console.error("Error fetching analytics data", error);
@@ -58,11 +68,12 @@ const CustomBarChart = () => {
 
     fetchData();
   }, []);
-  const generateChartData = (data) => ({
-    labels: data.map((d) => d.label),
+
+  const generateChartData = (data, type) => ({
+    labels: data.map((d) => formatLabel(type, d.label)),
     datasets: [
       {
-        label: "Incoming",
+        label: t("dashboard.barChart.incoming"),
         data: data.map((d) => d.value),
         backgroundColor: [
           "#FF6F61C2",
@@ -85,37 +96,46 @@ const CustomBarChart = () => {
   });
 
   let chartData = {};
+
   switch (timePeriod) {
     case "monthly":
-      chartData = generateChartData(monthlyData);
+      chartData = generateChartData(monthlyData, "month");
       break;
     case "yearly":
       chartData = generateChartData(yearlyData);
       break;
     case "weekly":
-      chartData = generateChartData(weeklyData);
-      break;
     default:
-      chartData = generateChartData(weeklyData);
+      chartData = generateChartData(weeklyData, "week");
   }
 
   return (
     <div className={styles.customBarChartContainer}>
       <div className={styles.header}>
         <Dropdown
-          heading="Income Analytics"
+          heading={t("dashboard.barChart.heading")}
           value={timePeriod}
           onChange={(e) => setTimePeriod(e.target.value)}
           options={[
-            { label: "Weekly", value: "weekly" },
-            { label: "Monthly", value: "monthly" },
-            { label: "Yearly", value: "yearly" },
+            {
+              label: t("dashboard.barChart.weekly"),
+              value: "weekly",
+            },
+            {
+              label: t("dashboard.barChart.monthly"),
+              value: "monthly",
+            },
+            {
+              label: t("dashboard.barChart.yearly"),
+              value: "yearly",
+            },
           ]}
         />
       </div>
 
       <div className={styles.barGraph}>
         <Bar
+          key={i18n.language}
           data={chartData}
           options={{
             responsive: true,
@@ -127,7 +147,10 @@ const CustomBarChart = () => {
               y: {
                 beginAtZero: true,
                 ticks: {
-                  callback: (value) => (value === 0 ? "0" : value / 1000 + "K"),
+                  callback: (value) =>
+                    new Intl.NumberFormat(i18n.language, {
+                      notation: "compact",
+                    }).format(value),
                 },
                 grid: { display: false },
               },

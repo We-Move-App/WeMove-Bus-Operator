@@ -4,8 +4,10 @@ import { RxCounterClockwiseClock } from "react-icons/rx";
 import { FaPlus } from "react-icons/fa";
 import styles from "./pickup-drop-locations.module.css";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTranslation } from "react-i18next";
 
 const PickupDropLocations = ({ routeId, stoppages, setStoppages }) => {
+  const { t } = useTranslation();
   useEffect(() => {
     if (!stoppages[routeId]) {
       setStoppages((prev) => ({
@@ -48,7 +50,7 @@ const PickupDropLocations = ({ routeId, stoppages, setStoppages }) => {
   const handleInputChange = (type, index, field, value) => {
     setStoppages((prev) => {
       const updated = prev[routeId][type].map((stop, i) =>
-        i === index ? { ...stop, [field]: value } : stop
+        i === index ? { ...stop, [field]: value } : stop,
       );
       return {
         ...prev,
@@ -67,30 +69,133 @@ const PickupDropLocations = ({ routeId, stoppages, setStoppages }) => {
     });
   };
 
-  const renderStops = (stops, type, color) =>
+  // const renderStops = (stops, type, color) =>
+  //   stops.map((stop, index) => (
+  //     <div key={stop.id} className={styles.stoppageBlock}>
+  //       <div className={styles.stoppageHeader}>
+  //         <button
+  //           className={styles.deleteButton}
+  //           onClick={() => handleDeleteStop(type, index)}
+  //           title="Delete Stop"
+  //         >
+  //           <DeleteIcon style={{ color: "red" }} />
+  //         </button>
+  //       </div>
+  //       <div className={styles.routeFlexContainer}>
+  //         <div className={styles.routeFrom}>
+  //           <div className={styles.routeImgBlock}>
+  //             <img src={images.routeImg} alt="" />
+  //           </div>
+  //           <div className={styles.content}>
+  //             <input
+  //               className={
+  //                 type === "pickup" ? styles.pickupTitle : styles.dropTitle
+  //               }
+  //               type="text"
+  //               placeholder="Enter City"
+  //               value={stop.name}
+  //               onChange={(e) =>
+  //                 handleInputChange(type, index, "name", e.target.value)
+  //               }
+  //             />
+  //           </div>
+  //         </div>
+  //         <span className={styles.line}></span>
+  //         <div className={styles.routeTime}>
+  //           <div className={styles.routeImgBlock}>
+  //             <RxCounterClockwiseClock size={24} />
+  //           </div>
+  //           <div className={styles.contentBlock}>
+  //             <h4 className={styles.time}>Time</h4>
+  //             <div className={styles.timePicker}>
+  //               <input
+  //                 className={styles.clock}
+  //                 type="time"
+  //                 value={stop.time}
+  //                 onChange={(e) =>
+  //                   handleInputChange(type, index, "time", e.target.value)
+  //                 }
+  //               />
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   ));
+
+  // return (
+  //   <div className={styles.pickupDropContent}>
+  //     <h3>Route</h3>
+  //     <div className={styles.routeContainer}>
+  //       {/* Pickup Points */}
+  //       <div className={styles.pickUpBlock}>
+  //         <h4>Pick Up Points</h4>
+  //         <div className={styles.routesStoppage}>
+  //           <div className={styles.stoppageContainer}>
+  //             {renderStops(pickupPoints, "pickup", "#2D6A4F")}
+  //             <button
+  //               className={styles.addStopButton}
+  //               style={{
+  //                 color: "#2D6A4F",
+  //                 border: "1px solid #2D6A4F",
+  //               }}
+  //               onClick={() => handleAddStop("pickup")}
+  //             >
+  //               <FaPlus size={20} />
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+
+  //       {/* Drop Points */}
+  //       <div className={styles.pickUpBlock}>
+  //         <h4>Drop Points</h4>
+  //         <div className={styles.routesStoppage}>
+  //           <div className={styles.stoppageContainer}>
+  //             {renderStops(dropPoints, "drop", "#FDB637")}
+  //             <button
+  //               className={styles.addStopButton}
+  //               style={{
+  //                 color: "#FDB637",
+  //                 border: "1px solid #FDB637",
+  //               }}
+  //               onClick={() => handleAddStop("drop")}
+  //             >
+  //               <FaPlus size={20} />
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+  const renderStops = (stops, type) =>
     stops.map((stop, index) => (
       <div key={stop.id} className={styles.stoppageBlock}>
         <div className={styles.stoppageHeader}>
           <button
             className={styles.deleteButton}
             onClick={() => handleDeleteStop(type, index)}
-            title="Delete Stop"
+            title={t("busPickupDrop.deleteStop")}
           >
             <DeleteIcon style={{ color: "red" }} />
           </button>
         </div>
+
         <div className={styles.routeFlexContainer}>
           <div className={styles.routeFrom}>
             <div className={styles.routeImgBlock}>
               <img src={images.routeImg} alt="" />
             </div>
+
             <div className={styles.content}>
               <input
                 className={
                   type === "pickup" ? styles.pickupTitle : styles.dropTitle
                 }
                 type="text"
-                placeholder="Enter City"
+                placeholder={t("busPickupDrop.enterCity")}
                 value={stop.name}
                 onChange={(e) =>
                   handleInputChange(type, index, "name", e.target.value)
@@ -98,13 +203,17 @@ const PickupDropLocations = ({ routeId, stoppages, setStoppages }) => {
               />
             </div>
           </div>
+
           <span className={styles.line}></span>
+
           <div className={styles.routeTime}>
             <div className={styles.routeImgBlock}>
               <RxCounterClockwiseClock size={24} />
             </div>
+
             <div className={styles.contentBlock}>
-              <h4 className={styles.time}>Time</h4>
+              <h4 className={styles.time}>{t("busPickupDrop.time")}</h4>
+
               <div className={styles.timePicker}>
                 <input
                   className={styles.clock}
@@ -123,14 +232,17 @@ const PickupDropLocations = ({ routeId, stoppages, setStoppages }) => {
 
   return (
     <div className={styles.pickupDropContent}>
-      <h3>Route</h3>
+      <h3>{t("busPickupDrop.route")}</h3>
+
       <div className={styles.routeContainer}>
-        {/* Pickup Points */}
+        {/* Pickup */}
         <div className={styles.pickUpBlock}>
-          <h4>Pick Up Points</h4>
+          <h4>{t("busPickupDrop.pickupPoints")}</h4>
+
           <div className={styles.routesStoppage}>
             <div className={styles.stoppageContainer}>
-              {renderStops(pickupPoints, "pickup", "#2D6A4F")}
+              {renderStops(pickupPoints, "pickup")}
+
               <button
                 className={styles.addStopButton}
                 style={{
@@ -145,12 +257,14 @@ const PickupDropLocations = ({ routeId, stoppages, setStoppages }) => {
           </div>
         </div>
 
-        {/* Drop Points */}
+        {/* Drop */}
         <div className={styles.pickUpBlock}>
-          <h4>Drop Points</h4>
+          <h4>{t("busPickupDrop.dropPoints")}</h4>
+
           <div className={styles.routesStoppage}>
             <div className={styles.stoppageContainer}>
-              {renderStops(dropPoints, "drop", "#FDB637")}
+              {renderStops(dropPoints, "drop")}
+
               <button
                 className={styles.addStopButton}
                 style={{

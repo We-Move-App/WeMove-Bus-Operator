@@ -10,6 +10,7 @@ import useFetch from "../../../../hooks/useFetch";
 import { setBusData } from "../../../../redux/slices/busSlice";
 import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
+import { useTranslation } from "react-i18next";
 
 const Step2 = ({ onSubmit, onPrevious, step }) => {
   const topRef = useRef(null);
@@ -18,6 +19,7 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
   const [totalSeats, setTotalSeats] = useState("");
   const [stoppages, setStoppages] = useState({});
   const formData = useSelector((state) => state.bus.formData);
+  const { t } = useTranslation();
   const [routes, setRoutes] = useState([
     {
       id: 1,
@@ -62,27 +64,42 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
   const handleSave = async () => {
     try {
       if (totalSeats <= 0) {
-        showSnackbar(
-          "Please enter a valid number of total seats before saving.",
-          "error"
-        );
+        showSnackbar(t("busStep2.validation.invalidSeats"), "error");
         return;
       }
       for (const [i, route] of routes.entries()) {
         if (!route.from.trim()) {
-          showSnackbar(`Route ${i + 1}: "From" location is required.`, "error");
+          showSnackbar(
+            t("busStep2.validation.fromRequired").replace("{{index}}", i + 1),
+            "error",
+          );
           return;
         }
         if (!route.to.trim()) {
-          showSnackbar(`Route ${i + 1}: "To" location is required.`, "error");
+          showSnackbar(
+            t("busStep2.validation.toRequired").replace("{{index}}", i + 1),
+            "error",
+          );
           return;
         }
         if (!route.departureTime) {
-          showSnackbar(`Route ${i + 1}: Departure time is required.`, "error");
+          showSnackbar(
+            t("busStep2.validation.departureRequired").replace(
+              "{{index}}",
+              i + 1,
+            ),
+            "error",
+          );
           return;
         }
         if (!route.arrivalTime) {
-          showSnackbar(`Route ${i + 1}: Arrival time is required.`, "error");
+          showSnackbar(
+            t("busStep2.validation.arrivalRequired").replace(
+              "{{index}}",
+              i + 1,
+            ),
+            "error",
+          );
           return;
         }
         if (
@@ -91,15 +108,15 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
           isNaN(route.price)
         ) {
           showSnackbar(
-            `Route ${i + 1}: Price must be a valid number.`,
-            "error"
+            t("busStep2.validation.invalidPrice").replace("{{index}}", i + 1),
+            "error",
           );
           return;
         }
         if (route.price <= 0) {
           showSnackbar(
-            `Route ${i + 1}: Price must be greater than 0.`,
-            "error"
+            t("busStep2.validation.pricePositive").replace("{{index}}", i + 1),
+            "error",
           );
           return;
         }
@@ -109,21 +126,27 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
         const stops = stoppages[route.id];
 
         if (!stops) {
-          showSnackbar(`Missing stoppage data for route ${i + 1}.`, "error");
+          showSnackbar(
+            t("busStep2.validation.missingStops").replace("{{index}}", i + 1),
+            "error",
+          );
           return;
         }
 
         const pickupIncomplete = stops.pickup.some(
-          (stop) => !stop.name.trim() || !stop.time.trim()
+          (stop) => !stop.name.trim() || !stop.time.trim(),
         );
         const dropIncomplete = stops.drop.some(
-          (stop) => !stop.name.trim() || !stop.time.trim()
+          (stop) => !stop.name.trim() || !stop.time.trim(),
         );
 
         if (pickupIncomplete || dropIncomplete) {
           showSnackbar(
-            `Please fill all pickup and drop fields in route ${i + 1}.`,
-            "error"
+            t("busStep2.validation.incompleteStops").replace(
+              "{{index}}",
+              i + 1,
+            ),
+            "error",
           );
           return;
         }
@@ -150,7 +173,7 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
       // Handle busLicenseFront as a File
       if (formData.busLicenseFront?.previewURL) {
         const blob = await fetch(formData.busLicenseFront.previewURL).then(
-          (r) => r.blob()
+          (r) => r.blob(),
         );
         const file = new File([blob], "bus-license.jpg", { type: blob.type });
         formDataToSend.append("bus_license_front", file);
@@ -174,11 +197,11 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
         "/bus-operator/buses/add",
         "POST",
         formDataToSend,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
 
       if (!response.success || !response.data?.newBus?._id) {
-        showSnackbar("Failed to create bus. Please try again.", "error");
+        showSnackbar(t("busStep2.api.createBusFail"), "error");
         return;
       }
 
@@ -186,10 +209,7 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
 
       // STEP 2: Prepare route data
       if (!busId) {
-        showSnackbar(
-          "Bus ID is missing. Please go back and re-enter bus details.",
-          "error"
-        );
+        showSnackbar(t("busStep2.api.missingBusId"), "error");
         return;
       }
 
@@ -223,7 +243,7 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
         const seatRes = await fetchData(
           `buses/seat-layout/${busId}`,
           "POST",
-          seatLayoutPayload
+          seatLayoutPayload,
         );
 
         if (seatRes.success) {
@@ -233,12 +253,9 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
               _id: busId,
               routes: allRoutesData,
               noOfSeats: totalSeats,
-            })
+            }),
           );
-          showSnackbar(
-            "Bus routes and seat layout updated successfully!",
-            "success"
-          );
+          showSnackbar(t("busStep2.api.routeSuccess"), "success");
           onSubmit({
             ...formData,
             _id: busId,
@@ -246,14 +263,16 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
             noOfSeats: totalSeats,
           });
         } else {
-          showSnackbar("Bus routes saved, but seat layout failed!", "warning");
+          showSnackbar(t("busStep2.api.seatLayoutFail"), "warning");
         }
       } else {
-        showSnackbar("No routes data returned from API", "error");
+        showSnackbar(t("busStep2.api.noRoutes"), "error");
       }
     } catch (err) {
       const errorMsg =
-        err?.response?.data?.message || err?.message || "Something went wrong!";
+        err?.response?.data?.message ||
+        err?.message ||
+        t("busStep2.api.genericError");
       showSnackbar(errorMsg, "error");
     }
   };
@@ -266,12 +285,12 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
         handleClose={handleSnackbarClose}
       />
       <ContentHeading
-        heading="Bus Management"
+        heading={t("busStep2.heading")}
         belowHeadingComponent={<ProgressBar step={step} />}
         showSubHeading={true}
         subHeading={
           <div className={styles.seatCounterContainer}>
-            <span className={styles.label}>Total Seat Number:</span>
+            <span className={styles.label}>{t("busStep2.totalSeats")}:</span>
             <div className={styles.counter}>
               <button
                 onClick={() => setTotalSeats((prev) => Math.max(1, prev - 1))}
@@ -305,7 +324,7 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
           </div>
         }
         showBreadcrumbs={true}
-        breadcrumbs="Add Bus Details"
+        breadcrumbs={t("busStep2.breadcrumbs")}
       />
 
       {/* Pass routes and setRoutes to BusRoutes */}
@@ -320,14 +339,14 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
       <div className={styles.buttonContainer}>
         <CustomBtn
           onClick={onPrevious}
-          label="Previous"
+          label={t("busStep2.previous")}
           className={styles.prevBtn}
           width="160px"
         />
         <CustomBtn
           className={styles.saveBtn}
           onClick={handleSave}
-          label="Save"
+          label={t("busStep2.save")}
           width="160px"
         />
       </div>

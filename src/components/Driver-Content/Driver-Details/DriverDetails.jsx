@@ -11,13 +11,15 @@ import DriverLicense from "../Driver-License-Upload/DriverLicense";
 import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const DriverDetails = () => {
+  const { t } = useTranslation();
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const navigate = useNavigate();
-  const { fetchData, loading, error } = useFetch();
+  const { fetchData } = useFetch();
   const [image, setImage] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     busRegNumber: "",
@@ -25,6 +27,7 @@ const DriverDetails = () => {
     driverLicenseFront: null,
     avatar: null,
   });
+
   const [buses, setBuses] = useState([]);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -39,7 +42,6 @@ const DriverDetails = () => {
   useEffect(() => {
     const fetchBuses = async () => {
       const response = await fetchData("/bus-operator/buses/my-buses");
-      console.log("Fetched Buses:", response);
 
       if (response?.data?.buses && Array.isArray(response.data.buses)) {
         setBuses(response.data.buses);
@@ -52,28 +54,28 @@ const DriverDetails = () => {
   }, [fetchData]);
 
   const dispatch = useDispatch();
+
   const handleSave = async () => {
     if (
       !formData.fullName ||
-      // !formData.busRegNumber ||
       !formData.phoneNumber ||
       !formData.avatar ||
       !formData.driverLicenseFront
     ) {
       setSnackbar({
         open: true,
-        message: "Please fill in all fields before saving.",
+        message: t("driverDetails.validation"),
         severity: "warning",
       });
       return;
     }
 
     const token = localStorage.getItem("dashboardAccessToken");
-    console.log(token);
+
     if (!token) {
       setSnackbar({
         open: true,
-        message: "Please fill in all fields before saving.",
+        message: t("driverDetails.validation"),
         severity: "warning",
       });
       return;
@@ -81,35 +83,26 @@ const DriverDetails = () => {
 
     const formDataToSend = new FormData();
     formDataToSend.append("fullName", formData.fullName);
-    // formDataToSend.append("busRegNumber", formData.busRegNumber);
     formDataToSend.append("phoneNumber", formData.phoneNumber);
     formDataToSend.append("driver_license_front", formData.driverLicenseFront);
     formDataToSend.append("avatar", formData.avatar);
 
-    console.log("FormData before sending:");
-    for (let [key, value] of formDataToSend.entries()) {
-      console.log(`${key}:`, value);
-    }
     try {
-      const response = await axiosInstance.post(
-        "/buses/drivers",
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setUploadProgress(percentCompleted);
-          },
-        }
-      );
+      await axiosInstance.post("/buses/drivers", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
+          setUploadProgress(percentCompleted);
+        },
+      });
 
       setSnackbar({
         open: true,
-        message: "Driver added successfully!",
+        message: t("driverDetails.success"),
         severity: "success",
       });
 
@@ -117,12 +110,9 @@ const DriverDetails = () => {
         navigate("/driver-management");
       }, 1000);
     } catch (error) {
-      console.error("❌ Error adding driver:", error);
       setSnackbar({
         open: true,
-        message:
-          error.response?.data?.message ||
-          "Something went wrong. Please try again.",
+        message: error.response?.data?.message || t("driverDetails.error"),
         severity: "error",
       });
     }
@@ -144,15 +134,17 @@ const DriverDetails = () => {
   return (
     <>
       <ContentHeading
-        heading="Driver Management"
+        heading={t("driverDetails.heading")}
         showSubHeading={true}
         showBreadcrumbs={true}
-        breadcrumbs="Add New Driver"
+        breadcrumbs={t("driverDetails.breadcrumbs")}
       />
+
       <div className={styles.addDriverContainer}>
         <div className={styles.addDriverLeft}>
           <div className={styles.firstBlock}>
-            <h3>Picture</h3>
+            <h3>{t("driverDetails.picture")}</h3>
+
             <div className={styles.imageDriver}>
               {image ? (
                 <img
@@ -165,6 +157,7 @@ const DriverDetails = () => {
                   <AiOutlinePlus color="#008533" size={30} />
                 </label>
               )}
+
               <input
                 id="file-upload"
                 type="file"
@@ -174,43 +167,23 @@ const DriverDetails = () => {
               />
             </div>
           </div>
+
           <div className={styles.secondBlock}>
             <div className={styles.inputBlock}>
-              <h3>Driver Name</h3>
+              <h3>{t("driverDetails.driverName")}</h3>
               <input
                 type="text"
-                name="fullName"
                 value={formData.fullName}
                 onChange={(e) =>
                   setFormData({ ...formData, fullName: e.target.value })
                 }
               />
             </div>
-            {/* <div className={`${styles.inputBlock} ${styles.inputNumber}`}>
-              <h3>Bus Registration Number</h3>
-              <select
-                name="busRegNumber"
-                value={formData.busRegNumber}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    busRegNumber: e.target.value,
-                  })
-                }
-              >
-                <option value="">Select a Bus</option>
-                {buses.map((bus) => (
-                  <option key={bus._id} value={bus.busRegNumber}>
-                    {bus.busRegNumber}{" "}
-                  </option>
-                ))}
-              </select>
-            </div> */}
+
             <div className={styles.inputBlock}>
-              <h3>Mobile Number</h3>
+              <h3>{t("driverDetails.mobileNumber")}</h3>
               <input
                 type="text"
-                name="phoneNumber"
                 value={formData.phoneNumber}
                 maxLength={9}
                 onChange={(e) => {
@@ -219,26 +192,27 @@ const DriverDetails = () => {
                     setFormData({ ...formData, phoneNumber: value });
                   }
                 }}
-                pattern="\d{9}"
-                placeholder="Enter 9-digit number"
+                placeholder={t("driverDetails.phonePlaceholder")}
               />
             </div>
           </div>
         </div>
+
         <div className={styles.addDriverLicense}>
           <DriverLicense
             formData={formData}
             setFormData={setFormData}
-            title="Add Driver License"
-            uploadText="Upload your files"
+            title={t("driverDetails.licenseTitle")}
+            uploadText={t("driverDetails.upload")}
             height="253px"
             fieldKey="driverLicenseFront"
             uploadProgress={uploadProgress}
             setUploadProgress={setUploadProgress}
           />
+
           <div className={styles.alertMsgBox}>
             <CustomBtn
-              label="Save"
+              label={t("driverDetails.save")}
               width="160px"
               onClick={handleSave}
               disabled={
@@ -253,7 +227,7 @@ const DriverDetails = () => {
           </div>
         </div>
       </div>
-      {/* {showAlert && <AlertBox />} */}
+
       <SnackbarNotification
         snackbar={snackbar}
         handleClose={handleSnackbarClose}

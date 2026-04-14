@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./transaction-table.module.css";
-import images from "../../../../assets/image";
 import axiosInstance from "../../../../services/axiosInstance";
 import Pagination from "../../../Reusable/Pagination/Pagination";
+import { useTranslation } from "react-i18next";
 
 const TransactionTable = () => {
+  const { t, i18n } = useTranslation();
+
   const [transactions, setTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalTransactions, setTotalTransactions] = useState(0);
+
   const transactionsPerPage = 10;
 
   const fetchTransactions = useCallback(
@@ -42,51 +45,37 @@ const TransactionTable = () => {
   return (
     <div className={styles.transactionContainer}>
       <div className={styles.mainHeading}>
-        <h5>Transaction History</h5>
-
-        {/* <div className={styles.searchFilterContainer}>
-          <div className={styles.inputWrapper}>
-            <input
-              type="search"
-              placeholder="Search"
-              className={styles.searchInput}
-            />
-            <div className={styles.searchIcon}>
-              <span className={styles.line}></span>
-              <img src={images.searchIcon} alt="search-icon" />
-            </div>
-          </div>
-        </div> */}
+        <h5>{t("transaction.heading")}</h5>
       </div>
 
       <div className={styles.transactionTableWrapper}>
         <table className={styles.transactionTable}>
           <thead>
             <tr>
-              <th>Transaction ID</th>
-              <th>Transaction Type</th>
-              <th>Source / Description</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Amount</th>
+              <th>{t("transaction.columns.id")}</th>
+              <th>{t("transaction.columns.type")}</th>
+              <th>{t("transaction.columns.source")}</th>
+              <th>{t("transaction.columns.date")}</th>
+              <th>{t("transaction.columns.time")}</th>
+              <th>{t("transaction.columns.amount")}</th>
             </tr>
           </thead>
+
           <tbody>
             {transactions.map((tx, idx) => {
               const createdAt = new Date(tx.createdAt);
 
-              const formattedDate = createdAt.toLocaleDateString();
+              const formattedDate = createdAt.toLocaleDateString(i18n.language);
+
               const formattedTime = createdAt.toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               });
 
-              // Source / Description column
               const sourceOrDescription = tx.withdraw
-                ? "Wallet Withdrawal"
-                : tx.meta?.from?.name || tx.description || "N/A";
+                ? t("transaction.walletWithdrawal")
+                : tx.meta?.from?.name || tx.description || t("transaction.na");
 
-              // Amount (prefer amountPaid when available)
               const amount = tx.amountPaid ?? tx.amount;
 
               return (
@@ -107,7 +96,6 @@ const TransactionTable = () => {
         </table>
       </div>
 
-      {/* YOUR PAGINATION COMPONENT HERE */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

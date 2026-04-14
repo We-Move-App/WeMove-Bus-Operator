@@ -11,6 +11,7 @@ import { FadeLoader } from "react-spinners";
 import { jwtDecode } from "jwt-decode";
 import { Skeleton } from "@mui/material";
 import { BadgeCheck } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -30,6 +31,7 @@ const Profile = () => {
     message: "",
     severity: "success",
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     const savedToken = localStorage.getItem("dashboardAccessToken");
@@ -131,7 +133,7 @@ const Profile = () => {
             headers: {
               "Content-Type": "multipart/form-data",
             },
-          }
+          },
         );
       }
 
@@ -237,7 +239,10 @@ const Profile = () => {
 
   return (
     <div>
-      <ContentHeading heading="Profile" showSubHeading={false} />
+      <ContentHeading
+        heading={t("busProfile.heading")}
+        showSubHeading={false}
+      />
       <section className={styles.profileContainer}>
         <div className={styles.profileHalves}>
           {/* Left Half - User Details */}
@@ -247,35 +252,35 @@ const Profile = () => {
             </div>
             <div className={styles.userDetails}>
               <div className={styles.title}>
-                <h3>Personal Details</h3>
+                <h3>{t("busProfile.personalDetails")}</h3>
               </div>
               <div className={styles.contentBlock}>
                 <div className={styles.name}>
-                  <h4>{user?.fullName || "Loading..."}</h4>
+                  <h4>{user?.fullName || t("profile.loading")}</h4>
                   {user?.batchVerified && (
                     <BadgeCheck size={18} color="#4CAF50" title="Verified" />
                   )}
                 </div>
 
                 <div className={styles.num}>
-                  <h4>{user?.phoneNumber || "Loading..."}</h4>
+                  <h4>{user?.phoneNumber || t("profile.loading")}</h4>
                 </div>
                 <div className={styles.emailDetails}>
-                  <h4>{user?.email || "Loading..."}</h4>
+                  <h4>{user?.email || t("profile.loading")}</h4>
                 </div>
               </div>
             </div>
 
             <div className={styles.userDetails}>
               <div className={styles.title}>
-                <h3>Company Details</h3>
+                <h3>{t("busProfile.companyDetails")}</h3>
               </div>
               <div className={styles.contentBlock}>
                 <div className={styles.name}>
-                  <h4>{user?.companyName || "Loading..."}</h4>
+                  <h4>{user?.companyName || t("profile.loading")}</h4>
                 </div>
                 <div className={styles.emailDetails}>
-                  <h4>{user?.companyAddress || "Loading..."}</h4>
+                  <h4>{user?.companyAddress || t("profile.loading")}</h4>
                 </div>
               </div>
             </div>
@@ -287,29 +292,29 @@ const Profile = () => {
               {/* <h3>{bankFetchFailed ? "Add Bank" : "Saved Bank"}</h3> */}
               <h3>
                 {bankFetchFailed
-                  ? "Add Bank"
+                  ? t("busProfile.bank.add")
                   : isEditing
-                  ? "Edit Bank"
-                  : "Saved Bank"}
+                    ? t("busProfile.bank.edit")
+                    : t("busProfile.bank.saved")}
               </h3>
             </div>
             <div className={styles.inputFieldsContainer}>
               <InputField
-                label="Bank Name"
+                label={t("busProfile.bank.bankName")}
                 name="bankName"
                 value={formData.bankName}
                 onChange={handleChange}
                 disabled={!isEditing}
               />
               <InputField
-                label="Bank Account Number"
+                label={t("busProfile.bank.accountNumber")}
                 name="accountNumber"
                 value={formData.accountNumber}
                 onChange={handleChange}
                 disabled={!isEditing}
               />
               <InputField
-                label="Account Holder Name"
+                label={t("busProfile.bank.accountHolder")}
                 name="accountHolderName"
                 value={formData.accountHolderName}
                 onChange={handleChange}
@@ -317,7 +322,7 @@ const Profile = () => {
               />
               <UploadFile
                 id="bankDocsUpload"
-                label="Bank Account Details"
+                label={t("busProfile.bank.upload")}
                 className="customUpload"
                 wrapperClassName="uploadWrapperStyle1"
                 onChange={handleFileChange}
@@ -325,7 +330,7 @@ const Profile = () => {
                 fileName={
                   bank?.bankDocs?.fileName ||
                   formData.bankDocs?.name ||
-                  "No file uploaded"
+                  t("busProfile.bank.noFile")
                 }
                 url={bank?.bankDocs?.url || ""}
               />
@@ -334,7 +339,13 @@ const Profile = () => {
             {/* Button aligned with rightHalf */}
             <div className={styles.btnContainer}>
               <CustomBtn
-                label={bankFetchFailed ? "Save" : isEditing ? "Update" : "Edit"}
+                label={
+                  bankFetchFailed
+                    ? t("busProfile.bank.add")
+                    : isEditing
+                      ? t("busProfile.update")
+                      : t("busProfile.edit")
+                }
                 onClick={isEditing ? handleUpdate : () => setIsEditing(true)}
               />
             </div>

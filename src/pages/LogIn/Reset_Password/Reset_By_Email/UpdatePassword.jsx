@@ -8,10 +8,11 @@ import { Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axiosInstance from "../../../../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
@@ -59,11 +60,16 @@ const UpdatePassword = () => {
     const { password, confirmPassword } = formData;
     const newErrors = {};
 
-    if (!password) newErrors.password = "Password is required";
+    if (!password)
+      newErrors.password = t("auth.update.validation.passwordRequired");
     if (!confirmPassword)
-      newErrors.confirmPassword = "Please confirm your password";
+      newErrors.confirmPassword = t(
+        "auth.update.validation.confirmPasswordRequired",
+      );
     if (password && confirmPassword && password !== confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = t(
+        "auth.update.validation.passwordsDoNotMatch",
+      );
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -71,7 +77,7 @@ const UpdatePassword = () => {
     }
 
     if (!emailOrPhone) {
-      setErrorMessage("Email or Phone is missing. Please try again.");
+      setErrorMessage(t("auth.update.validation.emailOrPhoneRequired"));
       return;
     }
 
@@ -84,24 +90,23 @@ const UpdatePassword = () => {
 
       setSnackbar({
         open: true,
-        message: "Password updated successfully",
+        message: t("auth.update.success"),
         severity: "success",
       });
 
       setFormData({ password: "", confirmPassword: "" });
       localStorage.removeItem("resetEmailOrPhone");
 
-      // ✅ Navigate after short delay (so snackbar is visible)
       setTimeout(() => {
         navigate("/", {
-          state: { successMessage: "Password updated successfully" },
+          state: { successMessage: t("auth.update.success") },
         });
       }, 1500);
     } catch (error) {
       console.error("Password Reset API Error:", error.response?.data);
       setSnackbar({
         open: true,
-        message: error.response?.data?.message || "Something went wrong!",
+        message: error.response?.data?.message || t("auth.update.error"),
         severity: "error",
       });
     }
@@ -113,14 +118,14 @@ const UpdatePassword = () => {
       <div className="rightSectionContainer">
         <div className="rightContentBlock">
           <RightSection
-            heading="Update Your Password"
-            description="Set your new password below."
+            heading={t("auth.update.heading")}
+            description={t("auth.update.description")}
           />
 
           <form className="form" onSubmit={handleSubmit}>
             <div className="formFieldsContainer">
               <InputForm
-                label="New Password"
+                label={t("auth.update.newPassword")}
                 type="password"
                 name="password"
                 value={formData.password}
@@ -128,7 +133,7 @@ const UpdatePassword = () => {
                 error={errors.password}
               />
               <InputForm
-                label="Confirm Password"
+                label={t("auth.update.confirmPassword")}
                 type="password"
                 name="confirmPassword"
                 value={formData.confirmPassword}
@@ -138,7 +143,7 @@ const UpdatePassword = () => {
             </div>
 
             <div className="formSubmitBtn">
-              <LogInBtn data="Continue" type="submit" />
+              <LogInBtn data={t("auth.update.continue")} type="submit" />
 
               <Snackbar
                 open={snackbar.open}

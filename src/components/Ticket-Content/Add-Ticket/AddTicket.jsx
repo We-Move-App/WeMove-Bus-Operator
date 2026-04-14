@@ -3,21 +3,24 @@ import styles from "./add-ticket.module.css";
 import ContentHeading from "../../Reusable/Content-Heading/ContentHeading";
 import InputField from "../../Reusable/Input-Field/InputField";
 import BusRoutesWithDate from "../Bus-Routes-With-Date/BusRoutesWithDate";
-import images from "../../../assets/image";
 import CustomBtn from "../../Reusable/Custom-Button/CustomBtn";
 import axiosInstance from "../../../services/axiosInstance";
 import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
   const [localFormData, setLocalFormData] = useState(
-    formData || { routes: [] }
+    formData || { routes: [] },
   );
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [selectedRouteDetails, setSelectedRouteDetails] = useState(null);
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -25,11 +28,10 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
   });
 
   useEffect(() => {
-    // console.log("Updated localFormData:", localFormData);
     if (setFormData) {
       setFormData(localFormData);
     }
-  }, [localFormData]);
+  }, [localFormData, setFormData]);
 
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
@@ -49,7 +51,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     ) {
       setSnackbar({
         open: true,
-        message: "Please fill in all required fields.",
+        message: t("addTicket.validation"),
         severity: "warning",
       });
       return;
@@ -66,10 +68,10 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     const body = {
       busId: selectedRouteDetails.busId._id,
       routeId: selectedRouteDetails._id,
-      passengers: passengers,
+      passengers,
       noOfPassengers: passengers.length,
       journeyDate: selectedRoute.date,
-      email: email,
+      email,
       termAndConditions: true,
       from: selectedRoute.from,
       to: selectedRoute.to,
@@ -77,56 +79,63 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     };
 
     try {
-      const res = await axiosInstance.post("/bus-operator/bookings", body);
+      await axiosInstance.post("/bus-operator/bookings", body);
+
       setSnackbar({
         open: true,
-        message: "Ticket booked successfully!",
+        message: t("addTicket.success"),
         severity: "success",
       });
+
       setTimeout(() => {
         navigate("/ticket-management");
       }, 1000);
-      // console.log("Booking response:", res.data);
     } catch (err) {
       console.error("Booking failed:", err);
+
       setSnackbar({
         open: true,
-        message: "Booking failed. Please try again.",
+        message: t("addTicket.error"),
         severity: "error",
       });
     }
   };
+
   return (
     <>
       <ContentHeading
-        heading="Ticket Management"
+        heading={t("addTicket.heading")}
         showSubHeading={true}
-        breadcrumbs="Add Ticket"
+        breadcrumbs={t("addTicket.breadcrumbs")}
         showBreadcrumbs={true}
       />
+
       <div className={styles.addTicketGrid}>
         <div className={styles.addTicketLeft}>
           <div className={styles.addTicketContainer}>
             <InputField
-              label="Customer Name"
+              label={t("addTicket.customerName")}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+
             <InputField
-              label="Mobile Number"
+              label={t("addTicket.mobileNumber")}
               type="tel"
               value={mobile}
               maxLength={9}
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
             />
+
             <InputField
-              label="E-mail ID"
+              label={t("addTicket.email")}
               type="email"
               className={styles.emailField}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+
           <BusRoutesWithDate
             formData={localFormData}
             setFormData={setLocalFormData}
@@ -136,7 +145,9 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
           />
         </div>
       </div>
-      <CustomBtn label="Proceed" onClick={handleProceed} />
+
+      <CustomBtn label={t("addTicket.proceed")} onClick={handleProceed} />
+
       <SnackbarNotification
         snackbar={snackbar}
         handleClose={handleCloseSnackbar}

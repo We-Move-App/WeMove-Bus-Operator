@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import styles from "./finance-table.module.css";
 import TransactionHistory from "../Transaction-History/TransactionHistory";
 import BankDetails from "../Bank-Details/BankDetails";
+import { useTranslation } from "react-i18next";
 
 const FinanceTable = () => {
+  const { t } = useTranslation();
+
   const [key, setKey] = useState(0);
   const [activeTab, setActiveTab] = useState("transactions");
 
@@ -11,6 +14,7 @@ const FinanceTable = () => {
     setActiveTab(tab);
     setKey((prevKey) => prevKey + 1);
   };
+
   return (
     <div className={styles.financeTableContainer}>
       {/* Tab Buttons */}
@@ -22,8 +26,9 @@ const FinanceTable = () => {
           id={styles.btn1}
           onClick={() => handleTabChange("transactions")}
         >
-          Transaction History
+          {t("finance.tabs.transactionHistory")}
         </button>
+
         <button
           className={`${styles.tabButton} ${
             activeTab === "bankDetails" ? styles.activeTab : ""
@@ -31,9 +36,10 @@ const FinanceTable = () => {
           id={styles.btn2}
           onClick={() => handleTabChange("bankDetails")}
         >
-          Withdraw
+          {t("finance.tabs.withdraw")}
         </button>
       </div>
+
       {/* Tab Content */}
       <div className={styles.tabContent} key={key}>
         {activeTab === "transactions" ? (
@@ -41,7 +47,6 @@ const FinanceTable = () => {
         ) : (
           <BankDetails
             openOnMount={true}
-            // onWithdrawComplete={() => handleTabChange("transactions")}
             onWithdrawComplete={() => {
               setActiveTab("transactions");
               setKey((prev) => prev + 1);

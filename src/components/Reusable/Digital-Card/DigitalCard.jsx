@@ -3,22 +3,25 @@ import styles from "./digital-card.module.css";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import axiosInstance from "../../../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const DigitalCard = ({ showMidContent = true }) => {
+  const { t } = useTranslation();
+
   const [isCardNumberVisible, setIsCardNumberVisible] = useState(false);
+  const [walletDetails, setWalletDetails] = useState(null);
 
   const cardNumber = "1234 5678 9876 5432";
 
   const toggleCardNumberVisibility = () => {
     setIsCardNumberVisible(!isCardNumberVisible);
   };
-  const [walletDetails, setWalletDetails] = useState(null);
+
   useEffect(() => {
     const fetchAnalyticsAndWallet = async () => {
       try {
         const walletRes = await axiosInstance.get("/wallet/details");
         setWalletDetails(walletRes.data.data);
-        console.log("Wallet Details:", walletRes.data.data);
       } catch (error) {
         console.error("Error fetching wallet details", error);
       }
@@ -31,14 +34,17 @@ const DigitalCard = ({ showMidContent = true }) => {
     <div className={styles.digitalCardContainer}>
       <div className={styles.digitalCardContent}>
         <div className={styles.digitalCard}>
-          <h4>Digital Debit Card</h4>
+          <h4>{t("dashboard.digitalCard.title")}</h4>
+
           <div className={styles.digitalCardNumberBlock}>
             <div className={styles.cardNumber}>
-              {/* {isCardNumberVisible ? cardNumber : "**** **** **** ****"} */}
               <span style={{ fontFamily: "monospace", letterSpacing: "0.5px" }}>
-                {isCardNumberVisible ? cardNumber : "**** **** **** ****"}
+                {isCardNumberVisible
+                  ? cardNumber
+                  : t("dashboard.digitalCard.maskedNumber")}
               </span>
             </div>
+
             <div onClick={toggleCardNumberVisibility} className={styles.icon}>
               {isCardNumberVisible ? (
                 <VisibilityIcon sx={{ color: "#fff", fontSize: "30px" }} />
@@ -49,11 +55,6 @@ const DigitalCard = ({ showMidContent = true }) => {
           </div>
         </div>
 
-        {/* {showMidContent && (
-          <div className={styles.midContent}>
-            <h3>{walletDetails.balance.toLocaleString()}</h3>
-          </div>
-        )} */}
         {showMidContent && walletDetails && (
           <div className={styles.midContent}>
             <h3>
@@ -61,10 +62,6 @@ const DigitalCard = ({ showMidContent = true }) => {
             </h3>
           </div>
         )}
-
-        {/* <div className={styles.belowContent}>
-          <h4>Exp: 06/25</h4>
-        </div> */}
       </div>
     </div>
   );

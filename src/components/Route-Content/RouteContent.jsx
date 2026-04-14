@@ -8,20 +8,10 @@ import axiosInstance from "../../services/axiosInstance";
 import { setBusData } from "../../redux/slices/busSlice";
 import ContentHeading from "../Reusable/Content-Heading/ContentHeading";
 import { Skeleton } from "@mui/material";
-
-const columns = [
-  { key: "busRegNumber", title: "Bus Reg Number" },
-  { key: "assignedDriver", title: "Assigned Driver" },
-  { key: "startLocation", title: "Departure" },
-  { key: "departureTime", title: "Time" },
-  { key: "pickups", title: "Pick Ups" },
-  { key: "endLocation", title: "Arrival" },
-  { key: "arrivalTime", title: "Time" },
-  { key: "drops", title: "Drops" },
-  { key: "status", title: "Status" },
-];
+import { useTranslation } from "react-i18next";
 
 const RouteContent = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const busData = useSelector((state) => state.bus?.formData) || {};
@@ -31,13 +21,27 @@ const RouteContent = () => {
   const [routeData, setRouteData] = useState([]);
   const [filters, setFilters] = useState({ search: "" });
   const [loading, setLoading] = useState(true);
+  const columns = [
+    { key: "busRegNumber", title: t("routeManagement.columns.busRegNumber") },
+    {
+      key: "assignedDriver",
+      title: t("routeManagement.columns.assignedDriver"),
+    },
+    { key: "startLocation", title: t("routeManagement.columns.departure") },
+    { key: "departureTime", title: t("routeManagement.columns.time") },
+    { key: "pickups", title: t("routeManagement.columns.pickups") },
+    { key: "endLocation", title: t("routeManagement.columns.arrival") },
+    { key: "arrivalTime", title: t("routeManagement.columns.time") },
+    { key: "drops", title: t("routeManagement.columns.drops") },
+    { key: "status", title: t("routeManagement.columns.status") },
+  ];
 
   const handleSearch = (params) => {
     setFilters((prev) => ({ ...prev, ...params }));
   };
 
   const formatTime = (timeStr) => {
-    if (!timeStr || typeof timeStr !== "string") return "N/A";
+    if (!timeStr || typeof timeStr !== "string") return t("routeManagement.na");
 
     // If already includes AM/PM, return as-is
     if (
@@ -63,16 +67,16 @@ const RouteContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log("🔄 Fetching bus data...");
+        // console.log("Fetching bus data...");
         const busResponse = await axiosInstance.get(
           `/buses/bus-routes/all-routes`,
           {
             params: {
               ...filters,
             },
-          }
+          },
         );
-        // console.log("✅ Bus Data Fetched:", busResponse.data);
+        // console.log("Bus Data Fetched:", busResponse.data);
         const routes = busResponse.data?.data?.routes || [];
         console.log("Route ID:", busResponse.data?.data?.routes[0]?._id);
 
@@ -100,13 +104,13 @@ const RouteContent = () => {
               ? route.busId.assignedDriver
                   .map((driver) => driver.fullName)
                   .join(", ")
-              : "Not Assigned",
+              : t("routeManagement.notAssigned"),
         }));
 
         setRouteData(formattedData);
-        // console.log("✅ Formatted Data:", formattedData);
+        // console.log("Formatted Data:", formattedData);
       } catch (error) {
-        console.error("❌ Error fetching data:", error);
+        console.error("Error fetching data:", error);
       }
       setLoading(false);
     };
@@ -117,16 +121,16 @@ const RouteContent = () => {
   return (
     <>
       <ContentHeading
-        heading="Route Management"
+        heading={t("routeManagement.heading")}
         belowHeadingComponent={
           <Search
             paramKey="search"
             onSearch={handleSearch}
-            placeholder="Search Routes"
+            placeholder={t("routeManagement.search")}
           />
         }
         showSubHeading={true}
-        subHeading="Route Details"
+        subHeading={t("routeManagement.subHeading")}
         showBreadcrumbs={false}
       />
 
@@ -149,7 +153,9 @@ const RouteContent = () => {
             ))}
           </>
         ) : routeData.length === 0 ? (
-          <div className={styles.noDataMessage}>No route data available</div>
+          <div className={styles.noDataMessage}>
+            {t("routeManagement.noData")}
+          </div>
         ) : (
           <DataTable columns={columns} data={routeData} rowsPerPage={5} />
         )}

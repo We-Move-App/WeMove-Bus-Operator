@@ -3,27 +3,13 @@ import { useDispatch } from "react-redux";
 import { updateFormData } from "../../../../../redux/slices/busSlice";
 import styles from "./bus-info.module.css";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 const BusInfo = ({ data, setData }) => {
   const dispatch = useDispatch();
-  const [previewImages, setPreviewImages] = useState([]);
-  //   useEffect(() => {
-  //   const companyName = localStorage.getItem("companyName") || "";
-  //   setData((prev) => ({
-  //     ...prev,
-  //     companyName,
-  //   }));
-  // }, []);
+  const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   // Generate preview URLs when busImages is updated
-  //   if (data.busImages) {
-  //     const previews = data.busImages.map((file) =>
-  //       file instanceof File ? URL.createObjectURL(file) : file
-  //     );
-  //     setPreviewImages(previews);
-  //   }
-  // }, [data.busImages]);
+  const [previewImages, setPreviewImages] = useState([]);
 
   useEffect(() => {
     if (data.busImages) {
@@ -32,7 +18,7 @@ const BusInfo = ({ data, setData }) => {
         : [data.busImages];
 
       const previews = imageArray.map((file) =>
-        file instanceof File ? URL.createObjectURL(file) : file
+        file instanceof File ? URL.createObjectURL(file) : file,
       );
       setPreviewImages(previews);
     } else {
@@ -44,17 +30,14 @@ const BusInfo = ({ data, setData }) => {
     const files = Array.from(event.target.files);
 
     if ((data.busImages?.length || 0) + files.length > 5) {
-      alert("You can upload up to 5 images only!");
+      alert(t("busInfoForm.uploadLimit")); // ✅ translated
       return;
     }
 
-    // Create preview URLs
     const previewURLs = files.map((file) => URL.createObjectURL(file));
 
-    // Combine old and new images
     const updatedBusImages = [...(data.busImages || []), ...previewURLs];
 
-    // Update Redux or local state
     setData((prevData) => ({
       ...prevData,
       busImages: updatedBusImages,
@@ -90,18 +73,17 @@ const BusInfo = ({ data, setData }) => {
       {/* Input Fields */}
       <div className={styles.busInfoFields}>
         <div className={styles.busFields}>
-          <label>Company Name</label>
+          <label>{t("busInfoForm.companyName")}</label>
           <input
             type="text"
             name="busName"
-            // value={data.companyName || ""}
             value={localStorage.getItem("companyName") || ""}
             readOnly
-            // onChange={(e) => setData({ ...data, busName: e.target.value })}
           />
         </div>
+
         <div className={styles.busFields}>
-          <label>Bus Name</label>
+          <label>{t("busInfoForm.busName")}</label>
           <input
             type="text"
             name="busName"
@@ -109,8 +91,9 @@ const BusInfo = ({ data, setData }) => {
             onChange={(e) => setData({ ...data, busName: e.target.value })}
           />
         </div>
+
         <div className={styles.busFields}>
-          <label>Bus Model Number</label>
+          <label>{t("busInfoForm.busModelNumber")}</label>
           <input
             type="text"
             name="busModelNumber"
@@ -120,8 +103,9 @@ const BusInfo = ({ data, setData }) => {
             }
           />
         </div>
+
         <div className={styles.busFields}>
-          <label>Bus Registration Number</label>
+          <label>{t("busInfoForm.busRegistrationNumber")}</label>
           <input
             type="text"
             name="busRegNumber"

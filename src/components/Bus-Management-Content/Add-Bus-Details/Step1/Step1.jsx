@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import { setBusData } from "../../../../redux/slices/busSlice";
 import ContentHeading from "../../../Reusable/Content-Heading/ContentHeading";
 import styles from "./step1.module.css";
 import ProgressBar from "../Progress-Bar/ProgressBar";
@@ -11,13 +10,15 @@ import BusAmenities from "./Bus-Amenities/BusAmenities";
 import BusLicenseUpload from "./Bus-License-Upload/BusLicenseUpload";
 import SnackbarNotification from "../../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { updateFormData, setStep } from "../../../../redux/slices/busSlice";
-// import useFetch from "../../../../hooks/useFetch";
+import { useTranslation } from "react-i18next";
 
 const Step1 = ({ onNext, step, formData }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  // const { fetchData, loading } = useFetch();
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [localFormData, setLocalFormData] = useState(formData || {});
+
   useEffect(() => {
     setLocalFormData(formData);
   }, [formData]);
@@ -44,38 +45,42 @@ const Step1 = ({ onNext, step, formData }) => {
       !Array.isArray(localFormData.busImages) ||
       localFormData.busImages.length < 3
     ) {
-      showSnackbar("Please upload at least 3 bus images");
+      showSnackbar(t("busStep1.validation.images"));
       return false;
     }
 
     if (!localFormData.busName?.trim()) {
-      showSnackbar("Bus name is required");
+      showSnackbar(t("busStep1.validation.busName"));
       return false;
     }
+
     if (!localFormData.busModelNumber?.trim()) {
-      showSnackbar("Bus model number is required");
+      showSnackbar(t("busStep1.validation.busModel"));
       return false;
     }
+
     if (!localFormData.busRegNumber?.trim()) {
-      showSnackbar("Bus registration number is required");
+      showSnackbar(t("busStep1.validation.busReg"));
       return false;
     }
+
     if (!localFormData.runningDays || localFormData.runningDays.length === 0) {
-      showSnackbar("Please select at least one running day");
+      showSnackbar(t("busStep1.validation.runningDays"));
       return false;
     }
+
     if (!localFormData.amenities || localFormData.amenities.length === 0) {
-      showSnackbar("Please add at least one amenity");
+      showSnackbar(t("busStep1.validation.amenities"));
       return false;
     }
 
     if (!localFormData.busLicenseFront) {
-      showSnackbar("Please upload bus license");
+      showSnackbar(t("busStep1.validation.license"));
       return false;
     }
 
     if (uploadProgress < 100) {
-      showSnackbar("Please wait till upload is completed");
+      showSnackbar(t("busStep1.validation.uploadWait"));
       return false;
     }
 
@@ -91,9 +96,9 @@ const Step1 = ({ onNext, step, formData }) => {
     try {
       dispatch(updateFormData(localFormData));
       dispatch(setStep(2));
-      showSnackbar("Step 1 data saved!", "success");
+      showSnackbar(t("busStep1.success"), "success");
     } catch (err) {
-      showSnackbar("Failed to save data", "error");
+      showSnackbar(t("busStep1.error"), "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -105,39 +110,44 @@ const Step1 = ({ onNext, step, formData }) => {
         snackbar={snackbar}
         handleClose={handleSnackbarClose}
       />
+
       <ContentHeading
-        heading="Bus Management"
+        heading={t("busStep1.heading")}
         belowHeadingComponent={<ProgressBar step={step} />}
         showSubHeading={true}
-        subHeading="Add Bus Details"
+        subHeading={t("busStep1.subHeading")}
         showBreadcrumbs={true}
-        breadcrumbs="Add Bus Details"
+        breadcrumbs={t("busStep1.breadcrumbs")}
         rightComponent={""}
       />
+
       <div className={styles.addBusGrid}>
         <div className={styles.busInfoFlexBox}>
           <BusInfo data={localFormData} setData={setLocalFormData} />
         </div>
+
         <div className={styles.busInfoFlexBox}>
           <BusDays formData={localFormData} setFormData={setLocalFormData} />
+
           <BusAmenities
             formData={localFormData}
             setFormData={setLocalFormData}
           />
+
           <BusLicenseUpload
             formData={localFormData}
             setFormData={setLocalFormData}
-            title="Add Bus License"
-            uploadText="Upload File"
+            title={t("busStep1.uploadLicense")}
+            uploadText={t("busStep1.uploadFile")}
             height="98px"
             fieldKey="busLicenseFront"
             uploadProgress={uploadProgress}
             setUploadProgress={setUploadProgress}
           />
+
           <div className={styles.butonForward}>
             <CustomBtn
-              label={isSubmitting ? "Saving..." : "Next"}
-              // disabled={isSubmitting}
+              label={isSubmitting ? t("busStep1.saving") : t("busStep1.next")}
               disabled={isSubmitting || uploadProgress < 100}
               onClick={handleNext}
               width="160px"

@@ -132,12 +132,6 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
             />
           </div>
         </div>
-        {/* <div
-          className={styles.notificationBlock}
-          onClick={handleNotificationClick}
-        >
-          <img src={images.bellIcon} alt="bell-icon" />
-        </div> */}
         <div
           className={styles.notificationBlock}
           onClick={handleNotificationClick}

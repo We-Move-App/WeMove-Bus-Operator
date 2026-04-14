@@ -1,0 +1,623 @@
+{
+  "login": {
+    "heading": "Log In Here",
+    "description": "Welcome back to We Move All! Please login to your account.",
+    "emailOrPhone": "Email/Phone Number",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Log In",
+    "noAccount": "Don’t have an account?",
+    "signUp": "Sign up",
+    "here": "here"
+  },
+  "auth": {
+    "reset": {
+      "heading": "Reset Your Password",
+      "description": "Enter your username to get a verification code.",
+      "input": "Email Address / Phone Number",
+      "sendCode": "Send Verification Code"
+    },
+    "update": {
+      "heading": "Update Your Password",
+      "description": "Set your new password below.",
+
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "continue": "Continue",
+
+      "success": "Password updated successfully",
+      "error": "Something went wrong!",
+
+      "validation": {
+        "passwordRequired": "Password is required",
+        "confirmRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match",
+        "missingIdentifier": "Email or phone is missing. Please try again."
+      }
+    }
+  },
+  "signup": {
+    "heading": "Create Account",
+    "description": "Welcome to We Move All! Please create your account here.",
+    "fullName": "Full Name",
+    "companyName": "Company Name",
+    "companyAddress": "Company Address",
+    "chooseBranch": "Choose Branch",
+    "mobile": "Mobile Number",
+    "email": "E-mail Id",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "verifyNow": "Verify Now",
+    "verified": "Verified",
+    "signUpButton": "Sign Up",
+    "alreadyAccount": "Already have an account?",
+    "login": "Log In",
+    "here": "here"
+  },
+  "otp": {
+    "title": "OTP Verification",
+    "description": "Enter OTP code sent to {{value}}",
+    "noCode": "Didn't receive OTP code?",
+    "resend": "Resend Code",
+    "verifying": "Verifying...",
+    "verify": "Verify & Proceed",
+    "errors": {
+      "invalidLength": "Please enter a valid OTP.",
+      "invalidOtp": "Invalid OTP. Please try again.",
+      "failed": "OTP verification failed. Please try again."
+    }
+  },
+  "profile": {
+    "heading": "Profile Verification",
+    "description": "Please enter your details.",
+    "identityCard": "Identity Card",
+    "businessLicense": "Business License",
+    "idFront": "ID Card (Front)",
+    "idBack": "ID Card (Back)",
+    "bankName": "Bank Name",
+    "accountNumber": "Bank Account Number",
+    "accountHolder": "Account Holder Name",
+    "bankDetails": "Bank A/C details",
+    "uploadPhoto": "Upload Photo",
+    "uploadPhotoDesc": "Upload your profile photo."
+  },
+  "common": {
+    "continue": "Continue",
+    "skip": "Skip"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email format"
+  },
+  "upload": {
+    "uploadFile": "Upload file",
+    "viewFile": "View File",
+    "noFile": "No file uploaded",
+    "fileSizeError": "File size should be less than 1 MB"
+  },
+  "dashboard": {
+    "months": {
+      "Jan": "Jan",
+      "Feb": "Feb",
+      "Mar": "Mar",
+      "Apr": "Apr",
+      "May": "May",
+      "Jun": "Jun",
+      "Jul": "Jul",
+      "Aug": "Aug",
+      "Sep": "Sep",
+      "Oct": "Oct",
+      "Nov": "Nov",
+      "Dec": "Dec"
+    },
+    "weeks": {
+      "WEEK1": "Week 1",
+      "WEEK2": "Week 2",
+      "WEEK3": "Week 3",
+      "WEEK4": "Week 4",
+      "WEEK5": "Week 5"
+    },
+    "title": "Dashboard",
+    "subtitle": "Reports",
+    "digitalCard": {
+      "title": "Digital Debit Card",
+      "maskedNumber": "**** **** **** ****"
+    },
+    "incomeCard": {
+      "today": "Today",
+      "perDayIncome": "Per Day Income"
+    },
+    "barChart": {
+      "heading": "Income Analytics",
+      "incoming": "Incoming",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "pieChart": {
+      "heading": "Bus Usage",
+      "monthly": "Monthly",
+      "weekly": "Weekly",
+      "yearly": "Yearly",
+      "noData": "No bus analytics available for this period.",
+      "busNumber": "Bus Number"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "busManagement": "Bus Management",
+    "routeManagement": "Route Management",
+    "driverManagement": "Driver Management",
+    "ticketManagement": "Ticket Management",
+    "wallet": "Wallet",
+    "addManageUser": "Add/Manage User",
+    "customerFeedback": "Customer Feedback"
+  },
+  "busManagement": {
+    "title": "Bus Management",
+    "subTitle": "Bus Details",
+    "searchPlaceholder": "Search Buses",
+    "addBus": "Add Bus Details",
+    "loading": "Loading...",
+    "noData": "No bus data available",
+    "notAssigned": "Not Assigned",
+    "viewDetails": "View Details",
+    "deleteBus": "Delete Bus",
+    "deleteConfirm": "Are you sure you want to delete \"{{busName}}\"?",
+    "deleteSuccess": "Bus deleted successfully!",
+    "deleteError": "Failed to delete the bus. Please try again.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "busName": "Bus Name",
+    "busModelNumber": "Bus Model Number",
+    "busRegistrationNumber": "Bus Registration Number",
+    "assignedDriver": "Assigned Driver"
+  },
+  "busManagementForm": {
+    "busName": "Bus Name",
+    "selectBusName": "Select Bus Name",
+    "busModel": "Bus Model",
+    "selectBusModel": "Select Bus Model",
+    "busRegistrationNumber": "Bus Registration Number"
+  },
+  "busInfoForm": {
+    "companyName": "Company Name",
+    "busName": "Bus Name",
+    "busModelNumber": "Bus Model Number",
+    "busRegistrationNumber": "Bus Registration Number",
+    "uploadLimit": "You can upload up to 5 images only!"
+  },
+  "busStep1": {
+    "heading": "Bus Management",
+    "subHeading": "Add Bus Details",
+    "breadcrumbs": "Add Bus Details",
+    "next": "Next",
+    "saving": "Saving...",
+    "uploadLicense": "Add Bus License",
+    "uploadFile": "Upload File",
+
+    "validation": {
+      "images": "Please upload at least 3 bus images",
+      "busName": "Bus name is required",
+      "busModel": "Bus model number is required",
+      "busReg": "Bus registration number is required",
+      "runningDays": "Please select at least one running day",
+      "amenities": "Please add at least one amenity",
+      "license": "Please upload bus license",
+      "uploadWait": "Please wait till upload is completed"
+    },
+
+    "success": "Step 1 data saved!",
+    "error": "Failed to save data"
+  },
+  "busDays": {
+    "title": "Days",
+    "Sunday": "Sunday",
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday"
+  },
+  "busAmenities": {
+    "title": "Amenities",
+    "AC": "A/C",
+    "NonAC": "Non A/C",
+    "Wifi": "WiFi",
+    "Pillow": "Pillow"
+  },
+  "busLicense": {
+    "invalidFile": "Only JPG, PNG, and PDF files are allowed.",
+    "uploading": "Uploading...",
+    "of": "of"
+  },
+  "busRoutes": {
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "time": "Time",
+    "from": "From",
+    "to": "To",
+    "price": "Price"
+  },
+  "busPickupDrop": {
+    "route": "Route",
+    "pickupPoints": "Pick Up Points",
+    "dropPoints": "Drop Points",
+    "enterCity": "Enter City",
+    "time": "Time",
+    "deleteStop": "Delete Stop"
+  },
+  "busStep2": {
+    "heading": "Bus Management",
+    "breadcrumbs": "Add Bus Details",
+    "totalSeats": "Total Seat Number",
+
+    "previous": "Previous",
+    "save": "Save",
+
+    "validation": {
+      "invalidSeats": "Please enter a valid number of total seats before saving.",
+      "fromRequired": "Route {{index}}: \"From\" location is required.",
+      "toRequired": "Route {{index}}: \"To\" location is required.",
+      "departureRequired": "Route {{index}}: Departure time is required.",
+      "arrivalRequired": "Route {{index}}: Arrival time is required.",
+      "invalidPrice": "Route {{index}}: Price must be a valid number.",
+      "pricePositive": "Route {{index}}: Price must be greater than 0.",
+      "missingStops": "Missing stoppage data for route {{index}}.",
+      "incompleteStops": "Please fill all pickup and drop fields in route {{index}}."
+    },
+
+    "api": {
+      "createBusFail": "Failed to create bus. Please try again.",
+      "missingBusId": "Bus ID is missing. Please go back and re-enter bus details.",
+      "routeSuccess": "Bus routes and seat layout updated successfully!",
+      "seatFail": "Bus routes saved, but seat layout failed!",
+      "noRoutes": "No routes data returned from API",
+      "genericError": "Something went wrong!"
+    }
+  },
+  "busSummary": {
+    "heading": "Bus Management",
+    "breadcrumbs": "Bus Details",
+    "busDetails": "Bus Details",
+    "amenities": "Amenities",
+    "days": "Days",
+    "license": "License",
+    "routes": "Routes",
+
+    "busName": "Bus Name",
+    "busModelNumber": "Bus Model Number",
+    "busRegistrationNumber": "Bus Registration Number",
+    "busLicense": "Bus License",
+
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "price": "Price",
+
+    "view": "View",
+    "next": "Next",
+
+    "noImages": "🚫 No images uploaded",
+    "noAmenities": "🚫 No amenities selected",
+    "noFile": "🚫 No file uploaded",
+    "noRoutes": "🚫 No routes added",
+
+    "notProvided": "Not provided",
+    "notSelected": "Not selected",
+    "na": "N/A",
+    "unknownAmenity": "Unknown Amenity"
+  },
+  "busDaysShort": {
+    "Monday": "Mon",
+    "Tuesday": "Tue",
+    "Wednesday": "Wed",
+    "Thursday": "Thu",
+    "Friday": "Fri",
+    "Saturday": "Sat",
+    "Sunday": "Sun"
+  },
+  "routeManagement": {
+    "heading": "Route Management",
+    "subHeading": "Route Details",
+    "search": "Search Routes",
+    "noData": "No route data available",
+    "na": "N/A",
+    "notAssigned": "Not Assigned",
+
+    "columns": {
+      "busRegNumber": "Bus Reg Number",
+      "assignedDriver": "Assigned Driver",
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "time": "Time",
+      "pickups": "Pick Ups",
+      "drops": "Drops",
+      "status": "Status"
+    }
+  },
+  "dataTable": {
+    "view": "View",
+    "edit": "Edit",
+    "assign": "Assign",
+    "na": "N/A"
+  },
+  "dropdown": {
+    "viewList": "View List",
+    "noData": "No Data Available"
+  },
+  "editRoute": {
+    "heading": "Route Management",
+    "breadcrumbs": "Edit Route",
+
+    "departure": "Departure",
+    "departureTime": "Departure Time",
+    "arrival": "Arrival",
+    "arrivalTime": "Arrival Time",
+    "price": "Price",
+
+    "pickupPoints": "Pickup Points",
+    "dropPoints": "Drop Points",
+
+    "edit": "Edit",
+    "save": "Save",
+
+    "timePlaceholder": "06:00 AM",
+
+    "success": "Route and price updated successfully!",
+    "error": "Failed to update route or price.",
+    "editPickupPoint": "Edit Pickup Point",
+    "editDropPoint": "Edit Drop Point",
+    "location": "Location",
+    "time": "Time",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes"
+  },
+  "driverManagement": {
+    "heading": "Driver Management",
+    "subHeading": "Driver Details",
+    "search": "Search Driver ID",
+    "addDriver": "Add New Driver",
+    "noData": "No drivers data available",
+    "na": "N/A",
+
+    "columns": {
+      "driverId": "Driver ID",
+      "name": "Name",
+      "busRegNumber": "Bus Reg Number",
+      "mobileNumber": "Mobile Number",
+      "license": "License",
+      "action": "Action"
+    }
+  },
+  "driverDetails": {
+    "heading": "Driver Management",
+    "breadcrumbs": "Add New Driver",
+    "picture": "Picture",
+    "driverName": "Driver Name",
+    "mobileNumber": "Mobile Number",
+    "phonePlaceholder": "Enter 9-digit number",
+    "licenseTitle": "Add Driver License",
+    "upload": "Upload your files",
+    "save": "Save",
+
+    "validation": "Please fill in all fields before saving.",
+    "success": "Driver added successfully!",
+    "error": "Something went wrong. Please try again."
+  },
+  "driverLicense": {
+    "invalidFile": "Only JPG, PNG, and PDF files are allowed.",
+    "uploading": "Uploading..."
+  },
+  "ticket": {
+    "heading": "Ticket Management",
+    "subHeading": "Customer Details",
+    "search": "Search Customer ID",
+    "addTicket": "Add Ticket",
+    "noData": "No tickets data available",
+
+    "columns": {
+      "bookingId": "Booking ID",
+      "name": "Name",
+      "busRegNumber": "Bus Reg Number",
+      "mobile": "Mobile Number",
+      "email": "Email ID",
+      "date": "Date",
+      "time": "Time",
+      "pickup": "Pick Up",
+      "drop": "Drop",
+      "status": "Status"
+    },
+
+    "status": {
+      "departure": "Departure",
+      "yetToStart": "Yet to start"
+    },
+
+    "actions": {
+      "edit": "Edit",
+      "cancel": "Cancel"
+    },
+
+    "filters": {
+      "heading": "Apply Filters",
+      "pickup": "Pickup Point",
+      "drop": "Drop Point",
+      "apply": "Apply Filter"
+    }
+  },
+  "addTicket": {
+    "heading": "Ticket Management",
+    "breadcrumbs": "Add Ticket",
+
+    "customerName": "Customer Name",
+    "mobileNumber": "Mobile Number",
+    "email": "E-mail ID",
+
+    "proceed": "Proceed",
+
+    "validation": "Please fill in all required fields.",
+    "success": "Ticket booked successfully!",
+    "error": "Booking failed. Please try again.",
+    "busRoutes": {
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "date": "Date",
+      "from": "From",
+      "to": "To",
+      "enterCity": "Enter City",
+
+      "validation": "Please enter at least one filter (from / to / date).",
+      "error": "Failed to fetch filtered routes. Try again.",
+
+      "searching": "Searching...",
+      "clearSearch": "Clear search"
+    }
+  },
+  "ticketDetails": {
+    "loading": "Loading bus routes...",
+    "noRoutes": "No bus routes available.",
+    "loadError": "Unable to load routes. Please make sure you're logged in.",
+    "noMatch": "No routes found for this search.",
+
+    "busDetails": "Bus Details",
+    "amount": "Amount",
+    "price": "Price",
+
+    "invalidTime": "Invalid time",
+    "na": "N/A"
+  },
+  "wallet": {
+    "heading": "Wallet"
+  },
+  "finance": {
+    "tabs": {
+      "transactionHistory": "Transaction History",
+      "withdraw": "Withdraw"
+    }
+  },
+  "transaction": {
+    "heading": "Transaction History",
+
+    "columns": {
+      "id": "Transaction ID",
+      "type": "Transaction Type",
+      "source": "Source / Description",
+      "date": "Date",
+      "time": "Time",
+      "amount": "Amount"
+    },
+
+    "walletWithdrawal": "Wallet Withdrawal",
+    "na": "N/A"
+  },
+
+  "bank": {
+    "withdrawTitle": "Withdraw Amount",
+    "enterAmount": "Enter amount",
+    "withdraw": "Withdraw",
+
+    "successTitle": "Congratulations! Successfully done.",
+    "successMessage": "We are thrilled to extend a warm welcome to all newcomers and returning members alike.",
+
+    "withdrawDescription": "Withdraw earnings from bookings",
+    "errorFallback": "Withdrawal failed. Please try again."
+  },
+  "pagination": {
+    "prev": "Prev",
+    "next": "Next"
+  },
+
+  "user": {
+    "addUser": "Add User",
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "userDetails": {
+    "heading": "Bus Management",
+
+    "managerDetails": "Manager Details",
+    "accessManagement": "Access Management",
+
+    "name": "Name",
+    "tel": "Tel",
+    "email": "Email",
+    "idNumber": "ID Number",
+    "dob": "Date of Birth",
+    "password": "Password",
+
+    "update": "Update",
+    "save": "Save Details",
+
+    "permissions": {
+      "dashboard": "View Dashboard",
+      "bus": "Bus Management",
+      "route": "Route Management",
+      "driver": "Driver Management",
+      "ticket": "Ticket Management",
+      "wallet": "Wallet"
+    },
+
+    "validation": {
+      "required": "Kindly fill up all required details.",
+      "age": "User must be at least 18 years old.",
+      "permission": "Please select at least one permission.",
+      "name": "Name should contain only letters and be at least 2 characters.",
+      "email": "Please enter a valid email address."
+    },
+
+    "success": "User saved successfully!",
+    "error": "Failed to save user. Please try again."
+  },
+  "customerFeedback": {
+    "heading": "Customer Feedback",
+    "subheading": "Customer Feedback",
+
+    "noData": "No feedback found.",
+    "error": "Something went wrong. Please try again later.",
+
+    "anonymous": "Anonymous"
+  },
+  "busProfile": {
+    "heading": "Profile",
+
+    "personalDetails": "Personal Details",
+    "companyDetails": "Company Details",
+
+    "loading": "Loading...",
+
+    "save": "Save",
+    "update": "Update",
+    "edit": "Edit",
+
+    "bank": {
+      "add": "Add Bank",
+      "edit": "Edit Bank",
+      "saved": "Saved Bank",
+
+      "bankName": "Bank Name",
+      "accountNumber": "Bank Account Number",
+      "accountHolder": "Account Holder Name",
+      "upload": "Bank Account Details",
+      "noFile": "No file uploaded",
+
+      "addSuccess": "Bank details added successfully!",
+      "updateSuccess": "Bank details updated successfully!",
+      "error": "Failed to save bank details.",
+      "invalidFile": "Please upload a valid image file"
+    }
+  },
+  "assignDriver": {
+    "heading": "Driver Management",
+    "breadcrumb": "Assign Driver",
+    "button": "Assign Driver",
+
+    "phone": "Phone",
+
+    "success": "Driver assigned successfully!",
+    "fail": "Failed to assign driver.",
+    "error": "Something went wrong while assigning driver."
+  }
+}

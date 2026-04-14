@@ -9,6 +9,7 @@ import UploadFile from "../UploadFile/UploadFile";
 import DragFile from "../DragFile/DragFile";
 import SnackbarNotification from "../Snackbar-Notification/SnackbarNotification";
 import useMultiStepForm from "../../../hooks/useMultiStepForm";
+import { useTranslation } from "react-i18next";
 
 const steps = ["", "", ""];
 
@@ -45,6 +46,8 @@ function MultiStepForm() {
     handleSnackbarClose,
   } = useMultiStepForm();
 
+  const { t } = useTranslation();
+
   return (
     <div className="logInSection">
       <LogInLeft />
@@ -63,11 +66,11 @@ function MultiStepForm() {
             {activeStep === 0 && (
               <>
                 <RightSection
-                  heading="Profile Verification"
-                  description="Please enter your details."
+                  heading={t("profile.heading")}
+                  description={t("profile.description")}
                 />
                 <InputForm
-                  label="Identity Card"
+                  label={t("profile.identityCard")}
                   required={false}
                   type="tel"
                   name="identityCardNumber"
@@ -76,7 +79,7 @@ function MultiStepForm() {
                 />
                 <div className="twoColumnInputContainer">
                   <InputForm
-                    label="Business License"
+                    label={t("profile.businessLicense")}
                     required={false}
                     type="tel"
                     name="businessLicenseNumber"
@@ -87,7 +90,7 @@ function MultiStepForm() {
 
                 <div className="threeColumnInputContainer">
                   <UploadFile
-                    label="ID Card (Front)"
+                    label={t("profile.idFront")}
                     id="file-input-2"
                     required
                     onChange={(e) =>
@@ -95,7 +98,7 @@ function MultiStepForm() {
                     }
                   />
                   <UploadFile
-                    label="ID Card (Back)"
+                    label={t("profile.idBack")}
                     id="file-input-3"
                     required
                     onChange={(e) =>
@@ -109,11 +112,11 @@ function MultiStepForm() {
             {activeStep === 1 && (
               <>
                 <RightSection
-                  heading="Profile Verification"
-                  description="Please enter your details."
+                  heading={t("profile.heading")}
+                  description={t("profile.description")}
                 />
                 <InputForm
-                  label="Bank Name"
+                  label={t("profile.bankName")}
                   required={false}
                   type="text"
                   name="bankName"
@@ -122,7 +125,7 @@ function MultiStepForm() {
                 />
 
                 <InputForm
-                  label="Bank Account Number"
+                  label={t("profile.accountNumber")}
                   required={false}
                   type="tel"
                   name="accountNumber"
@@ -130,7 +133,7 @@ function MultiStepForm() {
                   onChange={handleChange}
                 />
                 <InputForm
-                  label="Account Holder Name"
+                  label={t("profile.accountHolder")}
                   required={false}
                   type="text"
                   name="accountHolderName"
@@ -140,7 +143,7 @@ function MultiStepForm() {
 
                 <div className="threeColumnInputContainer">
                   <UploadFile
-                    label="Bank A/C details"
+                    label={t("profile.bankDetails")}
                     id="file-input-1"
                     required
                     onChange={(e) => handleFileUpload(e, "bank_detail")}
@@ -151,8 +154,8 @@ function MultiStepForm() {
             {activeStep === 2 && (
               <>
                 <RightSection
-                  heading="Upload Photo"
-                  description="Upload your profile photo."
+                  heading={t("profile.uploadPhoto")}
+                  description={t("profile.uploadPhotoDesc")}
                   required={true}
                 />
                 <div className="DropContainer">
@@ -165,11 +168,11 @@ function MultiStepForm() {
             {activeStep === 1 ? (
               <div style={{ display: "flex", gap: "1rem" }}>
                 {" "}
-                <LogInBtn data="Skip" onClick={handleSkipStep} />{" "}
-                <LogInBtn data="Continue" onClick={handleContinue} />
+                <LogInBtn data={t("common.skip")} onClick={handleSkipStep} />{" "}
+                <LogInBtn data={t("common.continue")} onClick={handleContinue} />
               </div>
             ) : (
-              <LogInBtn data="Continue" onClick={handleNext} />
+              <LogInBtn data={t("common.continue")} onClick={handleNext} />
             )}
           </div>
         </div>
