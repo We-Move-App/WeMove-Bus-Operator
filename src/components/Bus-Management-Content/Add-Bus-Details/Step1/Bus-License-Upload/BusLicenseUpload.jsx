@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./bus-license-upload.module.css";
 import { Play, Pause, X, FilePlus, FileText } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const BusLicenseUpload = ({
   formData,
@@ -12,9 +13,9 @@ const BusLicenseUpload = ({
   uploadProgress,
   setUploadProgress,
 }) => {
-  // const [uploadProgress, setUploadProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (formData[fieldKey]) {
@@ -187,11 +188,12 @@ const BusLicenseUpload = ({
                     (formData[fieldKey].size * (uploadProgress / 100)) /
                     (1024 * 1024)
                   ).toFixed(2)}{" "}
-                  MB of {(formData[fieldKey].size / (1024 * 1024)).toFixed(2)}{" "}
-                  MB
+                  MB {t("busLicense.of")}{" "}
+                  {(formData[fieldKey].size / (1024 * 1024)).toFixed(2)} MB
                 </span>
+
                 <div className={styles.progressText}>
-                  Uploading... {uploadProgress}%
+                  {t("busLicense.uploading")} {uploadProgress}%
                 </div>
               </div>
             </div>

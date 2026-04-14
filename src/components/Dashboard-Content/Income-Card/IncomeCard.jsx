@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from "./income-card.module.css";
 import axiosInstance from "../../../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const IncomeCard = () => {
+  const { t, i18n } = useTranslation();
   const [dailyIncome, setDailyIncome] = useState(null);
+
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
         const response = await axiosInstance.get(
           "/wallet/analytics?entity=busoperator&filter=daily",
-        );
-        console.log(
-          "💰 Income API Response:",
-          response.data.data.analytics[0].incoming,
         );
 
         const income = response.data?.data?.analytics?.[0]?.profit;
@@ -25,11 +24,20 @@ const IncomeCard = () => {
 
     fetchIncomeData();
   }, []);
+
   return (
     <div className={styles.incomeCardContainer}>
-      <span className={styles.todayBadge}>Today</span>
-      <h4>Per Day Income</h4>
-      <h2>{dailyIncome?.toLocaleString("en-IN")}</h2>
+      <span className={styles.todayBadge}>
+        {t("dashboard.incomeCard.today")}
+      </span>
+
+      <h4>{t("dashboard.incomeCard.perDayIncome")}</h4>
+
+      <h2>
+        {dailyIncome?.toLocaleString(
+          i18n.language === "en" ? "en-IN" : "fr-FR",
+        )}
+      </h2>
     </div>
   );
 };

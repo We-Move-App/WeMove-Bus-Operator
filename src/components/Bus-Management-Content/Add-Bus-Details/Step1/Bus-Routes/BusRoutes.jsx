@@ -5,8 +5,10 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { Bus } from "lucide-react";
 import { RxCounterClockwiseClock } from "react-icons/rx";
 import PickupDropLocations from "./Pickup-Drop-Locations/PickupDropLocations";
+import { useTranslation } from "react-i18next";
 
 const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
+  const { t } = useTranslation();
   // console.log("Bus ID in BusRoutes:", busId);
   const handleInputChange = (index, field, value) => {
     if (field === "price") {
@@ -14,7 +16,7 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
     }
 
     const updatedRoutes = routes.map((route, i) =>
-      i === index ? { ...route, [field]: value } : route
+      i === index ? { ...route, [field]: value } : route,
     );
 
     setRoutes(updatedRoutes);
@@ -28,14 +30,15 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
           <div className={styles.routes}>
             <div className={styles.scheduleRow}>
               <div className={styles.scheduleHeader}>
-                <h3>Departure</h3>
+                <h3>{t("busRoutes.departure")}</h3>
               </div>
             </div>
+
             <div className={styles.timeSection}>
               <div className={styles.timeInput}>
                 <RxCounterClockwiseClock size={30} />
                 <div className={styles.timeInputBox}>
-                  <span>TIME</span>
+                  <span>{t("busRoutes.time")}</span>
                   <div className={styles.timeSelectedBox}>
                     <input
                       type="time"
@@ -44,20 +47,22 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
                         handleInputChange(
                           index,
                           "departureTime",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                     />
                   </div>
                 </div>
               </div>
+
               <span className={styles.line}></span>
+
               <div className={styles.locationInput}>
                 <span className={styles.locationIcon}>
                   <Bus size={30} />
                 </span>
                 <div className={styles.timeInputBox}>
-                  <span>FROM</span>
+                  <span>{t("busRoutes.from")}</span>
                   <input
                     type="text"
                     value={route.from}
@@ -66,6 +71,7 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
                     }
                   />
                 </div>
+
                 <div className={styles.arrow}>
                   <IoIosArrowRoundForward size={30} />
                 </div>
@@ -77,16 +83,17 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
           <div className={styles.routes}>
             <div className={styles.scheduleRow}>
               <div className={styles.scheduleHeader}>
-                <h3>Arrival</h3>
+                <h3>{t("busRoutes.arrival")}</h3>
               </div>
             </div>
+
             <div className={`${styles.timeSection} ${styles.timeRowBg}`}>
               <div className={styles.locationInput}>
                 <span className={styles.locationIcon}>
                   <Bus size={30} />
                 </span>
                 <div className={styles.timeInputBox}>
-                  <span>TO</span>
+                  <span>{t("busRoutes.to")}</span>
                   <input
                     type="text"
                     value={route.to}
@@ -96,11 +103,13 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
                   />
                 </div>
               </div>
+
               <span className={styles.line}></span>
+
               <div className={styles.timeInput}>
                 <RxCounterClockwiseClock size={30} />
                 <div className={styles.timeInputBox}>
-                  <span>TIME</span>
+                  <span>{t("busRoutes.time")}</span>
                   <div className={styles.timeSelectedBox}>
                     <input
                       type="time"
@@ -119,11 +128,9 @@ const BusRoutes = ({ busId, routes, setRoutes, stoppages, setStoppages }) => {
           <div className={`${styles.scheduleRow} ${styles.priceRow}`}>
             <div className={styles.priceSection}>
               <span className={styles.line}></span>
-              {/* <span className={styles.priceIcon}>
-                <LiaDollarSignSolid size={30} />
-              </span> */}
+
               <div className={styles.timeInputBox}>
-                <span>PRICE</span>
+                <span>{t("busRoutes.price")}</span>
                 <input
                   type="number"
                   value={route.price}

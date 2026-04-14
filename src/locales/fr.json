@@ -1,0 +1,323 @@
+{
+  "login": {
+    "heading": "Connectez-vous ici",
+    "description": "Bienvenue sur We Move All ! Veuillez vous connecter à votre compte.",
+    "emailOrPhone": "Email / Numéro de téléphone",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "loginButton": "Se connecter",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire",
+    "here": "ici"
+  },
+  "signup": {
+    "heading": "Créer un compte",
+    "description": "Bienvenue sur We Move All ! Veuillez créer votre compte ici.",
+    "fullName": "Nom complet",
+    "companyName": "Nom de l'entreprise",
+    "companyAddress": "Adresse de l'entreprise",
+    "chooseBranch": "Choisir une agence",
+    "mobile": "Numéro de téléphone",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "verifyNow": "Vérifier maintenant",
+    "verified": "Vérifié",
+    "signUpButton": "S'inscrire",
+    "alreadyAccount": "Vous avez déjà un compte ?",
+    "login": "Se connecter",
+    "here": "ici"
+  },
+  "otp": {
+    "title": "Vérification OTP",
+    "description": "Entrez le code OTP envoyé à {{value}}",
+    "noCode": "Vous n'avez pas reçu le code OTP ?",
+    "resend": "Renvoyer le code",
+    "verifying": "Vérification...",
+    "verify": "Vérifier et continuer",
+    "errors": {
+      "invalidLength": "Veuillez entrer un OTP valide.",
+      "invalidOtp": "OTP invalide. Veuillez réessayer.",
+      "failed": "La vérification OTP a échoué. Veuillez réessayer."
+    }
+  },
+  "profile": {
+    "heading": "Vérification du profil",
+    "description": "Veuillez entrer vos informations.",
+    "identityCard": "Carte d'identité",
+    "businessLicense": "Licence commerciale",
+    "idFront": "Carte d'identité (recto)",
+    "idBack": "Carte d'identité (verso)",
+    "bankName": "Nom de la banque",
+    "accountNumber": "Numéro de compte bancaire",
+    "accountHolder": "Nom du titulaire du compte",
+    "bankDetails": "Détails du compte bancaire",
+    "uploadPhoto": "Télécharger une photo",
+    "uploadPhotoDesc": "Téléchargez votre photo de profil."
+  },
+  "common": {
+    "continue": "Continuer",
+    "skip": "Ignorer"
+  },
+  "errors": {
+    "required": "Ce champ est requis",
+    "invalidEmail": "Format d'email invalide"
+  },
+  "upload": {
+    "uploadFile": "Télécharger un fichier",
+    "viewFile": "Voir le fichier",
+    "noFile": "Aucun fichier téléchargé",
+    "fileSizeError": "La taille du fichier doit être inférieure à 1 Mo"
+  },
+  "dashboard": {
+    "months": {
+      "Jan": "Janv",
+      "Feb": "Févr",
+      "Mar": "Mars",
+      "Apr": "Avr",
+      "May": "Mai",
+      "Jun": "Juin",
+      "Jul": "Juil",
+      "Aug": "Août",
+      "Sep": "Sept",
+      "Oct": "Oct",
+      "Nov": "Nov",
+      "Dec": "Déc"
+    },
+    "weeks": {
+      "WEEK1": "Semaine 1",
+      "WEEK2": "Semaine 2",
+      "WEEK3": "Semaine 3",
+      "WEEK4": "Semaine 4",
+      "WEEK5": "Semaine 5"
+    },
+    "title": "Tableau de bord",
+    "subtitle": "Rapports",
+    "digitalCard": {
+      "title": "Carte de débit numérique",
+      "maskedNumber": "**** **** **** ****"
+    },
+    "incomeCard": {
+      "today": "Aujourd'hui",
+      "perDayIncome": "Revenu par jour"
+    },
+    "barChart": {
+      "heading": "Analyse des revenus",
+      "incoming": "Entrées",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel",
+      "yearly": "Annuel"
+    },
+    "pieChart": {
+      "heading": "Utilisation des bus",
+      "monthly": "Mensuel",
+      "weekly": "Hebdomadaire",
+      "yearly": "Annuel",
+      "noData": "Aucune donnée disponible pour cette période.",
+      "busNumber": "Numéro de bus"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Tableau de bord",
+    "busManagement": "Gestion des bus",
+    "routeManagement": "Gestion des itinéraires",
+    "driverManagement": "Gestion des conducteurs",
+    "ticketManagement": "Gestion des billets",
+    "wallet": "Portefeuille",
+    "addManageUser": "Ajouter/Gérer un utilisateur",
+    "customerFeedback": "Retour client"
+  },
+  "busManagement": {
+    "title": "Gestion des bus",
+    "subTitle": "Détails des bus",
+    "searchPlaceholder": "Rechercher des bus",
+    "addBus": "Ajouter les détails du bus",
+    "loading": "Chargement...",
+    "noData": "Aucune donnée de bus disponible",
+    "notAssigned": "Non attribué",
+    "viewDetails": "Voir les détails",
+    "deleteBus": "Supprimer le bus",
+    "deleteConfirm": "Voulez-vous vraiment supprimer \"{{busName}}\" ?",
+    "deleteSuccess": "Bus supprimé avec succès !",
+    "deleteError": "Échec de la suppression du bus. Veuillez réessayer.",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "busName": "Nom du bus",
+    "busModelNumber": "Numéro de modèle du bus",
+    "busRegistrationNumber": "Numéro d'immatriculation du bus",
+    "assignedDriver": "Conducteur assigné"
+  },
+  "busManagementForm": {
+    "busName": "Nom du bus",
+    "selectBusName": "Sélectionner le bus",
+    "busModel": "Modèle du bus",
+    "selectBusModel": "Sélectionner le modèle du bus",
+    "busRegistrationNumber": "Numéro d'immatriculation du bus"
+  },
+  "busInfoForm": {
+    "companyName": "Nom de l'entreprise",
+    "busName": "Nom du bus",
+    "busModelNumber": "Numéro de modèle du bus",
+    "busRegistrationNumber": "Numéro d'immatriculation du bus",
+    "uploadLimit": "Vous pouvez télécharger jusqu'à 5 images uniquement !"
+  },
+  "busStep1": {
+    "heading": "Gestion des bus",
+    "subHeading": "Ajouter les détails du bus",
+    "breadcrumbs": "Ajouter les détails du bus",
+    "next": "Suivant",
+    "saving": "Enregistrement...",
+    "uploadLicense": "Ajouter la licence du bus",
+    "uploadFile": "Télécharger le fichier",
+
+    "validation": {
+      "images": "Veuillez télécharger au moins 3 images du bus",
+      "busName": "Le nom du bus est requis",
+      "busModel": "Le numéro de modèle du bus est requis",
+      "busReg": "Le numéro d'immatriculation du bus est requis",
+      "runningDays": "Veuillez sélectionner au moins un jour de service",
+      "amenities": "Veuillez ajouter au moins un équipement",
+      "license": "Veuillez télécharger la licence du bus",
+      "uploadWait": "Veuillez attendre que le téléchargement soit terminé"
+    },
+
+    "success": "Données de l'étape 1 enregistrées !",
+    "error": "Échec de l'enregistrement des données"
+  },
+  "busDays": {
+    "title": "Jours",
+    "Sunday": "Dimanche",
+    "Monday": "Lundi",
+    "Tuesday": "Mardi",
+    "Wednesday": "Mercredi",
+    "Thursday": "Jeudi",
+    "Friday": "Vendredi",
+    "Saturday": "Samedi"
+  },
+  "busAmenities": {
+    "title": "Équipements",
+    "AC": "Climatisé",
+    "NonAC": "Non climatisé",
+    "Wifi": "Wi-Fi",
+    "Pillow": "Oreiller"
+  },
+  "busLicense": {
+    "invalidFile": "Seuls les fichiers JPG, PNG et PDF sont autorisés.",
+    "uploading": "Téléchargement...",
+    "of": "sur"
+  },
+  "busRoutes": {
+    "departure": "Départ",
+    "arrival": "Arrivée",
+    "time": "Heure",
+    "from": "De",
+    "to": "À",
+    "price": "Prix"
+  },
+  "busPickupDrop": {
+    "route": "Itinéraire",
+    "pickupPoints": "Points de prise en charge",
+    "dropPoints": "Points de dépôt",
+    "enterCity": "Entrer la ville",
+    "time": "Heure",
+    "deleteStop": "Supprimer l'arrêt"
+  },
+  "busStep2": {
+    "heading": "Gestion des bus",
+    "breadcrumbs": "Ajouter les détails du bus",
+    "totalSeats": "Nombre total de sièges",
+
+    "previous": "Précédent",
+    "save": "Enregistrer",
+
+    "validation": {
+      "invalidSeats": "Veuillez entrer un nombre valide de sièges avant d'enregistrer.",
+      "fromRequired": "Itinéraire {{index}} : le champ \"De\" est requis.",
+      "toRequired": "Itinéraire {{index}} : le champ \"À\" est requis.",
+      "departureRequired": "Itinéraire {{index}} : l'heure de départ est requise.",
+      "arrivalRequired": "Itinéraire {{index}} : l'heure d'arrivée est requise.",
+      "invalidPrice": "Itinéraire {{index}} : le prix doit être valide.",
+      "pricePositive": "Itinéraire {{index}} : le prix doit être supérieur à 0.",
+      "missingStops": "Données d'arrêt manquantes pour l'itinéraire {{index}}.",
+      "incompleteStops": "Veuillez remplir tous les champs de prise en charge et dépôt pour l'itinéraire {{index}}."
+    },
+
+    "api": {
+      "createBusFail": "Échec de la création du bus. Veuillez réessayer.",
+      "missingBusId": "ID du bus manquant. Veuillez revenir en arrière.",
+      "routeSuccess": "Itinéraires et sièges mis à jour avec succès !",
+      "seatFail": "Itinéraires enregistrés, mais échec des sièges !",
+      "noRoutes": "Aucune donnée d'itinéraire reçue",
+      "genericError": "Une erreur s'est produite !"
+    }
+  },
+  "busSummary": {
+    "heading": "Gestion des bus",
+    "breadcrumbs": "Détails du bus",
+    "busDetails": "Détails du bus",
+    "amenities": "Équipements",
+    "days": "Jours",
+    "license": "Licence",
+    "routes": "Itinéraires",
+
+    "busName": "Nom du bus",
+    "busModelNumber": "Numéro de modèle du bus",
+    "busRegistrationNumber": "Numéro d'immatriculation du bus",
+    "busLicense": "Licence du bus",
+
+    "departure": "Départ",
+    "arrival": "Arrivée",
+    "price": "Prix",
+
+    "view": "Voir",
+    "next": "Suivant",
+
+    "noImages": "🚫 Aucune image téléchargée",
+    "noAmenities": "🚫 Aucun équipement sélectionné",
+    "noFile": "🚫 Aucun fichier téléchargé",
+    "noRoutes": "🚫 Aucun itinéraire ajouté",
+
+    "notProvided": "Non fourni",
+    "notSelected": "Non sélectionné",
+    "na": "N/A",
+    "unknownAmenity": "Équipement inconnu"
+  },
+  "busDaysShort": {
+    "Monday": "Lun",
+    "Tuesday": "Mar",
+    "Wednesday": "Mer",
+    "Thursday": "Jeu",
+    "Friday": "Ven",
+    "Saturday": "Sam",
+    "Sunday": "Dim"
+  },
+  "routeManagement": {
+    "heading": "Gestion des itinéraires",
+    "subHeading": "Détails des itinéraires",
+    "search": "Rechercher des itinéraires",
+    "noData": "Aucune donnée d'itinéraire disponible",
+    "na": "N/A",
+    "notAssigned": "Non attribué",
+
+    "columns": {
+      "busRegNumber": "Numéro du bus",
+      "assignedDriver": "Conducteur assigné",
+      "departure": "Départ",
+      "arrival": "Arrivée",
+      "time": "Heure",
+      "pickups": "Points de prise",
+      "drops": "Points de dépôt",
+      "status": "Statut"
+    }
+  },
+  "dataTable": {
+    "view": "Voir",
+    "edit": "Modifier",
+    "assign": "Attribuer",
+    "na": "N/A"
+  },
+  "dropdown": {
+    "viewList": "Voir la liste",
+    "noData": "Aucune donnée disponible"
+  }
+}

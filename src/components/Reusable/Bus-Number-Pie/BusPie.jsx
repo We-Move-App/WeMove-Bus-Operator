@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./bus-pie.module.css";
+import { useTranslation } from "react-i18next";
 
 const BusPie = ({ busNumber, progress }) => {
+  const { t } = useTranslation();
   return (
     <div className={styles.busPieContainer}>
       <div className={styles.busPieContent}>
         <h2>
-          Bus Number : <span>{busNumber}</span>
+          {t("dashboard.pieChart.busNumber")} : <span>{busNumber}</span>
         </h2>
         <p>{progress}%</p>
       </div>

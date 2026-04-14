@@ -83,11 +83,11 @@ const EditRouteDetails = () => {
   const handleSaveModal = () => {
     if (editingType === "pickup") {
       setPickupPoints((prev) =>
-        prev.map((p) => (p._id === selectedPickup._id ? selectedPickup : p))
+        prev.map((p) => (p._id === selectedPickup._id ? selectedPickup : p)),
       );
     } else if (editingType === "drop") {
       setDropPoints((prev) =>
-        prev.map((d) => (d._id === selectedPickup._id ? selectedPickup : d))
+        prev.map((d) => (d._id === selectedPickup._id ? selectedPickup : d)),
       );
     }
     setShowModal(false);
@@ -120,34 +120,9 @@ const EditRouteDetails = () => {
     fetchRoute();
   }, [id]);
 
-  // const handleSaveDetails = async () => {
-  //   try {
-  //     const payload = {
-  //       busId: formData.busId,
-  //       busRegNumber: formData.busRegistrationNumber,
-  //       startLocation: formData.departure,
-  //       departureTime: formData.departureTime,
-  //       endLocation: formData.arrival,
-  //       arrivalTime: formData.arrivalTime,
-  //       pickups: pickupPoints,
-  //       drops: dropPoints,
-  //     };
-
-  //     const response = await axiosInstance.put(
-  //       `/buses/bus-routes/edit/${id}`,
-  //       payload
-  //     );
-  //     console.log("✅ Route updated successfully:", response.data);
-  //     // Optionally show a success toast or redirect
-  //   } catch (error) {
-  //     console.error("❌ Failed to update route:", error);
-  //     // Optionally show an error toast
-  //   }
-  // };
-
   const handleSaveDetails = async () => {
     try {
-      // 1️⃣ Update route details
+      //  Update route details
       const routePayload = {
         busId: formData.busId,
         busRegNumber: formData.busRegistrationNumber,
@@ -161,11 +136,11 @@ const EditRouteDetails = () => {
 
       const routeResponse = await axiosInstance.put(
         `/buses/bus-routes/edit/${id}`,
-        routePayload
+        routePayload,
       );
       console.log("Route updated successfully:", routeResponse.data);
 
-      // 2️⃣ Update price per seat
+      // Update price per seat
       const pricePayload = {
         routeId: id,
         pricePerSeat: Number(formData.pricePerSeat),
@@ -173,7 +148,7 @@ const EditRouteDetails = () => {
 
       const priceResponse = await axiosInstance.post(
         `/buses/bus-routes/update-price`,
-        pricePayload
+        pricePayload,
       );
       console.log("Price updated successfully:", priceResponse.data);
 

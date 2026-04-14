@@ -7,6 +7,7 @@ import LogInBtn from "../../components/Button/LogInBtn";
 import InputForm from "../../components/Reusable/Form/InputForm";
 import { Snackbar, Alert } from "@mui/material";
 import useLogInForm from "../../hooks/useLogInForm";
+import { useTranslation } from "react-i18next";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const LogIn = () => {
     togglePasswordVisibility,
   } = useLogInForm();
 
+  const { t } = useTranslation();
+
   const token = localStorage.getItem("dashboardAccessToken");
   useEffect(() => {
     if (token) {
@@ -34,14 +37,14 @@ const LogIn = () => {
       <div className="rightSectionContainer">
         <div className="rightContentBlock">
           <RightSection
-            heading="Log In Here"
-            description="Welcome back to We Move All! Please login to your account."
+            heading={t("login.heading")}
+            description={t("login.description")}
           />
 
           <form onSubmit={handleSubmit} className="form">
             <div className="formFieldsContainer">
               <InputForm
-                label="Email/Phone Number"
+                label={t("login.emailOrPhone")}
                 type="tel"
                 name="emailOrPhone"
                 value={formData.emailOrPhone}
@@ -50,7 +53,7 @@ const LogIn = () => {
               />
 
               <InputForm
-                label="Password"
+                label={t("login.password")}
                 type="password"
                 name="password"
                 value={formData.password}
@@ -66,14 +69,14 @@ const LogIn = () => {
                     className="link-url"
                     onClick={() => navigate("/reset-password")}
                   >
-                    Forgot Password?
+                    {t("login.forgotPassword")}
                   </span>
                 </p>
               </div>
             </div>
 
             <div className="formSubmitBtn">
-              <LogInBtn data="Log In" type="submit" />
+              <LogInBtn data={t("login.loginButton")} type="submit" />
 
               <Snackbar
                 open={Boolean(errorMessage)}
@@ -88,14 +91,14 @@ const LogIn = () => {
 
               <div className="formBottomNoteText">
                 <p>
-                  Don’t have an account?{" "}
+                  {t("login.noAccount")}{" "}
                   <span
                     className="link-url"
                     onClick={() => navigate("/sign-up")}
                   >
-                    Sign up
+                    {t("login.signUp")}
                   </span>{" "}
-                  here
+                  {t("login.here")}
                 </p>
               </div>
             </div>

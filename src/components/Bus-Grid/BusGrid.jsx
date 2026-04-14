@@ -6,11 +6,13 @@ import images from "../../assets/image";
 import useFetch from "../../hooks/useFetch";
 import { setBusData } from "../../redux/slices/busSlice";
 import { Skeleton } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const BusGrid = ({ filters, currentPage, setTotalPages }) => {
   const dispatch = useDispatch();
   const { fetchData, loading, error } = useFetch();
   const [buses, setBuses] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getBuses = async () => {
@@ -25,7 +27,7 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
               limit: 4,
               ...filters,
             },
-          }
+          },
         );
 
         const fetchedBuses = response?.data?.buses || [];
@@ -45,7 +47,7 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
   return (
     <div className={styles.gridContainer}>
       {loading ? (
-        <p>Loading...</p>
+        <p>{t("busManagement.loading")}</p>
       ) : !error && buses.length > 0 ? (
         buses.map((bus) => (
           <GridBlock
@@ -58,12 +60,12 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
             driver={
               bus.assignedDriver?.length > 0
                 ? bus.assignedDriver.map((d) => d.fullName).join(", ")
-                : "Not Assigned"
+                : t("busManagement.notAssigned")
             }
           />
         ))
       ) : (
-        <p>No bus data available</p>
+        <p>{t("busManagement.noData")}</p>
       )}
     </div>
   );

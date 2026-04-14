@@ -12,51 +12,53 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import styles from "./sidebar-new.module.css";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const SidebarNew = ({ isOpen, toggle }) => {
   const location = useLocation();
   const { role, permissions } = useSelector((state) => state.user);
+  const { t } = useTranslation();
 
   const menuItems = [
     {
       icon: Home,
-      text: "Dashboard",
+      text: t("sidebar.dashboard"),
       path: "/dashboard",
       id: "dashboardManagement",
     },
     {
       icon: Bus,
-      text: "Bus Management",
+      text: t("sidebar.busManagement"),
       path: "/bus-management",
       id: "busManagement",
     },
     {
       icon: Route,
-      text: "Route Management",
+      text: t("sidebar.routeManagement"),
       path: "/route-management",
       id: "routeManagement",
     },
     {
       icon: Users,
-      text: "Driver Management",
+      text: t("sidebar.driverManagement"),
       path: "/driver-management",
       id: "driverManagement",
     },
     {
       icon: Ticket,
-      text: "Ticket Management",
+      text: t("sidebar.ticketManagement"),
       path: "/ticket-management",
       id: "ticketManagement",
     },
     {
       icon: Wallet,
-      text: "Wallet",
+      text: t("sidebar.wallet"),
       path: "/wallet",
       id: "walletManagement",
     },
     {
       icon: UserPlus,
-      text: "Add/Manage User",
+      text: t("sidebar.addManageUser"),
       path: "/add-manage-user",
       roleAccess: ["bus-operator"],
     },
@@ -64,7 +66,7 @@ const SidebarNew = ({ isOpen, toggle }) => {
 
   const feedbackItem = {
     icon: MessageSquare,
-    text: "Customer Feedback",
+    text: t("sidebar.customerFeedback"),
     path: "/feedback",
   };
 

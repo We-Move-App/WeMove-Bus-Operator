@@ -9,6 +9,7 @@ import OtpModal from "../../components/Otp-Modal/OtpModal";
 import useSignUpForm from "../../hooks/useSignUpForm";
 import SnackbarNotification from "../../components/Reusable/Snackbar-Notification/SnackbarNotification";
 import BranchSelect from "../../components/Branch-Select/BranchSelect";
+import { useTranslation } from "react-i18next";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const SignUp = () => {
     message: "",
     severity: "info",
   });
+
+  const { t } = useTranslation();
 
   const handleSnackbarClose = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
@@ -58,13 +61,13 @@ const SignUp = () => {
       <div className="rightSectionContainer">
         <div className="rightContentBlock">
           <RightSection
-            heading="Create Account"
-            description="Welcome to We Move All! Please create your account here."
+            heading={t("signup.heading")}
+            description={t("signup.description")}
           />
           <form onSubmit={handleSubmit} className="form">
             <div className="formFieldsContainer">
               <InputForm
-                label="Full Name"
+                label={t("signup.fullName")}
                 type="text"
                 name="name"
                 value={formData.name}
@@ -73,7 +76,7 @@ const SignUp = () => {
               />
 
               <InputForm
-                label="Company Name"
+                label={t("signup.companyName")}
                 type="text"
                 name="companyName"
                 value={formData.companyName}
@@ -82,7 +85,7 @@ const SignUp = () => {
               />
 
               <InputForm
-                label="Company Address"
+                label={t("signup.companyAddress")}
                 type="text"
                 name="companyAddress"
                 value={formData.companyAddress}
@@ -91,7 +94,7 @@ const SignUp = () => {
               />
 
               <BranchSelect
-                label="Choose Branch"
+                label={t("signup.chooseBranch")}
                 required={true}
                 name="branch"
                 value={formData.branch}
@@ -102,7 +105,7 @@ const SignUp = () => {
 
               <div className="twoColumnInputContainer">
                 <InputForm
-                  label="Mobile Number"
+                  label={t("signup.mobile")}
                   type="tel"
                   name="mobile"
                   value={formData.mobile}
@@ -116,19 +119,19 @@ const SignUp = () => {
                         onClick={() => handleVerify("mobile")}
                       >
                         <CheckCircleIcon fontSize="small" />
-                        Verify Now
+                        {t("signup.verifyNow")}
                       </span>
                     ) : (
                       <span className="verifiedText">
                         <CheckCircleIcon fontSize="small" />
-                        Verified
+                        {t("signup.verified")}
                       </span>
                     )
                   }
                 />
 
                 <InputForm
-                  label="E-mail Id"
+                  label={t("signup.email")}
                   type="email"
                   name="email"
                   value={formData.email}
@@ -142,12 +145,12 @@ const SignUp = () => {
                         onClick={() => handleVerify("email")}
                       >
                         <CheckCircleIcon fontSize="small" />
-                        Verify Now
+                        {t("signup.verifyNow")}
                       </span>
                     ) : (
                       <span className="verifiedText">
                         <CheckCircleIcon fontSize="small" />
-                        Verified
+                        {t("signup.verified")}
                       </span>
                     )
                   }
@@ -156,7 +159,7 @@ const SignUp = () => {
 
               <div className="twoColumnInputContainer">
                 <InputForm
-                  label="Password"
+                  label={t("signup.password")}
                   type="password"
                   name="password"
                   value={formData.password}
@@ -165,7 +168,7 @@ const SignUp = () => {
                 />
 
                 <InputForm
-                  label="Confirm Password"
+                  label={t("signup.confirmPassword")}
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -177,18 +180,18 @@ const SignUp = () => {
 
             <div className="formSubmitBtn">
               <LogInBtn
-                data="Sign Up"
+                data={t("signup.signUpButton")}
                 type="submit"
                 disabled={!verifiedFields.mobile || !verifiedFields.email}
               />
 
               <div className="formBottomNoteText">
                 <p>
-                  Already have an account?{" "}
+                  {t("signup.alreadyAccount")}{" "}
                   <span className="link-url" onClick={() => navigate("/")}>
-                    Log In
+                    {t("signup.login")}
                   </span>{" "}
-                  here
+                  {t("signup.here")}
                 </p>
               </div>
             </div>

@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "./bus-days.module.css";
+import { useTranslation } from "react-i18next";
 
 const BusDays = ({ formData, setFormData }) => {
+  const { t } = useTranslation();
+
   const days = [
     "Sunday",
     "Monday",
@@ -23,8 +26,9 @@ const BusDays = ({ formData, setFormData }) => {
   return (
     <div className={styles.busDaysContainer}>
       <div className={styles.content}>
-        <h3>Days</h3>
+        <h3>{t("busDays.title")}</h3>
       </div>
+
       <div className={styles.daysContainer}>
         {days.map((day) => (
           <button
@@ -34,7 +38,7 @@ const BusDays = ({ formData, setFormData }) => {
             }`}
             onClick={() => toggleDay(day)}
           >
-            <h3>{day}</h3>
+            <h3>{t(`busDays.${day}`)}</h3>
           </button>
         ))}
       </div>

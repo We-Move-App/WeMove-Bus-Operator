@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./upload-file.module.css";
 import images from "../../../assets/image";
 import SnackbarNotification from "../Snackbar-Notification/SnackbarNotification";
+import { useTranslation } from "react-i18next";
 
 const UploadFile = ({
   label,
@@ -21,6 +22,7 @@ const UploadFile = ({
     message: "",
     severity: "error",
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (textMode === "view" && propFileUrl) {
@@ -40,7 +42,7 @@ const UploadFile = ({
       if (fileSizeMB > 1) {
         setSnackbar({
           open: true,
-          message: "File size should be less than 1 MB",
+          message: "upload.fileSizeError",
           severity: "error",
         });
         e.target.value = ""; // Reset file input
@@ -64,9 +66,9 @@ const UploadFile = ({
 
   const getDisplayText = () => {
     if (textMode === "view") {
-      return fileUrl ? "View File" : "No file uploaded";
+      return fileUrl ? t("upload.viewFile") : t("upload.noFile");
     }
-    return fileName || "Upload file";
+    return fileName || t("upload.uploadFile");
   };
 
   return (
