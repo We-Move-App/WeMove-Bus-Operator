@@ -10,11 +10,13 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const UserDetails = () => {
   const location = useLocation();
   const existingUser = location.state?.user || null;
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // State for form inputs
   const [formData, setFormData] = useState({
@@ -118,7 +120,7 @@ const UserDetails = () => {
     ) {
       setSnackbar({
         open: true,
-        message: "Kindly fill up all required details.",
+        message: t("userDetails.validation.required"),
         severity: "error",
       });
       return;
@@ -136,7 +138,7 @@ const UserDetails = () => {
     if (age < 18) {
       setSnackbar({
         open: true,
-        message: "User must be at least 18 years old.",
+        message: t("userDetails.validation.age"),
         severity: "error",
       });
       return;
@@ -149,7 +151,7 @@ const UserDetails = () => {
     if (selectedPermissions.length === 0) {
       setSnackbar({
         open: true,
-        message: "Please select at least one permission.",
+        message: t("userDetails.validation.permission"),
         severity: "error",
       });
       return;
@@ -190,7 +192,7 @@ const UserDetails = () => {
     if (!emailRegex.test(formData.email)) {
       setSnackbar({
         open: true,
-        message: "Please enter a valid email address.",
+        message: t("userDetails.validation.email"),
         severity: "error",
       });
       return;
@@ -216,7 +218,7 @@ const UserDetails = () => {
 
       setSnackbar({
         open: true,
-        message: response.data?.message || "User saved successfully!",
+        message: response.data?.message || t("userDetails.validation.success"),
         severity: "success",
       });
 
@@ -227,8 +229,7 @@ const UserDetails = () => {
       setSnackbar({
         open: true,
         message:
-          err.response?.data?.message ||
-          "Failed to save user. Please try again.",
+          err.response?.data?.message || t("userDetails.validation.error"),
         severity: "error",
       });
     }
@@ -236,47 +237,50 @@ const UserDetails = () => {
 
   return (
     <>
-      <ContentHeading heading="Bus Management" showSubHeading={false} />
+      <ContentHeading
+        heading={t("userDetails.heading")}
+        showSubHeading={false}
+      />
       <>
         <div className={styles.addUserGridContainer}>
           <section className={styles.managerDetails}>
-            <h3>Manager Details</h3>
+            <h3>{t("userDetails.managerDetails")}</h3>
             <div className={styles.inputUserContainer}>
               <InputField
                 layout="row"
-                label="Name"
+                label={t("userDetails.name")}
                 value={formData.fullName}
                 onChange={handleInputChange("fullName")}
               />
               <InputField
-                label="Tel"
+                label={t("userDetails.tel")}
                 layout="row"
                 type="tel"
                 value={formData.phoneNumber}
                 onChange={handleInputChange("phoneNumber")}
               />
               <InputField
-                label="Email"
+                label={t("userDetails.email")}
                 layout="row"
                 type="email"
                 value={formData.email}
                 onChange={handleInputChange("email")}
               />
               <InputField
-                label="ID Number"
+                label={t("userDetails.idNumber")}
                 layout="row"
                 value={formData.idNumber}
                 onChange={handleInputChange("idNumber")}
               />
               <InputField
-                label="Date of Birth"
+                label={t("userDetails.dob")}
                 layout="row"
                 type="date"
                 value={formData.dob}
                 onChange={handleInputChange("dob")}
               />
               <InputField
-                label="Password"
+                label={t("userDetails.password")}
                 layout="row"
                 type={showPassword ? "text" : "password"}
                 value={formData.password}
@@ -299,37 +303,37 @@ const UserDetails = () => {
           </section>
 
           <section className={styles.accessDetails}>
-            <h3>Access Management</h3>
+            <h3>{t("userDetails.accessManagement")}</h3>
             <div className={styles.inputUserContainer}>
               <CheckBoxItem
-                label="View Dashboard"
+                label={t("userDetails.permissions.dashboard")}
                 checked={permissions.dashboardManagement}
                 // onChange={() => togglePermission("dashboardManagement")}
                 onChange={() => {}}
                 disabled={true}
               />
               <CheckBoxItem
-                label="Bus Management"
+                label={t("userDetails.permissions.bus")}
                 checked={permissions.busManagement}
                 onChange={() => togglePermission("busManagement")}
               />
               <CheckBoxItem
-                label="Route Management"
+                label={t("userDetails.permissions.route")}
                 checked={permissions.routeManagement}
                 onChange={() => togglePermission("routeManagement")}
               />
               <CheckBoxItem
-                label="Driver Management"
+                label={t("userDetails.permissions.driver")}
                 checked={permissions.driverManagement}
                 onChange={() => togglePermission("driverManagement")}
               />
               <CheckBoxItem
-                label="Ticket Management"
+                label={t("userDetails.permissions.ticket")}
                 checked={permissions.ticketManagement}
                 onChange={() => togglePermission("ticketManagement")}
               />
               <CheckBoxItem
-                label="Wallet"
+                label={t("userDetails.permissions.wallet")}
                 checked={permissions.walletManagement}
                 onChange={() => togglePermission("walletManagement")}
               />
@@ -339,7 +343,9 @@ const UserDetails = () => {
 
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <CustomBtn
-            label={existingUser ? "Update" : "Save Details"}
+            label={
+              existingUser ? t("userDetails.update") : t("userDetails.save")
+            }
             onClick={handleSubmit}
           />
         </div>

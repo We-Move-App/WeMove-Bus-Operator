@@ -93,7 +93,7 @@ const useLogInForm = () => {
         localStorage.setItem("dashboardAccessToken", accessToken);
         localStorage.setItem("dashboardRefreshToken", refreshToken);
         setAuthToken(accessToken);
-        console.log("✅ Navigation triggered");
+        console.log("Navigation triggered");
         navigate("/dashboard", { replace: true });
       } else {
         console.log("Login failed");

@@ -5,8 +5,11 @@ import { PiCalendarDotsLight } from "react-icons/pi";
 import { GiBus } from "react-icons/gi";
 import TicketDetails from "../Ticket-Details/TicketDetails";
 import axiosInstance from "../../../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (!formData.routes || formData.routes.length === 0) {
       setFormData((prev) => ({
@@ -46,7 +49,7 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
     };
 
     if (!payload.from && !payload.to && !payload.date) {
-      setSearchError("Please enter at least one filter (from / to / date).");
+      setSearchError(t("addTicket.busRoutes.validation"));
       return;
     }
 
@@ -55,18 +58,14 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
 
     try {
       const res = await axiosInstance.get("buses/bus-routes/all-routes", {
-        params: {
-          from: payload.from,
-          to: payload.to,
-          date: payload.date,
-        },
+        params: payload,
       });
-      const filtered = res.data?.data?.routes ?? [];
 
+      const filtered = res.data?.data?.routes ?? [];
       setSearchedRoutes(filtered);
     } catch (err) {
       console.error("Search API failed:", err);
-      setSearchError("Failed to fetch filtered routes. Try again.");
+      setSearchError(t("addTicket.busRoutes.error"));
       setSearchedRoutes([]);
     } finally {
       setSearching(false);
@@ -82,18 +81,19 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
     <div className={styles.mainRouteContainer}>
       {schedules.map((schedule, index) => (
         <div key={index} className={styles.busRoutesContainer}>
-          {/* Departure Section - Date & From Together */}
+          {/* Departure */}
           <div className={styles.routes}>
             <div className={styles.scheduleRow}>
               <div className={styles.scheduleHeader}>
-                <h3>Departure</h3>
+                <h3>{t("addTicket.busRoutes.departure")}</h3>
               </div>
             </div>
+
             <div className={styles.timeSection}>
               <div className={styles.timeContainerBox}>
                 <PiCalendarDotsLight size={32} color="white" />
                 <div className={styles.timeInputBox}>
-                  <h3>Date</h3>
+                  <h3>{t("addTicket.busRoutes.date")}</h3>
                   <input
                     type="date"
                     value={schedule.date}
@@ -103,15 +103,17 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
                   />
                 </div>
               </div>
+
               <span className={styles.line}></span>
+
               <div className={styles.timeContainerBox}>
                 <GiBus size={32} color="white" />
                 <div className={styles.timeInputBox}>
-                  <h3>From</h3>
+                  <h3>{t("addTicket.busRoutes.from")}</h3>
                   <input
                     type="text"
                     value={schedule.from}
-                    placeholder="Enter City"
+                    placeholder={t("addTicket.busRoutes.enterCity")}
                     onChange={(e) =>
                       handleInputChange(index, "from", e.target.value)
                     }
@@ -121,23 +123,24 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
             </div>
           </div>
 
-          {/* Arrival Section - "To" + Search */}
+          {/* Arrival */}
           <div className={styles.routes}>
             <div className={styles.scheduleRow}>
               <div className={styles.scheduleHeader}>
-                <h3>Arrival</h3>
+                <h3>{t("addTicket.busRoutes.arrival")}</h3>
               </div>
             </div>
+
             <div className={styles.timeSectionBox}>
               <div className={styles.timeSearchBox}>
                 <GiBus size={32} color="white" />
                 <div className={styles.timeInputBox}>
-                  <h3>To</h3>
+                  <h3>{t("addTicket.busRoutes.to")}</h3>
                   <div className={styles.searchContainer}>
                     <input
                       type="text"
                       value={schedule.to}
-                      placeholder="Enter City"
+                      placeholder={t("addTicket.busRoutes.enterCity")}
                       onChange={(e) =>
                         handleInputChange(index, "to", e.target.value)
                       }
@@ -146,7 +149,6 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
                 </div>
               </div>
 
-              {/* SEARCH BUTTON */}
               <div className={styles.searchInputBox}>
                 <button
                   type="button"
@@ -161,17 +163,20 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
         </div>
       ))}
 
-      {/* show search error or loading */}
       {searchError && (
         <div style={{ color: "red", padding: "8px 0" }}>{searchError}</div>
       )}
-      {searching && <div style={{ padding: "8px 0" }}>Searching...</div>}
 
-      {/* CLEAR SEARCH BUTTON (visible only when a filtered result is shown) */}
+      {searching && (
+        <div style={{ padding: "8px 0" }}>
+          {t("addTicket.busRoutes.searching")}
+        </div>
+      )}
+
       {searchedRoutes !== null && (
         <div style={{ margin: "8px 0" }}>
           <button onClick={clearSearch} className={styles.clearSearchBtn}>
-            Clear search
+            {t("addTicket.busRoutes.clearSearch")}
           </button>
         </div>
       )}
@@ -179,7 +184,6 @@ const BusRoutesWithDate = ({ formData, setFormData, onRouteSelect }) => {
       <TicketDetails
         routesOverride={searchedRoutes}
         onRouteSelect={(selectedRoute) => {
-          console.log("selectedRoute at parent:", selectedRoute);
           const updatedSchedules = [...(formData.routes || [])];
           updatedSchedules[0] = {
             ...updatedSchedules[0],

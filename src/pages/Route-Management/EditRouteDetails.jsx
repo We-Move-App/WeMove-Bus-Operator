@@ -13,10 +13,12 @@ import axiosInstance from "../../services/axiosInstance";
 import EditPickupModal from "../../components/Edit-Pickup-Modal/EditPickupModal";
 import { useNavigate } from "react-router-dom";
 import SnackbarNotification from "../../components/Reusable/Snackbar-Notification/SnackbarNotification";
+import { useTranslation } from "react-i18next";
 
 const EditRouteDetails = () => {
   const { id } = useParams();
-  console.log("Editing route with ID:", id);
+  const { t } = useTranslation();
+  // console.log("Editing route with ID:", id);
 
   const [formData, setFormData] = useState({
     busId: "",
@@ -154,7 +156,7 @@ const EditRouteDetails = () => {
 
       setSnackbar({
         open: true,
-        message: "Route and price updated successfully!",
+        message: t("editRoute.success"),
         severity: "success",
       });
 
@@ -165,7 +167,7 @@ const EditRouteDetails = () => {
       console.error("❌ Failed to update route or price:", error);
       setSnackbar({
         open: true,
-        message: "Failed to update route or price.",
+        message: t("editRoute.error"),
         severity: "error",
       });
     }
@@ -174,16 +176,16 @@ const EditRouteDetails = () => {
   return (
     <div className={styles.routeManagementContainer}>
       <ContentHeading
-        heading="Route Management"
+        heading={t("editRoute.heading")}
         showSubHeading={false}
         showBreadcrumbs={true}
-        breadcrumbs="Edit Route"
+        breadcrumbs={t("editRoute.breadcrumbs")}
       />
 
       <div className={styles.formContainer}>
         <div className={styles.formRow}>
           <div className={styles.formSection}>
-            <h3 className={styles.formLabel}>Departure</h3>
+            <h3 className={styles.formLabel}>{t("editRoute.departure")}</h3>
             <input
               type="text"
               name="departure"
@@ -194,7 +196,9 @@ const EditRouteDetails = () => {
           </div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className={styles.formSection}>
-              <label className={styles.formLabel}>Departure Time</label>
+              <label className={styles.formLabel}>
+                {t("editRoute.departureTime")}
+              </label>
               <div
                 className={styles.inputWithIcon}
                 onClick={(e) => {
@@ -209,7 +213,7 @@ const EditRouteDetails = () => {
                   value={formData.departureTime}
                   readOnly
                   className={`${styles.formInput} ${styles.timeInput}`}
-                  placeholder="06:00 AM"
+                  placeholder={t("editRoute.timePlaceholder")}
                 />
                 <div className={styles.timeIcon}>
                   <Clock size={20} />
@@ -246,7 +250,7 @@ const EditRouteDetails = () => {
 
         <div className={styles.formRow}>
           <div className={styles.formSection}>
-            <h3 className={styles.formLabel}>Arrival</h3>
+            <h3 className={styles.formLabel}>{t("editRoute.arrival")}</h3>
             <input
               type="text"
               name="arrival"
@@ -257,7 +261,9 @@ const EditRouteDetails = () => {
           </div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className={styles.formSection}>
-              <label className={styles.formLabel}>Arrival Time</label>
+              <label className={styles.formLabel}>
+                {t("editRoute.arrivalTime")}
+              </label>
               <div
                 className={styles.inputWithIcon}
                 onClick={(e) => {
@@ -310,7 +316,7 @@ const EditRouteDetails = () => {
         <div className={styles.pointsRow}>
           <div className={styles.pointsSection}>
             <div className={styles.pointsHeader}>
-              <h3>Pickup Points</h3>
+              <h3>{t("editRoute.pickupPoints")}</h3>
               {/* <button className={styles.addButton} onClick={handleAddPickup}>
                 <Plus size={16} />
                 Add Pickup
@@ -326,7 +332,7 @@ const EditRouteDetails = () => {
                     className={styles.editButton}
                     onClick={() => handleEdit("pickup", point._id)}
                   >
-                    Edit
+                    {t("editRoute.edit")}
                   </button>
                 </div>
               ))}
@@ -335,7 +341,7 @@ const EditRouteDetails = () => {
 
           <div className={styles.pointsSection}>
             <div className={styles.pointsHeader}>
-              <h3>Drop Points</h3>
+              <h3>{t("editRoute.dropPoints")}</h3>
               {/* <button className={styles.addButton} onClick={handleAddDropOff}>
                 <Plus size={16} />
                 Add DropOff
@@ -351,14 +357,14 @@ const EditRouteDetails = () => {
                     className={styles.editButton}
                     onClick={() => handleEdit("drop", point._id)}
                   >
-                    Edit
+                    {t("editRoute.edit")}
                   </button>
                 </div>
               ))}
             </div>
           </div>
           <div className={styles.formSection}>
-            <h3 className={styles.formLabel}>Price</h3>
+            <h3 className={styles.formLabel}>{t("editRoute.price")}</h3>
             <input
               type="text"
               name="pricePerSeat"
@@ -376,11 +382,12 @@ const EditRouteDetails = () => {
           onChange={handlePickupFieldChange}
           onClose={() => setShowModal(false)}
           onSave={handleSaveModal}
+          type={editingType}
         />
 
         <div className={styles.saveSection}>
           <button className={styles.saveButton} onClick={handleSaveDetails}>
-            Save
+            {t("editRoute.save")}
           </button>
         </div>
 

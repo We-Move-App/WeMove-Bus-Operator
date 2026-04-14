@@ -10,6 +10,32 @@
     "signUp": "S'inscrire",
     "here": "ici"
   },
+  "auth": {
+    "reset": {
+      "heading": "Réinitialisez votre mot de passe",
+      "description": "Entrez votre identifiant pour recevoir un code de vérification.",
+      "input": "Adresse e-mail / Numéro de téléphone",
+      "sendCode": "Envoyer le code de vérification"
+    },
+    "update": {
+      "heading": "Mettre à jour votre mot de passe",
+      "description": "Définissez votre nouveau mot de passe ci-dessous.",
+
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "continue": "Continuer",
+
+      "success": "Mot de passe mis à jour avec succès",
+      "error": "Une erreur est survenue !",
+
+      "validation": {
+        "passwordRequired": "Le mot de passe est requis",
+        "confirmRequired": "Veuillez confirmer votre mot de passe",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "missingIdentifier": "E-mail ou téléphone manquant. Veuillez réessayer."
+      }
+    }
+  },
   "signup": {
     "heading": "Créer un compte",
     "description": "Bienvenue sur We Move All ! Veuillez créer votre compte ici.",
@@ -319,5 +345,279 @@
   "dropdown": {
     "viewList": "Voir la liste",
     "noData": "Aucune donnée disponible"
+  },
+  "editRoute": {
+    "heading": "Gestion des itinéraires",
+    "breadcrumbs": "Modifier l'itinéraire",
+
+    "departure": "Départ",
+    "departureTime": "Heure de départ",
+    "arrival": "Arrivée",
+    "arrivalTime": "Heure d'arrivée",
+    "price": "Prix",
+
+    "pickupPoints": "Points de prise en charge",
+    "dropPoints": "Points de dépôt",
+
+    "edit": "Modifier",
+    "save": "Enregistrer",
+
+    "timePlaceholder": "06:00",
+
+    "success": "Itinéraire et prix mis à jour avec succès !",
+    "error": "Échec de la mise à jour de l'itinéraire ou du prix.",
+    "editPickupPoint": "Modifier le point de prise",
+    "editDropPoint": "Modifier le point de dépôt",
+    "location": "Lieu",
+    "time": "Heure",
+    "cancel": "Annuler",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "driverManagement": {
+    "heading": "Gestion des conducteurs",
+    "subHeading": "Détails des conducteurs",
+    "search": "Rechercher un ID conducteur",
+    "addDriver": "Ajouter un conducteur",
+    "noData": "Aucune donnée de conducteur disponible",
+    "na": "N/A",
+
+    "columns": {
+      "driverId": "ID conducteur",
+      "name": "Nom",
+      "busRegNumber": "Numéro du bus",
+      "mobileNumber": "Numéro mobile",
+      "license": "Licence",
+      "action": "Action"
+    }
+  },
+  "driverDetails": {
+    "heading": "Gestion des conducteurs",
+    "breadcrumbs": "Ajouter un conducteur",
+    "picture": "Image",
+    "driverName": "Nom du conducteur",
+    "mobileNumber": "Numéro mobile",
+    "phonePlaceholder": "Entrez un numéro à 9 chiffres",
+    "licenseTitle": "Ajouter une licence de conducteur",
+    "upload": "Télécharger vos fichiers",
+    "save": "Enregistrer",
+
+    "validation": "Veuillez remplir tous les champs avant d’enregistrer.",
+    "success": "Conducteur ajouté avec succès !",
+    "error": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "driverLicense": {
+    "invalidFile": "Seuls les fichiers JPG, PNG et PDF sont autorisés.",
+    "uploading": "Téléchargement..."
+  },
+  "ticket": {
+    "heading": "Gestion des billets",
+    "subHeading": "Détails du client",
+    "search": "Rechercher un client",
+    "addTicket": "Ajouter un billet",
+    "noData": "Aucune donnée de billet disponible",
+
+    "columns": {
+      "bookingId": "ID de réservation",
+      "name": "Nom",
+      "busRegNumber": "Numéro du bus",
+      "mobile": "Numéro mobile",
+      "email": "Email",
+      "date": "Date",
+      "time": "Heure",
+      "pickup": "Point de prise",
+      "drop": "Point de dépôt",
+      "status": "Statut"
+    },
+
+    "status": {
+      "departure": "Départ",
+      "yetToStart": "Pas encore commencé"
+    },
+
+    "actions": {
+      "edit": "Modifier",
+      "cancel": "Annuler"
+    },
+
+    "filters": {
+      "heading": "Appliquer des filtres",
+      "pickup": "Point de prise",
+      "drop": "Point de dépôt",
+      "apply": "Appliquer"
+    }
+  },
+  "addTicket": {
+    "heading": "Gestion des billets",
+    "breadcrumbs": "Ajouter un billet",
+
+    "customerName": "Nom du client",
+    "mobileNumber": "Numéro mobile",
+    "email": "E-mail",
+
+    "proceed": "Continuer",
+
+    "validation": "Veuillez remplir tous les champs requis.",
+    "success": "Billet réservé avec succès !",
+    "error": "Échec de la réservation. Veuillez réessayer.",
+    "busRoutes": {
+      "departure": "Départ",
+      "arrival": "Arrivée",
+      "date": "Date",
+      "from": "De",
+      "to": "À",
+      "enterCity": "Entrer la ville",
+
+      "validation": "Veuillez entrer au moins un filtre (de / à / date).",
+      "error": "Échec de la récupération des itinéraires. Réessayez.",
+
+      "searching": "Recherche...",
+      "clearSearch": "Effacer la recherche"
+    }
+  },
+  "ticketDetails": {
+    "loading": "Chargement des itinéraires...",
+    "noRoutes": "Aucun itinéraire disponible.",
+    "loadError": "Impossible de charger les itinéraires.",
+    "noMatch": "Aucun itinéraire trouvé.",
+
+    "busDetails": "Détails du bus",
+    "amount": "Montant",
+    "price": "Prix",
+
+    "invalidTime": "Heure invalide",
+    "na": "N/A"
+  },
+  "wallet": {
+    "heading": "Portefeuille"
+  },
+  "finance": {
+    "tabs": {
+      "transactionHistory": "Historique des transactions",
+      "withdraw": "Retirer"
+    }
+  },
+  "transaction": {
+    "heading": "Historique des transactions",
+
+    "columns": {
+      "id": "ID de transaction",
+      "type": "Type de transaction",
+      "source": "Source / Description",
+      "date": "Date",
+      "time": "Heure",
+      "amount": "Montant"
+    },
+
+    "walletWithdrawal": "Retrait du portefeuille",
+    "na": "N/A"
+  },
+
+  "bank": {
+    "withdrawTitle": "Retirer un montant",
+    "enterAmount": "Entrez le montant",
+    "withdraw": "Retirer",
+
+    "successTitle": "Félicitations ! Opération réussie.",
+    "successMessage": "Nous sommes ravis d'accueillir chaleureusement tous les nouveaux et anciens membres.",
+
+    "withdrawDescription": "Retirer les gains des réservations",
+    "errorFallback": "Échec du retrait. Veuillez réessayer."
+  },
+  "pagination": {
+    "prev": "Précédent",
+    "next": "Suivant"
+  },
+
+  "user": {
+    "addUser": "Ajouter un utilisateur",
+    "actions": {
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    }
+  },
+  "userDetails": {
+    "heading": "Gestion des bus",
+
+    "managerDetails": "Détails du gestionnaire",
+    "accessManagement": "Gestion des accès",
+
+    "name": "Nom",
+    "tel": "Téléphone",
+    "email": "E-mail",
+    "idNumber": "Numéro d'identité",
+    "dob": "Date de naissance",
+    "password": "Mot de passe",
+
+    "update": "Mettre à jour",
+    "save": "Enregistrer les détails",
+
+    "permissions": {
+      "dashboard": "Voir le tableau de bord",
+      "bus": "Gestion des bus",
+      "route": "Gestion des itinéraires",
+      "driver": "Gestion des conducteurs",
+      "ticket": "Gestion des billets",
+      "wallet": "Portefeuille"
+    },
+
+    "validation": {
+      "required": "Veuillez remplir tous les champs requis.",
+      "age": "L'utilisateur doit avoir au moins 18 ans.",
+      "permission": "Veuillez sélectionner au moins une permission.",
+      "name": "Le nom doit contenir uniquement des lettres et au moins 2 caractères.",
+      "email": "Veuillez entrer une adresse e-mail valide."
+    },
+
+    "success": "Utilisateur enregistré avec succès !",
+    "error": "Échec de l'enregistrement de l'utilisateur."
+  },
+  "customerFeedback": {
+    "heading": "Avis des clients",
+    "subheading": "Avis des clients",
+
+    "noData": "Aucun avis trouvé.",
+    "error": "Une erreur est survenue. Veuillez réessayer plus tard.",
+
+    "anonymous": "Anonyme"
+  },
+  "busProfile": {
+    "heading": "Profil",
+
+    "personalDetails": "Détails personnels",
+    "companyDetails": "Détails de l'entreprise",
+
+    "loading": "Chargement...",
+
+    "save": "Enregistrer",
+    "update": "Mettre à jour",
+    "edit": "Modifier",
+
+    "bank": {
+      "add": "Ajouter une banque",
+      "edit": "Modifier la banque",
+      "saved": "Banque enregistrée",
+
+      "bankName": "Nom de la banque",
+      "accountNumber": "Numéro de compte bancaire",
+      "accountHolder": "Nom du titulaire du compte",
+      "upload": "Détails du compte bancaire",
+      "noFile": "Aucun fichier téléchargé",
+
+      "addSuccess": "Détails bancaires ajoutés avec succès !",
+      "updateSuccess": "Détails bancaires mis à jour avec succès !",
+      "error": "Échec de l'enregistrement des détails bancaires.",
+      "invalidFile": "Veuillez télécharger une image valide"
+    }
+  },
+  "assignDriver": {
+    "heading": "Gestion des conducteurs",
+    "breadcrumb": "Attribuer un conducteur",
+    "button": "Attribuer un conducteur",
+
+    "phone": "Téléphone",
+
+    "success": "Conducteur attribué avec succès !",
+    "fail": "Échec de l'attribution du conducteur.",
+    "error": "Une erreur est survenue lors de l'attribution du conducteur."
   }
 }

@@ -5,13 +5,16 @@ import CustomBtn from "../../Reusable/Custom-Button/CustomBtn";
 import FormModal from "../../Reusable/Form-Modal/FormModal";
 import axiosInstance from "../../../services/axiosInstance";
 import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
+import { useTranslation } from "react-i18next";
 
 const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
+  const { t } = useTranslation();
+
   const [isModalOpen, setIsModalOpen] = useState(openOnMount);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(true);
   const [bankData, setBankData] = useState(null);
   const [withdrawAmount, setWithdrawAmount] = useState("");
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -40,24 +43,22 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
       const payload = {
         entity: "busOperator",
         amount: parseFloat(withdrawAmount),
-        description: "Withdraw earnings from July bookings",
+        description: t("bank.withdrawDescription"),
       };
 
-      const response = await axiosInstance.post("/momo/withdraw", payload);
+      await axiosInstance.post("/momo/withdraw", payload);
 
-      console.log("Withdraw Success:", response.data);
       setIsModalOpen(false);
       setIsConfirmModalOpen(true);
     } catch (error) {
       console.error("Withdraw failed:", error);
 
-      // extract backend error message safely
       const errorMessage =
-        error?.response?.data?.message || // backend's "message"
+        error?.response?.data?.message ||
         (Array.isArray(error?.response?.data?.errors) &&
-          error.response.data.errors[0]) || // first error in array
-        error?.message || // axios/network error
-        "Withdrawal failed. Please try again."; // fallback
+          error.response.data.errors[0]) ||
+        error?.message ||
+        t("bank.errorFallback");
 
       setSnackbar({
         open: true,
@@ -69,7 +70,7 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
 
   return (
     <div className={styles.bankDetailsContainer}>
-      {/* First Modal - Withdrawal Form */}
+      {/* Withdraw Modal */}
       <FormModal
         isOpen={isModalOpen}
         onClose={() => {
@@ -78,41 +79,28 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
         }}
         content={
           <div className={styles.formContainerModal}>
-            <h2>Withdraw Amount</h2>
-            {/* <input type="text" className={styles.inputField} /> */}
+            <h2>{t("bank.withdrawTitle")}</h2>
+
             <input
               type="number"
               className={styles.inputField}
               value={withdrawAmount}
               onChange={(e) => setWithdrawAmount(e.target.value)}
-              placeholder="Enter amount"
+              placeholder={t("bank.enterAmount")}
             />
-
-            {/* <label className={styles.radioLabel}>
-              <h3>Your Wallet</h3>
-              <div className={styles.inputBlock}>
-                <input
-                  type="radio"
-                  name="walletSelection"
-                  checked={selectedOption}
-                  onChange={() => setSelectedOption(true)}
-                />
-
-                <div className={styles.inputBlockContent}>
-                  <h5>WeMove All </h5>
-                  <p>12,000XAF</p>
-                </div>
-              </div>
-            </label> */}
           </div>
         }
         actionButton={
-          <CustomBtn width="160px" label="Withdraw" onClick={handleWithdraw} />
+          <CustomBtn
+            width="160px"
+            label={t("bank.withdraw")}
+            onClick={handleWithdraw}
+          />
         }
         customClassName={styles.withdrawModal}
       />
 
-      {/* Second Modal - Confirmation */}
+      {/* Confirmation Modal */}
       <FormModal
         isOpen={isConfirmModalOpen}
         onClose={() => {
@@ -126,15 +114,15 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
             <div className={styles.imageBlockCongrats}>
               <img src={images.congratsIcon} alt="" />
             </div>
-            <h3> Congratulation! Successfully done.</h3>
-            <p>
-              We are thrilled to extend a warm welcome to all newcomers and
-              returning members alike.
-            </p>
+
+            <h3>{t("bank.successTitle")}</h3>
+
+            <p>{t("bank.successMessage")}</p>
           </div>
         }
         customClassName={styles.confirmModal}
       />
+
       <SnackbarNotification
         snackbar={snackbar}
         handleClose={handleCloseSnackbar}

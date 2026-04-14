@@ -1,15 +1,20 @@
 import React from "react";
 import styles from "./pagination.module.css";
+import { useTranslation } from "react-i18next";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const { t } = useTranslation();
+
   const maxPageNumbersToShow = 5;
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
+
     let startPage = Math.max(
       1,
-      currentPage - Math.floor(maxPageNumbersToShow / 2)
+      currentPage - Math.floor(maxPageNumbersToShow / 2),
     );
+
     let endPage = Math.min(totalPages, startPage + maxPageNumbersToShow - 1);
 
     if (endPage - startPage < maxPageNumbersToShow - 1) {
@@ -24,9 +29,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           onClick={() => onPageChange(i)}
         >
           {i}
-        </li>
+        </li>,
       );
     }
+
     return pageNumbers;
   };
 
@@ -37,16 +43,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           className={currentPage === 1 ? styles.disabled : ""}
           onClick={() => onPageChange(currentPage - 1)}
         >
-          Prev
+          {t("pagination.prev")}
         </li>
+
         {renderPageNumbers()}
+
         <li
           className={`${currentPage === totalPages ? styles.disabled : ""} ${
             styles.next
           }`}
           onClick={() => onPageChange(currentPage + 1)}
         >
-          Next
+          {t("pagination.next")}
         </li>
       </ul>
     </div>
