@@ -619,5 +619,20 @@
     "success": "Conducteur attribué avec succès !",
     "fail": "Échec de l'attribution du conducteur.",
     "error": "Une erreur est survenue lors de l'attribution du conducteur."
+  },
+  "submission": {
+    "title": "Soumission reçue !",
+    "description": "Merci d'avoir rempli le formulaire. Votre demande est en cours d'examen et sera bientôt approuvée par un administrateur."
+  },
+  "navbar": {
+    "user": "Utilisateur",
+    "verified": "Vérifié",
+
+    "profile": "Profil",
+    "logout": "Se déconnecter",
+
+    "notifications": "Notifications",
+    "loading": "Chargement...",
+    "noNotifications": "Aucune notification"
   }
 }

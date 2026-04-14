@@ -619,5 +619,20 @@
     "success": "Driver assigned successfully!",
     "fail": "Failed to assign driver.",
     "error": "Something went wrong while assigning driver."
+  },
+  "submission": {
+    "title": "Submission Received!",
+    "description": "Thank you for filling out the form. Your request is under review and will be approved by an admin shortly."
+  },
+  "navbar": {
+    "user": "User",
+    "verified": "Verified",
+
+    "profile": "Profile",
+    "logout": "Logout",
+
+    "notifications": "Notifications",
+    "loading": "Loading...",
+    "noNotifications": "No notifications"
   }
 }
