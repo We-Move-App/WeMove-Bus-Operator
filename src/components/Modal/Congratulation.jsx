@@ -4,9 +4,11 @@ import styles from "./congratulation.module.css";
 import images from "../../assets/image";
 import { RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Congratulation = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -22,11 +24,8 @@ const Congratulation = () => {
             <div className={styles.checkIcon}>
               <img src={images.checkIcon} alt="check-icon" />
             </div>
-            <h1>Submission Received!</h1>
-            <h2>
-              Thank you for filling out the form. Your request is under review
-              and will be approved by an admin shortly.
-            </h2>
+            <h1>{t("submission.title")}</h1>
+            <h2>{t("submission.description")}</h2>
             <RotatingLines
               visible={true}
               height="52"

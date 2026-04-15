@@ -45,10 +45,8 @@ const DropdownMenu = ({ options, Icon, buttonLabel }) => {
       setMenuStyles({
         position: "absolute",
         top: `${rect.bottom + window.scrollY}px`,
-        left: `${adjustedLeft + window.scrollX}px`,
+        right: `${window.innerWidth - rect.right - window.scrollX}px`,
         zIndex: 1000,
-        // width: estimatedWidth,
-        // maxWidth: "200px",
       });
     }
   }, [open]);

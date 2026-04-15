@@ -24,7 +24,7 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
           {
             params: {
               page: currentPage,
-              limit: 4,
+              limit: 6,
               ...filters,
             },
           },

@@ -12,6 +12,7 @@ import { setUserRoleAndPermissions } from "../../redux/slices/userSlice";
 import LanguageSelector from "../GoogleTranslate/LanguageSelector";
 import { BadgeCheck } from "lucide-react";
 import { Bell } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [name, setName] = useState("");
@@ -23,6 +24,7 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -72,6 +74,10 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
   const handleNotificationClick = () => {
     const nextState = !isOpen;
@@ -126,8 +132,11 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
             <DropdownMenu
               Icon={MdOutlineExpandMore}
               options={[
-                { label: "Profile", onClick: () => navigate("/profile") },
-                { label: "Logout", onClick: handleLogout },
+                {
+                  label: t("navbar.profile"),
+                  onClick: () => navigate("/profile"),
+                },
+                { label: t("navbar.logout"), onClick: handleLogout },
               ]}
             />
           </div>
@@ -152,15 +161,14 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
           <div className={styles.dropdown}>
             {/* Header */}
             <div className={styles.dropdownHeader}>
-              <span>Notifications</span>
+              <span>{t("navbar.notifications")}</span>
             </div>
 
-            {/* Content */}
             <div className={styles.dropdownContent}>
               {loading ? (
-                <p className={styles.loader}>Loading...</p>
+                <p className={styles.loader}>{t("navbar.loading")}</p>
               ) : notifications.length === 0 ? (
-                <p className={styles.empty}>No notifications</p>
+                <p className={styles.empty}>{t("navbar.noNotifications")}</p>
               ) : (
                 notifications.map((item) => (
                   <div key={item._id} className={styles.notificationItem}>

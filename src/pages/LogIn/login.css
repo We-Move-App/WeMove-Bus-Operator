@@ -15,7 +15,7 @@
 }
 
 .logInSection p {
-  font-size: clamp(16px, 1.5vw, 24px) !important;
+  font-size: clamp(16px, 1.4vw, 20px) !important;
   line-height: clamp(18.13px, 2vw, 28.13px);
   color: var(--color-grey);
   font-weight: 400;
@@ -28,6 +28,7 @@
   cursor: pointer;
 }
 
+/* LEFT SECTION */
 .logInSection .leftSection {
   background-image: url("../../assets/images/login/login-bg.png");
   background-position: center;
@@ -59,7 +60,7 @@
   object-fit: contain;
 }
 
-/* Right Section */
+/* RIGHT SECTION */
 
 .rightSectionContainer {
   flex: 1;
@@ -80,11 +81,14 @@
   margin: auto;
 }
 
+/* INPUT BLOCK */
+
 .logInSection .inputBlock {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  position: relative;
+  justify-content: flex-start;
+  min-height: 120px; /* KEY FIX */
+  gap: 6px;
 }
 
 .logInSection label {
@@ -101,52 +105,52 @@
   font-size: clamp(16px, 1.2vw, 20px);
 }
 
-.logInSection .inputBlock span.forgot-url {
-  text-align: end;
-}
+/* LABEL + VERIFY */
 
-.formFieldsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-size);
-  padding: clamp(10px, 2vw, 20px) 0 clamp(20px, 2vw, 30px);
-}
-
-.formBottomNoteText {
-  padding-top: clamp(20px, 2vw, 30px);
-}
-
-/* Two-Column Input Container */
-.twoColumnInputContainer {
+.otpVerify {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-
-  /* Adjust gap between columns as needed */
-  > .inputBlock {
-    flex: 1;
-  }
-
-  > .inputBlock:last-child {
-    margin-right: 0;
-  }
+  align-items: flex-start; /* IMPORTANT */
+  min-height: 42px; /* KEY FIX */
+  gap: 10px;
 }
 
-/* Three-Column Input Container */
-.threeColumnInputContainer {
+.otpVerify p {
+  margin: 0;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.otpVerify span.extraLabelContent {
+  font-size: 12px !important;
+}
+
+/* VERIFY TEXT */
+
+span.verifyNowText,
+span.verifiedText {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
-/* Forgot Password */
-.forgotContainer {
-  display: flex;
-  align-items: end;
-  justify-content: end;
+span.verifyNowText {
+  cursor: pointer;
 }
 
-/* Visibility Icon */
+span.verifyNowText:hover {
+  color: var(--color-bg-btn);
+  transition: all 0.3s;
+}
+
+span.verifiedText {
+  color: var(--color-bg-btn);
+}
+
+/* INPUT WRAPPER */
+
 .inputWrapper {
   position: relative;
 }
@@ -159,48 +163,60 @@ span.visibilityIcon {
   cursor: pointer;
 }
 
-/* Validation */
+/* ERROR */
+
 span.error {
   color: red !important;
-  font-size: 1rem !important;
-  line-height: normal;
-  position: absolute;
-  bottom: -25px;
+  font-size: 16px !important;
+  line-height: 1.2;
+  margin-top: 4px;
+  min-height: 16px; /* CRITICAL */
+  position: static;
 }
 
-.otpVerify {
+/* FORM */
+
+.formFieldsContainer {
   display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-size);
+  padding: clamp(10px, 2vw, 20px) 0 clamp(20px, 2vw, 30px);
 }
 
-.otpVerify span.extraLabelContent {
-  font-size: clamp(16px, 1.5vw, 16px) !important;
-}
-
-span.verifyNowText {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-}
-
-span.verifyNowText:hover {
-  color: var(--color-bg-btn);
-  transition: all 0.5s;
-}
-
-span.verifiedText {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  color: var(--color-bg-btn);
+.formBottomNoteText {
+  padding-top: clamp(20px, 2vw, 30px);
 }
 
 .formBottomNoteText p {
   text-align: center;
 }
+
+/* TWO COLUMN FIX (GRID) */
+
+.twoColumnInputContainer {
+  display: grid; /* IMPORTANT */
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* THREE COLUMN */
+
+.threeColumnInputContainer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* FORGOT */
+
+.forgotContainer {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+
+/* UPLOAD */
 
 .uploadWrapper.uploadWrapperStyle1 {
   width: 100%;
@@ -212,15 +228,17 @@ span.verifiedText {
   justify-content: space-between;
 }
 
+/* RESPONSIVE */
+
 @media (max-width: 1225px) {
   .twoColumnInputContainer {
-    flex-direction: column;
+    grid-template-columns: 1fr; /* stack */
   }
 }
 
 @media (max-width: 1500px) {
   span.error {
-    font-size: 12px !important;
+    font-size: 11px !important;
   }
 }
 

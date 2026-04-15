@@ -92,7 +92,7 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
         }
         actionButton={
           <CustomBtn
-            width="160px"
+            // width="160px"
             label={t("bank.withdraw")}
             onClick={handleWithdraw}
           />

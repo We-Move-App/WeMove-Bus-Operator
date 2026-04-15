@@ -4,8 +4,11 @@ import images from "../../../assets/image";
 import CloseIcon from "@mui/icons-material/Close";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useTranslation } from "react-i18next";
 
 const UploadBox = ({ selectedFile, onClose }) => {
+  const { t } = useTranslation();
+
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -26,15 +29,18 @@ const UploadBox = ({ selectedFile, onClose }) => {
 
     setUploading(true);
     const totalSize = selectedFile.size;
-    let uploaded = (progress / 100) * totalSize; 
+    let uploaded = (progress / 100) * totalSize;
 
     const id = setInterval(() => {
-      if (paused) return; // Skip update if paused
+      if (paused) return;
 
       const increment = Math.min(totalSize / 20, totalSize - uploaded);
       uploaded += increment;
 
-      setProgress(Math.round((uploaded / totalSize) * 100));
+      const percent = Math.round((uploaded / totalSize) * 100);
+
+      setProgress(percent);
+
       setFileSize({
         uploaded: (uploaded / (1024 * 1024)).toFixed(2),
         total: (totalSize / (1024 * 1024)).toFixed(2),
@@ -51,71 +57,67 @@ const UploadBox = ({ selectedFile, onClose }) => {
 
   const handlePauseResume = () => {
     if (paused) {
-      // Resume uploading
       setPaused(false);
       startUpload();
     } else {
-      // Pause uploading
       setPaused(true);
       clearInterval(intervalId);
     }
   };
 
   const handleClose = () => {
-    clearInterval(intervalId); // Clear upload interval
+    clearInterval(intervalId);
     setUploading(false);
     setProgress(0);
     setFileSize({ uploaded: 0, total: 0 });
-    if (onClose) onClose(); // Notify parent component if provided
+    if (onClose) onClose();
   };
 
-  // Render only if a file is selected
-  if (!selectedFile) {
-    return null;
-  }
+  if (!selectedFile) return null;
 
   return (
     <div className={styles.uploadBox}>
       <div className={styles.imageFileBlock}>
         <img src={images.imageFile} alt="file-block" />
       </div>
+
       <div className={styles.fileNameBlock}>
         <div className={styles.fileName}>
           <h3>{selectedFile.name}</h3>
+
           <div className={styles.closeBtn}>
             {uploading ? (
               <span onClick={handlePauseResume}>
                 {paused ? (
-                  <PlayArrowIcon style={{ color: "#fff" }} fontSize="medium" />
+                  <PlayArrowIcon style={{ color: "#fff" }} />
                 ) : (
-                  <PauseIcon style={{ color: "#fff" }} fontSize="medium" />
+                  <PauseIcon style={{ color: "#fff" }} />
                 )}
               </span>
             ) : (
-              <CloseIcon
-                style={{ color: "#fff" }}
-                fontSize="medium"
-                onClick={handleClose}
-              />
+              <CloseIcon style={{ color: "#fff" }} onClick={handleClose} />
             )}
           </div>
         </div>
+
         <div className={styles.progressBar}>
-          <div
-            className={styles.progress}
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className={styles.progress} style={{ width: `${progress}%` }} />
         </div>
+
         <div className={styles.fileSize}>
           <h3>
-            {fileSize.uploaded} MB of {fileSize.total} MB
+            {t("uploadBox.fileSize", {
+              uploaded: fileSize.uploaded,
+              total: fileSize.total,
+            })}
           </h3>
+
           <h4>
             {uploading
               ? paused
-                ? "Paused"
-                : `Uploading... ${progress}%`
-              : "Upload Complete!"}
+                ? t("uploadBox.paused")
+                : t("uploadBox.uploadingProgress", { progress })
+              : t("uploadBox.completed")}
           </h4>
         </div>
       </div>

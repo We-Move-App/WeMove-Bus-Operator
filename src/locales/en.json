@@ -619,5 +619,114 @@
     "success": "Driver assigned successfully!",
     "fail": "Failed to assign driver.",
     "error": "Something went wrong while assigning driver."
+  },
+  "submission": {
+    "title": "Submission Received!",
+    "description": "Thank you for filling out the form. Your request is under review and will be approved by an admin shortly."
+  },
+  "navbar": {
+    "user": "User",
+    "verified": "Verified",
+
+    "profile": "Profile",
+    "logout": "Logout",
+
+    "notifications": "Notifications",
+    "loading": "Loading...",
+    "noNotifications": "No notifications"
+  },
+  "LoginErrors": {
+    "emailRequired": "Email or Mobile number is required.",
+    "invalidEmailPhone": "Invalid email or mobile number.",
+    "passwordRequired": "Password is required.",
+    "passwordMin": "Password must be at least 6 characters.",
+    "loginFailed": "Login failed. Try again.",
+    "serverError": "Server error. Please try again later.",
+    "otpSendFailed": "Failed to send OTP. Try again.",
+    "otpVerified": "OTP verified successfully.",
+    "otpVerifyFailed": "OTP verification failed.",
+    "invalidOtp": "Invalid OTP.",
+    "pendingApproval": "You have just registered yourself. Please wait for Admin's approval."
+  },
+  "multiStep": {
+    "identityRequired": "Identity card number is required.",
+    "identityInvalid": "Invalid identity card number.",
+    "businessLicenseRequired": "Business license number is required.",
+    "businessLicenseInvalid": "Business license must be alphanumeric.",
+    "frontImageRequired": "Front side of identity card is required.",
+    "backImageRequired": "Back side of identity card is required.",
+
+    "accountHolderRequired": "Account holder name is required.",
+    "accountNumberRequired": "Account number is required.",
+    "accountNumberInvalid": "Invalid account number.",
+    "bankNameRequired": "Bank name is required.",
+    "bankDocumentRequired": "Bank document is required.",
+
+    "avatarRequired": "Please upload a profile photo.",
+
+    "verifyFailed": "Something went wrong while verifying details.",
+    "bankSubmitFailed": "Something went wrong while submitting bank details.",
+    "avatarUploadFailed": "Something went wrong while uploading avatar.",
+    "bankSuccess": "Bank details submitted successfully!"
+  },
+  "signupForm": {
+    "enterValidMobileFirst": "Enter a valid mobile number first.",
+    "enterValidEmailFirst": "Enter a valid email first.",
+    "nameRequired": "Name is required.",
+    "nameInvalid": "Name must start with a letter and contain only letters and spaces.",
+    "nameMin": "Name must be at least 4 characters long.",
+
+    "companyAddressRequired": "Company address is required.",
+    "companyNameRequired": "Company name is required.",
+    "branchRequired": "Branch is required.",
+
+    "mobileRequired": "Mobile number is required.",
+    "mobileInvalid": "Invalid mobile number.",
+    "mobileVerifyRequired": "Please verify your mobile number.",
+
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Please enter a valid email address.",
+    "emailVerifyRequired": "Please verify your email.",
+
+    "passwordRequired": "Password is required.",
+    "passwordMin": "Password must be at least 6 characters.",
+    "passwordSpecial": "Password must include at least one special character.",
+    "passwordUppercase": "Password must include at least one uppercase letter.",
+    "passwordLowercase": "Password must include at least one lowercase letter.",
+    "passwordNumber": "Password must include at least one number.",
+
+    "confirmPasswordRequired": "Confirm password is required.",
+    "passwordMismatch": "Passwords do not match.",
+
+    "otpSendFailed": "OTP could not be sent. Try again.",
+    "otpVerifyFailed": "OTP verification failed.",
+
+    "registrationFailed": "Registration failed. Try again.",
+    "unexpectedStatus": "Unexpected verification status received.",
+
+    "alreadyApproved": "Your application is already approved. Redirecting to login...",
+    "underProcessing": "Your application is under processing. Please wait."
+  },
+
+  "branchSelect": {
+    "label": "Branch",
+    "selectBranch": "Select a branch",
+    "loading": "Loading branches...",
+    "noBranches": "No branches available",
+    "fetchError": "Failed to load branches"
+  },
+  "uploadBox": {
+    "paused": "Paused",
+    "uploading": "Uploading...",
+    "uploadingProgress": "Uploading... {{progress}}%",
+    "completed": "Upload Complete!",
+    "fileSize": "{{uploaded}} MB of {{total}} MB"
+  },
+  "dragDrop": {
+    "dragText": "Drag and drop or",
+    "browse": "browse",
+    "yourFiles": "your files",
+    "invalidFileType": "Only JPEG or PNG images are allowed.",
+    "fileTooLarge": "File size should be {{size}}MB or less."
   }
 }
