@@ -634,5 +634,98 @@
     "notifications": "Notifications",
     "loading": "Chargement...",
     "noNotifications": "Aucune notification"
+  },
+  "LoginErrors": {
+    "emailRequired": "L'email ou le numéro de téléphone est requis.",
+    "invalidEmailPhone": "Email ou numéro de téléphone invalide.",
+    "passwordRequired": "Le mot de passe est requis.",
+    "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
+    "loginFailed": "Échec de la connexion. Veuillez réessayer.",
+    "serverError": "Erreur du serveur. Veuillez réessayer plus tard.",
+    "otpSendFailed": "Échec de l'envoi de l'OTP. Veuillez réessayer.",
+    "otpVerified": "OTP vérifié avec succès.",
+    "otpVerifyFailed": "Échec de la vérification de l'OTP.",
+    "invalidOtp": "OTP invalide.",
+    "pendingApproval": "Vous venez de vous inscrire. Veuillez attendre l'approbation de l'administrateur."
+  },
+  "multiStep": {
+    "identityRequired": "Le numéro de carte d'identité est requis.",
+    "identityInvalid": "Numéro de carte d'identité invalide.",
+    "businessLicenseRequired": "Le numéro de licence commerciale est requis.",
+    "businessLicenseInvalid": "La licence commerciale doit être alphanumérique.",
+    "frontImageRequired": "La face avant de la carte d'identité est requise.",
+    "backImageRequired": "La face arrière de la carte d'identité est requise.",
+
+    "accountHolderRequired": "Le nom du titulaire du compte est requis.",
+    "accountNumberRequired": "Le numéro de compte est requis.",
+    "accountNumberInvalid": "Numéro de compte invalide.",
+    "bankNameRequired": "Le nom de la banque est requis.",
+    "bankDocumentRequired": "Le document bancaire est requis.",
+
+    "avatarRequired": "Veuillez télécharger une photo de profil.",
+
+    "verifyFailed": "Une erreur s'est produite lors de la vérification.",
+    "bankSubmitFailed": "Une erreur s'est produite lors de l'envoi des informations bancaires.",
+    "avatarUploadFailed": "Une erreur s'est produite lors du téléchargement de l'avatar.",
+    "bankSuccess": "Les informations bancaires ont été envoyées avec succès."
+  },
+  "signupForm": {
+    "enterValidMobileFirst": "Entrez d'abord un numéro de téléphone valide.",
+    "enterValidEmailFirst": "Entrez d'abord un email valide.",
+    "nameRequired": "Le nom est requis.",
+    "nameInvalid": "Le nom doit commencer par une lettre et contenir uniquement des lettres et des espaces.",
+    "nameMin": "Le nom doit contenir au moins 4 caractères.",
+
+    "companyAddressRequired": "L'adresse de l'entreprise est requise.",
+    "companyNameRequired": "Le nom de l'entreprise est requis.",
+    "branchRequired": "La branche est requise.",
+
+    "mobileRequired": "Le numéro de téléphone est requis.",
+    "mobileInvalid": "Numéro de téléphone invalide.",
+    "mobileVerifyRequired": "Veuillez vérifier votre numéro de téléphone.",
+
+    "emailRequired": "L'email est requis.",
+    "emailInvalid": "Veuillez entrer une adresse email valide.",
+    "emailVerifyRequired": "Veuillez vérifier votre email.",
+
+    "passwordRequired": "Le mot de passe est requis.",
+    "passwordMin": "Le mot de passe doit contenir au moins 6 caractères.",
+    "passwordSpecial": "Le mot de passe doit contenir un caractère spécial.",
+    "passwordUppercase": "Le mot de passe doit contenir une lettre majuscule.",
+    "passwordLowercase": "Le mot de passe doit contenir une lettre minuscule.",
+    "passwordNumber": "Le mot de passe doit contenir un chiffre.",
+
+    "confirmPasswordRequired": "La confirmation du mot de passe est requise.",
+    "passwordMismatch": "Les mots de passe ne correspondent pas.",
+
+    "otpSendFailed": "Impossible d'envoyer l'OTP. Veuillez réessayer.",
+    "otpVerifyFailed": "Échec de la vérification de l'OTP.",
+
+    "registrationFailed": "Échec de l'inscription. Veuillez réessayer.",
+    "unexpectedStatus": "Statut de vérification inattendu.",
+
+    "alreadyApproved": "Votre demande est déjà approuvée. Redirection vers la connexion...",
+    "underProcessing": "Votre demande est en cours de traitement. Veuillez patienter."
+  },
+  "branchSelect": {
+    "label": "Agence",
+    "selectBranch": "Sélectionnez une agence",
+    "loading": "Chargement des agences...",
+    "noBranches": "Aucune agence disponible",
+    "fetchError": "Impossible de charger les agences"
+  },
+  "uploadBox": {
+    "paused": "En pause",
+    "uploading": "Téléchargement...",
+    "uploadingProgress": "Téléchargement... {{progress}}%",
+    "completed": "Téléchargement terminé !",
+    "fileSize": "{{uploaded}} Mo sur {{total}} Mo"
+  },
+  "dragDrop": {
+    "dragText": "Glissez-déposez ou",
+    "browse": "parcourir",
+    "yourFiles": "vos fichiers",
+    "invalidFileType": "Seules les images JPEG ou PNG sont autorisées.",
+    "fileTooLarge": "La taille du fichier doit être de {{size}} Mo ou moins."
   }
 }

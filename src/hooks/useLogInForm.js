@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance, { setAuthToken } from "../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const useLogInForm = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const useLogInForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslation();
 
   // OTP
   const [otpModalOpen, setOtpModalOpen] = useState(false);
@@ -33,22 +35,22 @@ const useLogInForm = () => {
 
     const isValidPhone = /^\d{9}$/.test(formData.emailOrPhone);
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-      formData.emailOrPhone
+      formData.emailOrPhone,
     );
 
     if (!formData.emailOrPhone.trim()) {
-      newErrors.emailOrPhone = "Email or Mobile number is required.";
+      newErrors.emailOrPhone = t("LoginErrors.emailRequired");
       isValid = false;
     } else if (!isValidPhone && !isValidEmail) {
-      newErrors.emailOrPhone = "Invalid email or 9-digit mobile number.";
+      newErrors.emailOrPhone = t("LoginErrors.invalidEmailPhone");
       isValid = false;
     }
 
     if (!formData.password.trim()) {
-      newErrors.password = "Password is required.";
+      newErrors.password = t("LoginErrors.passwordRequired");
       isValid = false;
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters.";
+      newErrors.password = t("LoginErrors.passwordMin");
       isValid = false;
     }
 
@@ -82,7 +84,7 @@ const useLogInForm = () => {
 
       const response = await axiosInstance.post(
         "/bus-management/auth/login",
-        payload
+        payload,
       );
 
       console.log("Response:", response.data);
@@ -104,13 +106,12 @@ const useLogInForm = () => {
       const status = error.response?.status;
       const messageFromServer = error.response?.data?.message;
 
-      let message = messageFromServer || "Login failed. Try again.";
+      let message = messageFromServer || t("LoginErrors.loginFailed");
 
       if (status === 401) {
-        message =
-          "You have just registered yourself. Please wait for Admin's approval.";
+        message = t("LoginErrors.pendingApproval");
       } else if (status === 500) {
-        message = "Server error. Please try again later.";
+        message = t("LoginErrors.serverError");
       }
       setErrorMessage(message);
     }
@@ -120,12 +121,12 @@ const useLogInForm = () => {
     const value = formData.emailOrPhone.trim();
 
     if (!value) {
-      setErrors({ emailOrPhone: "Email or Mobile number is required." });
+      setErrors({ emailOrPhone: t("LoginErrors.emailRequired") });
       return;
     }
 
     if (!/^\d{10}$/.test(value) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      setErrors({ emailOrPhone: "Invalid email or mobile number." });
+      setErrors({ emailOrPhone: t("LoginErrors.invalidEmailPhone") });
       return;
     }
 
@@ -133,19 +134,19 @@ const useLogInForm = () => {
       const response = await axiosInstance.post(
         // "/verification/send-otp-email-phone",
         "bus-management/auth/resend-otp-without-auth",
-        { emailOrPhone: value }
+        { emailOrPhone: value },
       );
 
       if (response.data.success) {
         setOtpField("emailOrPhone");
         setOtpModalOpen(true);
       } else {
-        setErrorMessage("Failed to send OTP. Try again.");
+        setErrorMessage(t("LoginErrors.otpSendFailed"));
       }
     } catch (err) {
       console.error("OTP Send Error:", err);
       setErrorMessage(
-        err.response?.data?.message || "Could not send OTP. Try again."
+        err.response?.data?.message || t("LoginErrors.otpSendFailed"),
       );
     }
   };
@@ -156,24 +157,24 @@ const useLogInForm = () => {
     try {
       const response = await axiosInstance.post(
         "bus-management/auth/verify-otp-without-auth",
-        { [otpField]: value, otp }
+        { [otpField]: value, otp },
       );
 
       if (response.data.success) {
-        setSuccessMessage("OTP verified successfully.");
+        setSuccessMessage(t("LoginErrors.otpVerified"));
         setTimeout(() => {
           setSuccessMessage("");
           navigate("/update-password");
         }, 1000);
         return true;
       } else {
-        setErrorMessage("Invalid OTP.");
+        setErrorMessage(t("LoginErrors.invalidOtp"));
         return false;
       }
     } catch (err) {
       console.error("OTP Verify Error:", err);
       setErrorMessage(
-        err.response?.data?.message || "OTP verification failed."
+        err.response?.data?.message || t("LoginErrors.otpVerifyFailed"),
       );
       return false;
     }

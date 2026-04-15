@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const useMultiStepForm = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(() => {
     const storedStep = localStorage.getItem("activeStep");
@@ -34,7 +36,6 @@ const useMultiStepForm = () => {
     severity: "error",
   });
 
-  // Save to localStorage when formData or activeStep changes
   useEffect(() => {
     localStorage.setItem("formData", JSON.stringify(formData));
   }, [formData]);
@@ -47,14 +48,10 @@ const useMultiStepForm = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "businessLicenseNumber" && /[^a-zA-Z0-9]/.test(value)) {
-      return; // Skip update if value contains non-alphanumeric characters
+      return;
     }
 
     setFormData({ ...formData, [name]: value });
@@ -74,7 +71,7 @@ const useMultiStepForm = () => {
     if (!avatar) {
       setSnackbar({
         open: true,
-        message: "Please upload a profile photo.",
+        message: t("multiStep.avatarRequired"),
         severity: "error",
       });
       return;
@@ -88,7 +85,6 @@ const useMultiStepForm = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Clear tokens from localStorage and sessionStorage
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("verificationStatus");
@@ -100,8 +96,7 @@ const useMultiStepForm = () => {
       setSnackbar({
         open: true,
         message:
-          error.response?.data?.message ||
-          "Something went wrong while uploading avatar.",
+          error.response?.data?.message || t("multiStep.avatarUploadFailed"),
         severity: "error",
       });
     }
@@ -112,19 +107,19 @@ const useMultiStepForm = () => {
     formDataToSend.append("identityCardNumber", formData.identityCardNumber);
     formDataToSend.append(
       "businessLicenseNumber",
-      formData.businessLicenseNumber
+      formData.businessLicenseNumber,
     );
 
     if (formData.national_identity_card_front) {
       formDataToSend.append(
         "national_identity_card_front",
-        formData.national_identity_card_front
+        formData.national_identity_card_front,
       );
     }
     if (formData.national_identity_card_back) {
       formDataToSend.append(
         "national_identity_card_back",
-        formData.national_identity_card_back
+        formData.national_identity_card_back,
       );
     }
 
@@ -134,16 +129,14 @@ const useMultiStepForm = () => {
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       setActiveStep((prevStep) => prevStep + 1);
     } catch (error) {
       setSnackbar({
         open: true,
-        message:
-          error.response?.data?.message ||
-          "Something went wrong while verifying details.",
+        message: error.response?.data?.message || t("multiStep.verifyFailed"),
         severity: "error",
       });
     }
@@ -177,12 +170,12 @@ const useMultiStepForm = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       setSnackbar({
         open: true,
-        message: "Bank details submitted successfully!",
+        message: t("multiStep.bankSuccess"),
         severity: "success",
       });
 
@@ -192,8 +185,7 @@ const useMultiStepForm = () => {
       setSnackbar({
         open: true,
         message:
-          error.response?.data?.message ||
-          "Something went wrong while submitting bank details.",
+          error.response?.data?.message || t("multiStep.bankSubmitFailed"),
         severity: "error",
       });
     }

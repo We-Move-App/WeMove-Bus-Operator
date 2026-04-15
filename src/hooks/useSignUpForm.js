@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../services/axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const useSignUpForm = (initialValues, setSnackbar) => {
   const [formData, setFormData] = useState(initialValues);
@@ -13,69 +14,112 @@ const useSignUpForm = (initialValues, setSnackbar) => {
   const [otpField, setOtpField] = useState("");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const validate = () => {
     let isValid = true;
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required.";
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const mobile = formData.mobile.trim();
+    const password = formData.password;
+    const confirmPassword = formData.confirmPassword;
+
+    // NAME
+    if (!name) {
+      newErrors.name = t("signupForm.nameRequired");
       isValid = false;
-    } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(formData.name)) {
-      newErrors.name =
-        "Name must start with a letter and contain only letters and spaces.";
+    } else if (!/^[A-Za-z][A-Za-z\s]*$/.test(name)) {
+      newErrors.name = t("signupForm.nameInvalid");
       isValid = false;
-    } else if (formData.name.trim().length < 4) {
-      newErrors.name = "Name must be at least 4 characters long.";
+    } else if (name.length < 4) {
+      newErrors.name = t("signupForm.nameMin");
       isValid = false;
     }
 
+    // COMPANY
     if (!formData.companyAddress.trim()) {
-      newErrors.companyAddress = "Company address is required.";
+      newErrors.companyAddress = t("signupForm.companyAddressRequired");
       isValid = false;
     }
 
-    if (!formData.mobile.trim()) {
-      newErrors.mobile = "Mobile number is required.";
-      isValid = false;
-    } else if (!/^\d{9}$/.test(formData.mobile)) {
-      newErrors.mobile = "Invalid mobile number.";
+    if (!formData.companyName?.trim()) {
+      newErrors.companyName = t("signupForm.companyNameRequired");
       isValid = false;
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
+    if (!formData.branch?.trim()) {
+      newErrors.branch = t("signupForm.branchRequired");
+      isValid = false;
+    }
+
+    // MOBILE
+    if (!mobile) {
+      newErrors.mobile = t("signupForm.mobileRequired");
+      isValid = false;
+    } else if (!/^\d{9}$/.test(mobile)) {
+      newErrors.mobile = t("signupForm.mobileInvalid");
+      isValid = false;
+    }
+
+    // EMAIL
+    if (!email) {
+      newErrors.email = t("signupForm.emailRequired");
       isValid = false;
     } else if (
-      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email)
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)
     ) {
-      newErrors.email = "Please enter a valid email address.";
+      newErrors.email = t("signupForm.emailInvalid");
       isValid = false;
     }
 
-    if (!formData.password.trim()) {
-      newErrors.password = "Password is required.";
+    // PASSWORD (STRONG)
+    if (!password.trim()) {
+      newErrors.password = t("signupForm.passwordRequired");
       isValid = false;
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters.";
+    } else {
+      if (password.length < 6) {
+        newErrors.password = t("signupForm.passwordMin");
+        isValid = false;
+      } else if (!/[A-Z]/.test(password)) {
+        newErrors.password = t("signupForm.passwordUppercase");
+        isValid = false;
+      } else if (!/[a-z]/.test(password)) {
+        newErrors.password = t("signupForm.passwordLowercase");
+        isValid = false;
+      } else if (!/\d/.test(password)) {
+        newErrors.password = t("signupForm.passwordNumber");
+        isValid = false;
+      } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        newErrors.password = t("signupForm.passwordSpecial");
+        isValid = false;
+      }
+    }
+
+    // CONFIRM PASSWORD
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = t("signupForm.confirmPasswordRequired");
       isValid = false;
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
-      newErrors.password = "Must include a special character.";
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = t("signupForm.passwordMismatch");
       isValid = false;
     }
 
-    if (!formData.confirmPassword.trim()) {
-      newErrors.confirmPassword = "Confirm password is required.";
-      isValid = false;
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+    // OTP VERIFICATION
+    if (!verifiedFields.mobile) {
+      newErrors.mobile = t("signupForm.mobileVerifyRequired");
       isValid = false;
     }
-    // console.log("Validation Errors:", newErrors);
+
+    if (!verifiedFields.email) {
+      newErrors.email = t("signupForm.emailVerifyRequired");
+      isValid = false;
+    }
+
     setErrors(newErrors);
     return isValid;
   };
-
   const setAuthToken = (token) => {
     if (token) {
       axiosInstance.defaults.headers.common["Authorization"] =
@@ -162,13 +206,12 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       console.error("❌ Registration Failed:", error);
 
       const errorMessage =
-        error.response?.data?.message || "Registration failed. Try again.";
+        error.response?.data?.message || t("signupForm.registrationFailed");
 
       const isApprovedMessage =
         errorMessage.includes("approved") &&
         errorMessage.toLowerCase().includes("login");
 
-      // Check if the error status is 400 and the message is about approval
       if (error.response?.status === 400 && isApprovedMessage) {
         localStorage.setItem("verificationStatus", "approved");
         setSnackbar({
@@ -184,7 +227,6 @@ const useSignUpForm = (initialValues, setSnackbar) => {
         return;
       }
 
-      // Check for "under processing" error message
       if (
         error.response?.status === 400 &&
         errorMessage.toLowerCase().includes("under processing")
@@ -203,7 +245,6 @@ const useSignUpForm = (initialValues, setSnackbar) => {
         return;
       }
 
-      // Handle other errors
       setErrors((prevErrors) => ({
         ...prevErrors,
         general: errorMessage,
@@ -218,40 +259,170 @@ const useSignUpForm = (initialValues, setSnackbar) => {
   };
 
   const handleOtpVerification = async (otp) => {
+    const value = otp?.trim();
+    const isMobile = otpField === "mobile";
+
+    if (!value) {
+      setErrors((prev) => ({
+        ...prev,
+        [otpField]: t("signupForm.otpRequired"),
+      }));
+      return false;
+    }
+
+    if (!/^\d{4,6}$/.test(value)) {
+      setErrors((prev) => ({
+        ...prev,
+        [otpField]: t("signupForm.otpInvalidLength"),
+      }));
+      return false;
+    }
+
     try {
       const payload = {
-        [otpField === "mobile" ? "phoneNumber" : "email"]:
-          otpField === "mobile" ? `+91${formData.mobile}` : formData.email,
-        otp,
+        [isMobile ? "phoneNumber" : "email"]: isMobile
+          ? `+91${formData.mobile}`
+          : formData.email,
+        otp: value,
       };
 
-      // console.log("Sending OTP Verification Payload:", payload);
-
-      const endpoint =
-        otpField === "mobile"
-          ? "/verification/verify-phone-otp"
-          : "/verification/verify-email-otp";
+      const endpoint = isMobile
+        ? "/verification/verify-phone-otp"
+        : "/verification/verify-email-otp";
 
       const response = await axiosInstance.put(endpoint, payload);
-      // console.log("OTP Verification Response:", response.data);
 
       if (response.status === 200 && response.data.success) {
         setVerifiedFields((prev) => ({ ...prev, [otpField]: true }));
-        setErrors((prevErrors) => ({
-          ...prevErrors,
+
+        setErrors((prev) => ({
+          ...prev,
           [otpField]: "",
         }));
+
+        // Optional success message
+        setSnackbar?.({
+          open: true,
+          message: t("signupForm.otpVerified"),
+          severity: "success",
+        });
+
         return true;
+      } else {
+        // ❌ INVALID OTP
+        setErrors((prev) => ({
+          ...prev,
+          [otpField]: response.data.message || t("signupForm.otpInvalid"),
+        }));
+        return false;
       }
-      return false;
     } catch (error) {
-      // console.error(
-      //   "OTP Verification Error:",
-      //   error.response?.data || error.message
-      // );
+      setErrors((prev) => ({
+        ...prev,
+        [otpField]:
+          error.response?.data?.message || t("signupForm.otpVerifyFailed"),
+      }));
+
       return false;
     }
   };
+
+  // return {
+  //   formData,
+  //   setFormData,
+  //   errors,
+  //   setErrors,
+  //   verifiedFields,
+  //   setVerifiedFields,
+  //   otpModalOpen,
+  //   setOtpModalOpen,
+  //   otpField,
+  //   setOtpField,
+  //   handleChange: (e) => {
+  //     const { name, value } = e.target;
+
+  //     let newValue = value;
+
+  //     if (name === "mobile") {
+  //       newValue = newValue.replace(/\D/g, "");
+  //       newValue = newValue.slice(0, 9);
+  //     }
+
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [name]: newValue,
+  //     }));
+
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       [name]: "",
+  //     }));
+  //   },
+
+  //   handleVerify: async (field) => {
+  //     const value = formData[field];
+
+  //     if (!value.trim()) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         [field]: `Enter a valid ${
+  //           field === "mobile" ? "mobile number" : "email"
+  //         } first.`,
+  //       }));
+  //       return;
+  //     }
+
+  //     if (field === "mobile" && !/^\d{9}$/.test(value)) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         mobile: "Invalid mobile number.",
+  //       }));
+  //       return;
+  //     }
+
+  //     if (
+  //       field === "email" &&
+  //       !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)
+  //     ) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         email: "Please enter a valid email address.",
+  //       }));
+  //       return;
+  //     }
+
+  //     try {
+  //       const payload = {
+  //         emailOrPhone: field === "mobile" ? `+91${value}` : value,
+  //       };
+
+  //       const response = await axiosInstance.post(
+  //         "/verification/send-otp-email-phone",
+  //         payload,
+  //       );
+
+  //       if (response.status === 200 && response.data.success) {
+  //         setOtpField(field);
+  //         setOtpModalOpen(true);
+  //       } else {
+  //         setErrors((prevErrors) => ({
+  //           ...prevErrors,
+  //           [field]:
+  //             response.data.message || "OTP could not be sent. Try again.",
+  //         }));
+  //       }
+  //     } catch (error) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         [field]:
+  //           error.response?.data?.message || "Failed to send OTP. Try again.",
+  //       }));
+  //     }
+  //   },
+  //   validate,
+  //   handleSubmit,
+  //   handleOtpVerification,
+  // };
 
   return {
     formData,
@@ -264,25 +435,15 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     setOtpModalOpen,
     otpField,
     setOtpField,
-    // handleChange: (e) => {
-    //   const { name, value } = e.target;
-    //   setFormData((prevData) => ({
-    //     ...prevData,
-    //     [name]: value,
-    //   }));
-    //   setErrors((prevErrors) => ({
-    //     ...prevErrors,
-    //     [name]: "",
-    //   }));
-    // },
+
     handleChange: (e) => {
       const { name, value } = e.target;
 
       let newValue = value;
 
+      // ✅ MOBILE: only digits + 9 limit
       if (name === "mobile") {
-        newValue = newValue.replace(/\D/g, "");
-        newValue = newValue.slice(0, 9);
+        newValue = newValue.replace(/\D/g, "").slice(0, 9);
       }
 
       setFormData((prevData) => ({
@@ -290,6 +451,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
         [name]: newValue,
       }));
 
+      // ✅ clear error on change
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: "",
@@ -297,40 +459,46 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     },
 
     handleVerify: async (field) => {
-      const value = formData[field];
+      const value = formData[field]?.trim();
+      const isMobile = field === "mobile";
 
-      if (!value.trim()) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [field]: `Enter a valid ${
-            field === "mobile" ? "mobile number" : "email"
-          } first.`,
+      // ✅ EMPTY CHECK (i18n)
+      if (!value) {
+        setErrors((prev) => ({
+          ...prev,
+          [field]: t(
+            isMobile
+              ? "signupForm.enterValidMobileFirst"
+              : "signupForm.enterValidEmailFirst",
+          ),
         }));
         return;
       }
 
-      if (field === "mobile" && !/^\d{9}$/.test(value)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          mobile: "Invalid mobile number.",
+      // ✅ MOBILE VALIDATION (9 digits)
+      if (isMobile && !/^\d{9}$/.test(value)) {
+        setErrors((prev) => ({
+          ...prev,
+          mobile: t("signupForm.mobileInvalid"),
         }));
         return;
       }
 
+      // ✅ EMAIL VALIDATION
       if (
-        field === "email" &&
+        !isMobile &&
         !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)
       ) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          email: "Please enter a valid email address.",
+        setErrors((prev) => ({
+          ...prev,
+          email: t("signupForm.emailInvalid"),
         }));
         return;
       }
 
       try {
         const payload = {
-          emailOrPhone: field === "mobile" ? `+91${value}` : value,
+          emailOrPhone: isMobile ? `+91${value}` : value,
         };
 
         const response = await axiosInstance.post(
@@ -342,20 +510,20 @@ const useSignUpForm = (initialValues, setSnackbar) => {
           setOtpField(field);
           setOtpModalOpen(true);
         } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            [field]:
-              response.data.message || "OTP could not be sent. Try again.",
+          setErrors((prev) => ({
+            ...prev,
+            [field]: response.data.message || t("signupForm.otpSendFailed"),
           }));
         }
       } catch (error) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
+        setErrors((prev) => ({
+          ...prev,
           [field]:
-            error.response?.data?.message || "Failed to send OTP. Try again.",
+            error.response?.data?.message || t("signupForm.otpSendFailed"),
         }));
       }
     },
+
     validate,
     handleSubmit,
     handleOtpVerification,
