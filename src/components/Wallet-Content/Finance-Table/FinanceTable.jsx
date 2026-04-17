@@ -4,7 +4,7 @@ import TransactionHistory from "../Transaction-History/TransactionHistory";
 import BankDetails from "../Bank-Details/BankDetails";
 import { useTranslation } from "react-i18next";
 
-const FinanceTable = () => {
+const FinanceTable = ({ onWithdrawSuccess }) => {
   const { t } = useTranslation();
 
   const [key, setKey] = useState(0);
@@ -48,6 +48,7 @@ const FinanceTable = () => {
           <BankDetails
             openOnMount={true}
             onWithdrawComplete={() => {
+              onWithdrawSuccess?.();
               setActiveTab("transactions");
               setKey((prev) => prev + 1);
             }}

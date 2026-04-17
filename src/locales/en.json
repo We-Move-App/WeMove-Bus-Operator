@@ -459,6 +459,9 @@
     "validation": "Please fill in all required fields.",
     "success": "Ticket booked successfully!",
     "error": "Booking failed. Please try again.",
+    "nameValidation": "Enter a valid name (only letters, min 2 characters)",
+    "mobileValidation": "Enter a valid 9-digit mobile number",
+    "emailValidation": "Enter a valid email address",
     "busRoutes": {
       "departure": "Departure",
       "arrival": "Arrival",

@@ -459,6 +459,9 @@
     "validation": "Veuillez remplir tous les champs requis.",
     "success": "Billet réservé avec succès !",
     "error": "Échec de la réservation. Veuillez réessayer.",
+    "nameValidation": "Entrez un nom valide (lettres uniquement, minimum 2 caractères)",
+    "mobileValidation": "Entrez un numéro mobile valide à 9 chiffres",
+    "emailValidation": "Entrez une adresse e-mail valide",
     "busRoutes": {
       "departure": "Départ",
       "arrival": "Arrivée",

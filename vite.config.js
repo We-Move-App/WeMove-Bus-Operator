@@ -15,7 +15,9 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 5173,
 
-    allowedHosts: ["formed-police-unto-wings.trycloudflare.com"],
+    allowedHosts: [
+      "recognition-automation-allocated-specialty.trycloudflare.com",
+    ],
   },
 
   plugins: [react()],
