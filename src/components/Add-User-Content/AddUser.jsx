@@ -97,7 +97,7 @@ const AddUser = () => {
       >
         <div className={styles.branchName}>
           <MdAddCircle size={50} />
-          <h3>{t("user.addUser")}</h3>
+          <h3 className={styles.userName}>{t("user.addUser")}</h3>
         </div>
       </div>
     </div>

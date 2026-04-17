@@ -309,7 +309,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
 
         return true;
       } else {
-        // ❌ INVALID OTP
+        // INVALID OTP
         setErrors((prev) => ({
           ...prev,
           [otpField]: response.data.message || t("signupForm.otpInvalid"),

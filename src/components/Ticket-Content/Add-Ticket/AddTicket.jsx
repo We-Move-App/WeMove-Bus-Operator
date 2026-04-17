@@ -37,12 +37,47 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     setSnackbar({ ...snackbar, open: false });
   };
 
+
   const handleProceed = async () => {
     const selectedRoute = localFormData.routes[0];
 
+    const isValidName = (name) => /^[A-Za-z\s]{2,50}$/.test(name);
+
+    const isValidMobile = (mobile) => /^\d{9}$/.test(mobile);
+
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    // ---- Name validation ----
+    if (!isValidName(name)) {
+      setSnackbar({
+        open: true,
+        message: t("addTicket.nameValidation"),
+        severity: "warning",
+      });
+      return;
+    }
+
+    // ---- Mobile validation ----
+    if (!isValidMobile(mobile)) {
+      setSnackbar({
+        open: true,
+        message: t("addTicket.mobileValidation"),
+        severity: "warning",
+      });
+      return;
+    }
+
+    // ---- Email validation ----
+    if (!isValidEmail(email)) {
+      setSnackbar({
+        open: true,
+        message: t("addTicket.emailValidation"),
+        severity: "warning",
+      });
+      return;
+    }
+
+    // ---- Route validation ----
     if (
-      !name ||
-      !mobile ||
       !selectedRoute?.date ||
       !selectedRoute?.from ||
       !selectedRoute?.to ||
@@ -100,7 +135,6 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
       });
     }
   };
-
   return (
     <>
       <ContentHeading
@@ -124,7 +158,10 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
               type="tel"
               value={mobile}
               maxLength={9}
-              onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "").slice(0, 9);
+                setMobile(value);
+              }}
             />
 
             <InputField

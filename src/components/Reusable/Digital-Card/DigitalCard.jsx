@@ -2,33 +2,18 @@ import React, { useEffect, useState } from "react";
 import styles from "./digital-card.module.css";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import axiosInstance from "../../../services/axiosInstance";
 import { useTranslation } from "react-i18next";
 
-const DigitalCard = ({ showMidContent = true }) => {
+const DigitalCard = ({ showMidContent = true, walletDetails }) => {
   const { t } = useTranslation();
 
   const [isCardNumberVisible, setIsCardNumberVisible] = useState(false);
-  const [walletDetails, setWalletDetails] = useState(null);
 
   const cardNumber = "1234 5678 9876 5432";
 
   const toggleCardNumberVisibility = () => {
     setIsCardNumberVisible(!isCardNumberVisible);
   };
-
-  useEffect(() => {
-    const fetchAnalyticsAndWallet = async () => {
-      try {
-        const walletRes = await axiosInstance.get("/wallet/details");
-        setWalletDetails(walletRes.data.data);
-      } catch (error) {
-        console.error("Error fetching wallet details", error);
-      }
-    };
-
-    fetchAnalyticsAndWallet();
-  }, []);
 
   return (
     <div className={styles.digitalCardContainer}>

@@ -56,10 +56,6 @@ const CustomerFeedbackContent = () => {
 
   const totalPages = Math.ceil(feedbackList.length / feedbacksPerPage);
 
-  // const handleRatingChange = (id, newValue) => {
-  //   setRatings((prev) => ({ ...prev, [id]: newValue }));
-  // };
-
   const indexOfLast = currentPage * feedbacksPerPage;
   const indexOfFirst = indexOfLast - feedbacksPerPage;
   const currentFeedbacks = feedbackList.slice(indexOfFirst, indexOfLast);
