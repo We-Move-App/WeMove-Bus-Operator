@@ -72,8 +72,8 @@ const useLogInForm = () => {
         const isNumber = /^\d+$/.test(payload.emailOrPhone.trim());
 
         if (isNumber) {
-          if (!payload.emailOrPhone.startsWith("+91")) {
-            payload.emailOrPhone = `+91${payload.emailOrPhone.trim()}`;
+          if (!payload.emailOrPhone.startsWith("+237")) {
+            payload.emailOrPhone = `+237${payload.emailOrPhone.trim()}`;
           }
         } else {
           payload.emailOrPhone = payload.emailOrPhone.trim();

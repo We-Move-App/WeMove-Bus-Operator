@@ -10,6 +10,8 @@ import useSignUpForm from "../../hooks/useSignUpForm";
 import SnackbarNotification from "../../components/Reusable/Snackbar-Notification/SnackbarNotification";
 import BranchSelect from "../../components/Branch-Select/BranchSelect";
 import { useTranslation } from "react-i18next";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -110,6 +112,7 @@ const SignUp = () => {
                   name="mobile"
                   value={formData.mobile}
                   onChange={handleChange}
+                  placeholder="(+237) 2XX XXX XXX"
                   error={errors.mobile}
                   disabled={verifiedFields.mobile}
                   extraLabelContent={
