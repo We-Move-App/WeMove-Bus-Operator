@@ -327,103 +327,6 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     }
   };
 
-  // return {
-  //   formData,
-  //   setFormData,
-  //   errors,
-  //   setErrors,
-  //   verifiedFields,
-  //   setVerifiedFields,
-  //   otpModalOpen,
-  //   setOtpModalOpen,
-  //   otpField,
-  //   setOtpField,
-  //   handleChange: (e) => {
-  //     const { name, value } = e.target;
-
-  //     let newValue = value;
-
-  //     if (name === "mobile") {
-  //       newValue = newValue.replace(/\D/g, "");
-  //       newValue = newValue.slice(0, 9);
-  //     }
-
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: newValue,
-  //     }));
-
-  //     setErrors((prevErrors) => ({
-  //       ...prevErrors,
-  //       [name]: "",
-  //     }));
-  //   },
-
-  //   handleVerify: async (field) => {
-  //     const value = formData[field];
-
-  //     if (!value.trim()) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         [field]: `Enter a valid ${
-  //           field === "mobile" ? "mobile number" : "email"
-  //         } first.`,
-  //       }));
-  //       return;
-  //     }
-
-  //     if (field === "mobile" && !/^\d{9}$/.test(value)) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         mobile: "Invalid mobile number.",
-  //       }));
-  //       return;
-  //     }
-
-  //     if (
-  //       field === "email" &&
-  //       !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value)
-  //     ) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         email: "Please enter a valid email address.",
-  //       }));
-  //       return;
-  //     }
-
-  //     try {
-  //       const payload = {
-  //         emailOrPhone: field === "mobile" ? `+91${value}` : value,
-  //       };
-
-  //       const response = await axiosInstance.post(
-  //         "/verification/send-otp-email-phone",
-  //         payload,
-  //       );
-
-  //       if (response.status === 200 && response.data.success) {
-  //         setOtpField(field);
-  //         setOtpModalOpen(true);
-  //       } else {
-  //         setErrors((prevErrors) => ({
-  //           ...prevErrors,
-  //           [field]:
-  //             response.data.message || "OTP could not be sent. Try again.",
-  //         }));
-  //       }
-  //     } catch (error) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         [field]:
-  //           error.response?.data?.message || "Failed to send OTP. Try again.",
-  //       }));
-  //     }
-  //   },
-  //   validate,
-  //   handleSubmit,
-  //   handleOtpVerification,
-  // };
-
   return {
     formData,
     setFormData,
@@ -451,7 +354,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
         [name]: newValue,
       }));
 
-      // ✅ clear error on change
+      // clear error on change
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: "",
@@ -462,7 +365,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       const value = formData[field]?.trim();
       const isMobile = field === "mobile";
 
-      // ✅ EMPTY CHECK (i18n)
+      // EMPTY CHECK (i18n)
       if (!value) {
         setErrors((prev) => ({
           ...prev,
@@ -475,7 +378,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
         return;
       }
 
-      // ✅ MOBILE VALIDATION (9 digits)
+      // MOBILE VALIDATION (9 digits)
       if (isMobile && !/^\d{9}$/.test(value)) {
         setErrors((prev) => ({
           ...prev,
@@ -498,7 +401,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
 
       try {
         const payload = {
-          emailOrPhone: isMobile ? `+91${value}` : value,
+          emailOrPhone: isMobile ? `+237${value}` : value,
         };
 
         const response = await axiosInstance.post(
