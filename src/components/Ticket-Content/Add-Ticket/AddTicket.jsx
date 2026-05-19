@@ -37,7 +37,6 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-
   const handleProceed = async () => {
     const selectedRoute = localFormData.routes[0];
 
@@ -46,6 +45,9 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     const isValidMobile = (mobile) => /^\d{9}$/.test(mobile);
 
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+    const formattedMobile = `+237${mobile}`;
+
     // ---- Name validation ----
     if (!isValidName(name)) {
       setSnackbar({
@@ -95,7 +97,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     const passengers = [
       {
         name,
-        contactNumber: mobile,
+        contactNumber: formattedMobile,
         email,
       },
     ];
@@ -135,6 +137,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
       });
     }
   };
+
   return (
     <>
       <ContentHeading

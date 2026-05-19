@@ -163,7 +163,8 @@ const UserDetails = () => {
     const payload = {
       fullName: formData.fullName,
       companyName,
-      phoneNumber: formData.phoneNumber,
+      // phoneNumber: formData.phoneNumber,
+      phoneNumber: `+237${formData.phoneNumber}`,
       email: formData.email,
       idNumber: formData.idNumber,
       dob: formData.dob,

@@ -83,7 +83,8 @@ const DriverDetails = () => {
 
     const formDataToSend = new FormData();
     formDataToSend.append("fullName", formData.fullName);
-    formDataToSend.append("phoneNumber", formData.phoneNumber);
+    // formDataToSend.append("phoneNumber", formData.phoneNumber);
+    formDataToSend.append("phoneNumber", `+237${formData.phoneNumber}`);
     formDataToSend.append("driver_license_front", formData.driverLicenseFront);
     formDataToSend.append("avatar", formData.avatar);
 
