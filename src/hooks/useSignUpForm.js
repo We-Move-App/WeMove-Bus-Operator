@@ -156,7 +156,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
       email: formData.email,
       fullName: formData.name,
       password: formData.password,
-      phoneNumber: `+91${formData.mobile}`,
+      phoneNumber: `+237${formData.mobile}`,
       companyAddress: formData.companyAddress,
       companyName: formData.companyName,
       branch: formData.branch,
@@ -281,7 +281,7 @@ const useSignUpForm = (initialValues, setSnackbar) => {
     try {
       const payload = {
         [isMobile ? "phoneNumber" : "email"]: isMobile
-          ? `+91${formData.mobile}`
+          ? `+237${formData.mobile}`
           : formData.email,
         otp: value,
       };
