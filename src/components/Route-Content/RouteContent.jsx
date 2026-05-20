@@ -42,8 +42,6 @@ const RouteContent = () => {
 
   const formatTime = (timeStr) => {
     if (!timeStr || typeof timeStr !== "string") return t("routeManagement.na");
-
-    // If already includes AM/PM, return as-is
     if (
       timeStr.toLowerCase().includes("am") ||
       timeStr.toLowerCase().includes("pm")
@@ -67,7 +65,8 @@ const RouteContent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log("Fetching bus data...");
+        setLoading(true);
+
         const busResponse = await axiosInstance.get(
           `/buses/bus-routes/all-routes`,
           {
@@ -76,11 +75,11 @@ const RouteContent = () => {
             },
           },
         );
-        // console.log("Bus Data Fetched:", busResponse.data);
-        const routes = busResponse.data?.data?.routes || [];
-        console.log("Route ID:", busResponse.data?.data?.routes[0]?._id);
 
-        // Dispatch routes to Redux store
+        const routes = busResponse.data?.data?.routes || [];
+
+        console.log("Route ID:", routes[0]?._id);
+
         dispatch(setBusData({ routes }));
 
         // Format Data for Table
@@ -108,11 +107,16 @@ const RouteContent = () => {
         }));
 
         setRouteData(formattedData);
-        // console.log("Formatted Data:", formattedData);
       } catch (error) {
         console.error("Error fetching data:", error);
+
+        // Handle no matching routes
+        if (error.response?.status === 404) {
+          setRouteData([]);
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchData();
@@ -135,11 +139,6 @@ const RouteContent = () => {
       />
 
       <div className={styles.routeContentBlock}>
-        {/* {routeData.length === 0 ? (
-          <div className={styles.noDataMessage}>No route data available</div>
-        ) : (
-          <DataTable columns={columns} data={routeData} rowsPerPage={5} />
-        )} */}
         {loading ? (
           <>
             {[...Array(5)].map((_, index) => (
