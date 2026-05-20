@@ -7,7 +7,7 @@ import axiosInstance from "../../services/axiosInstance";
 import { useTranslation } from "react-i18next";
 
 const WalletContent = () => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [walletDetails, setWalletDetails] = useState(null);
 
@@ -22,7 +22,7 @@ const WalletContent = () => {
 
   useEffect(() => {
     fetchWallet();
-  }, []);
+  }, [i18n.language]);
 
   return (
     <div className="common-dashboard">

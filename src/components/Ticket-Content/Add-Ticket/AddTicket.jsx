@@ -8,6 +8,7 @@ import axiosInstance from "../../../services/axiosInstance";
 import SnackbarNotification from "../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Loader2 } from "lucide-react";
 
 const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [selectedRouteDetails, setSelectedRouteDetails] = useState(null);
 
   const [snackbar, setSnackbar] = useState({
@@ -116,6 +118,8 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     };
 
     try {
+      setLoading(true);
+
       await axiosInstance.post("/bus-operator/bookings", body);
 
       setSnackbar({
@@ -135,6 +139,8 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         message: t("addTicket.error"),
         severity: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -186,7 +192,11 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         </div>
       </div>
 
-      <CustomBtn label={t("addTicket.proceed")} onClick={handleProceed} />
+      <CustomBtn
+        label={loading ? <Loader2 /> : t("addTicket.proceed")}
+        onClick={handleProceed}
+        disabled={loading}
+      />
 
       <SnackbarNotification
         snackbar={snackbar}

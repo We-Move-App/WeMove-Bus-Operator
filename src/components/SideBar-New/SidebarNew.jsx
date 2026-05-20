@@ -108,7 +108,7 @@ const SidebarNew = ({ isOpen, toggle }) => {
           })}
         </div>
 
-        {role === "bus-operator" && (
+        {/* {role === "bus-operator" && (
           <div className={styles.feedbackItem}>
             <NavLink
               to={feedbackItem.path}
@@ -121,7 +121,7 @@ const SidebarNew = ({ isOpen, toggle }) => {
               <span className={styles.navText}>{feedbackItem.text}</span>
             </NavLink>
           </div>
-        )}
+        )} */}
       </nav>
     </aside>
   );

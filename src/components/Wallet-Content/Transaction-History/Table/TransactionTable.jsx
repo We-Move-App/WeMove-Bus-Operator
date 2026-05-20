@@ -40,7 +40,7 @@ const TransactionTable = () => {
 
   useEffect(() => {
     fetchTransactions(currentPage);
-  }, [fetchTransactions, currentPage]);
+  }, [fetchTransactions, currentPage, i18n.language]);
 
   return (
     <div className={styles.transactionContainer}>
