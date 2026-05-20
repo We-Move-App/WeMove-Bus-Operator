@@ -7,6 +7,7 @@ import imageFile from "./images/login/img-file.png";
 import weMoveLogo from "./images/dashboard/navbar/we-move-logo.png";
 import weMoveText from "./images/dashboard/navbar/we-move-text.png";
 import userImg from "./images/dashboard/navbar/user.jpg";
+import profileImg from "./images/dashboard/navbar/profile-img.png";
 import bellIcon from "./images/dashboard/navbar/bell.svg";
 // Sidebar
 import dashIcon from "./images/dashboard/sidebar/dash-icon.svg";
@@ -51,6 +52,7 @@ const images = {
   weMoveLogo,
   weMoveText,
   userImg,
+  profileImg,
   bellIcon,
   dashIcon,
   busIcon,

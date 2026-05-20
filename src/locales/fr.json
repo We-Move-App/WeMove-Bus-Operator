@@ -701,6 +701,8 @@
     "confirmPasswordRequired": "La confirmation du mot de passe est requise.",
     "passwordMismatch": "Les mots de passe ne correspondent pas.",
 
+    "otpVerified": "OTP vérifié avec succès.",
+
     "otpSendFailed": "Impossible d'envoyer l'OTP. Veuillez réessayer.",
     "otpVerifyFailed": "Échec de la vérification de l'OTP.",
 

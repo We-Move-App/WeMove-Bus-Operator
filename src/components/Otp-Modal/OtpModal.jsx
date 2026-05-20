@@ -99,8 +99,8 @@ const OtpModal = ({ field, value, onClose, onVerified }) => {
           />
           {error && <p className={styles.errorText}>{error}</p>}{" "}
           {/* Show error if exists */}
-          <p className={styles.resendText}>{t("otp.noCode")}</p>
-          <p className={styles.resendCode}>{t("otp.resend")}</p>
+          {/* <p className={styles.resendText}>{t("otp.noCode")}</p>
+          <p className={styles.resendCode}>{t("otp.resend")}</p> */}
           <LogInBtn
             data={loading ? t("otp.verifying") : t("otp.verify")}
             type="submit"

@@ -112,7 +112,7 @@ const SignUp = () => {
                   name="mobile"
                   value={formData.mobile}
                   onChange={handleChange}
-                  placeholder="(+237) 2XX XXX XXX"
+                  placeholder="(+237) XXX XXX XXX"
                   error={errors.mobile}
                   disabled={verifiedFields.mobile}
                   extraLabelContent={

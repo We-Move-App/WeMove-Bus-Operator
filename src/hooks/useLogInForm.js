@@ -118,21 +118,30 @@ const useLogInForm = () => {
   };
 
   const handleSendOtp = async () => {
-    const value = formData.emailOrPhone.trim();
+    let value = formData.emailOrPhone.trim();
 
     if (!value) {
       setErrors({ emailOrPhone: t("LoginErrors.emailRequired") });
       return;
     }
 
-    if (!/^\d{10}$/.test(value) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    const isPhone = /^\d{9}$/.test(value);
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+    if (!isPhone && !isEmail) {
       setErrors({ emailOrPhone: t("LoginErrors.invalidEmailPhone") });
       return;
     }
 
+    // Add Cameroon country code
+    if (isPhone && !value.startsWith("+237")) {
+      value = `+237${value}`;
+    }
+
     try {
+      console.log("Sending OTP to:", value);
+
       const response = await axiosInstance.post(
-        // "/verification/send-otp-email-phone",
         "bus-management/auth/resend-otp-without-auth",
         { emailOrPhone: value },
       );
@@ -145,6 +154,7 @@ const useLogInForm = () => {
       }
     } catch (err) {
       console.error("OTP Send Error:", err);
+
       setErrorMessage(
         err.response?.data?.message || t("LoginErrors.otpSendFailed"),
       );
@@ -152,9 +162,21 @@ const useLogInForm = () => {
   };
 
   const handleOtpVerification = async (otp) => {
-    const value = formData[otpField];
+    let value = formData[otpField]?.trim();
+
+    const isPhone = /^\d{9}$/.test(value);
+
+    // Add Cameroon country code
+    if (isPhone && !value.startsWith("+237")) {
+      value = `+237${value}`;
+    }
 
     try {
+      console.log("Verify OTP Payload:", {
+        [otpField]: value,
+        otp,
+      });
+
       const response = await axiosInstance.post(
         "bus-management/auth/verify-otp-without-auth",
         { [otpField]: value, otp },
@@ -162,10 +184,12 @@ const useLogInForm = () => {
 
       if (response.data.success) {
         setSuccessMessage(t("LoginErrors.otpVerified"));
+
         setTimeout(() => {
           setSuccessMessage("");
           navigate("/update-password");
         }, 1000);
+
         return true;
       } else {
         setErrorMessage(t("LoginErrors.invalidOtp"));
@@ -173,9 +197,11 @@ const useLogInForm = () => {
       }
     } catch (err) {
       console.error("OTP Verify Error:", err);
+
       setErrorMessage(
         err.response?.data?.message || t("LoginErrors.otpVerifyFailed"),
       );
+
       return false;
     }
   };

@@ -81,9 +81,54 @@ const UpdatePassword = () => {
       return;
     }
 
+    // try {
+    //   await axiosInstance.put("/bus-operator/reset-password-new", {
+    //     emailOrPhone,
+    //     password,
+    //     confirmPassword,
+    //   });
+
+    //   setSnackbar({
+    //     open: true,
+    //     message: t("auth.update.success"),
+    //     severity: "success",
+    //   });
+
+    //   setFormData({ password: "", confirmPassword: "" });
+    //   localStorage.removeItem("resetEmailOrPhone");
+
+    //   setTimeout(() => {
+    //     navigate("/", {
+    //       state: { successMessage: t("auth.update.success") },
+    //     });
+    //   }, 1500);
+    // } catch (error) {
+    //   console.error("Password Reset API Error:", error.response?.data);
+    //   setSnackbar({
+    //     open: true,
+    //     message: error.response?.data?.message || t("auth.update.error"),
+    //     severity: "error",
+    //   });
+    // }
+
     try {
+      let formattedValue = emailOrPhone.trim();
+
+      const isPhone = /^\d{9}$/.test(formattedValue);
+
+      // Add Cameroon country code
+      if (isPhone && !formattedValue.startsWith("+237")) {
+        formattedValue = `+237${formattedValue}`;
+      }
+
+      console.log("Reset Password Payload:", {
+        emailOrPhone: formattedValue,
+        password,
+        confirmPassword,
+      });
+
       await axiosInstance.put("/bus-operator/reset-password-new", {
-        emailOrPhone,
+        emailOrPhone: formattedValue,
         password,
         confirmPassword,
       });
@@ -95,6 +140,7 @@ const UpdatePassword = () => {
       });
 
       setFormData({ password: "", confirmPassword: "" });
+
       localStorage.removeItem("resetEmailOrPhone");
 
       setTimeout(() => {
@@ -104,6 +150,7 @@ const UpdatePassword = () => {
       }, 1500);
     } catch (error) {
       console.error("Password Reset API Error:", error.response?.data);
+
       setSnackbar({
         open: true,
         message: error.response?.data?.message || t("auth.update.error"),

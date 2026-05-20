@@ -24,7 +24,7 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -77,7 +77,7 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [i18n.language]);
 
   const handleNotificationClick = () => {
     const nextState = !isOpen;
@@ -122,7 +122,7 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
             <LanguageSelector />
           </div>
           <div className={styles.imageBlock}>
-            <img src={avatarUrl || images.userImg} alt="user" />
+            <img src={avatarUrl || images.profileImg} alt="user" />
           </div>
           <div className={styles.nameBlock}>
             <h2>{name || "User"}</h2>
