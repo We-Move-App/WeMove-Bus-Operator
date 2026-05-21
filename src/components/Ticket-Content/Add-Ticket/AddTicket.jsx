@@ -39,6 +39,113 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  // const handleProceed = async () => {
+  //   if (loading) return;
+
+  //   const selectedRoute = localFormData.routes[0];
+
+  //   const isValidName = (name) => /^[A-Za-z\s]{2,50}$/.test(name);
+
+  //   const isValidMobile = (mobile) => /^\d{9}$/.test(mobile);
+
+  //   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+  //   const formattedMobile = `+237${mobile}`;
+
+  //   // ---- Name validation ----
+  //   if (!isValidName(name)) {
+  //     setSnackbar({
+  //       open: true,
+  //       message: t("addTicket.nameValidation"),
+  //       severity: "warning",
+  //     });
+  //     return;
+  //   }
+
+  //   // ---- Mobile validation ----
+  //   if (!isValidMobile(mobile)) {
+  //     setSnackbar({
+  //       open: true,
+  //       message: t("addTicket.mobileValidation"),
+  //       severity: "warning",
+  //     });
+  //     return;
+  //   }
+
+  //   // ---- Email validation ----
+  //   if (!isValidEmail(email)) {
+  //     setSnackbar({
+  //       open: true,
+  //       message: t("addTicket.emailValidation"),
+  //       severity: "warning",
+  //     });
+  //     return;
+  //   }
+
+  //   // ---- Route validation ----
+  //   if (
+  //     !selectedRoute?.date ||
+  //     !selectedRoute?.from ||
+  //     !selectedRoute?.to ||
+  //     !selectedRouteDetails?.busId?._id ||
+  //     !selectedRouteDetails?._id
+  //   ) {
+  //     setSnackbar({
+  //       open: true,
+  //       message: t("addTicket.validation"),
+  //       severity: "warning",
+  //     });
+  //     return;
+  //   }
+
+  //   const passengers = [
+  //     {
+  //       name,
+  //       contactNumber: formattedMobile,
+  //       email,
+  //     },
+  //   ];
+
+  //   const body = {
+  //     busId: selectedRouteDetails.busId._id,
+  //     routeId: selectedRouteDetails._id,
+  //     passengers,
+  //     noOfPassengers: passengers.length,
+  //     journeyDate: selectedRoute.date,
+  //     email,
+  //     termAndConditions: true,
+  //     from: selectedRoute.from,
+  //     to: selectedRoute.to,
+  //     price: selectedRouteDetails?.pricePerSeat,
+  //   };
+
+  //   try {
+  //     setLoading(true);
+
+  //     await axiosInstance.post("/bus-operator/bookings", body);
+
+  //     setSnackbar({
+  //       open: true,
+  //       message: t("addTicket.success"),
+  //       severity: "success",
+  //     });
+
+  //     setTimeout(() => {
+  //       navigate("/ticket-management");
+  //     }, 1000);
+  //   } catch (err) {
+  //     console.error("Booking failed:", err);
+
+  //     setSnackbar({
+  //       open: true,
+  //       message: t("addTicket.error"),
+  //       severity: "error",
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleProceed = async () => {
     if (loading) return;
 
@@ -59,6 +166,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         message: t("addTicket.nameValidation"),
         severity: "warning",
       });
+
       return;
     }
 
@@ -69,6 +177,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         message: t("addTicket.mobileValidation"),
         severity: "warning",
       });
+
       return;
     }
 
@@ -79,6 +188,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         message: t("addTicket.emailValidation"),
         severity: "warning",
       });
+
       return;
     }
 
@@ -95,6 +205,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         message: t("addTicket.validation"),
         severity: "warning",
       });
+
       return;
     }
 
@@ -141,7 +252,7 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
         message: t("addTicket.error"),
         severity: "error",
       });
-    } finally {
+
       setLoading(false);
     }
   };

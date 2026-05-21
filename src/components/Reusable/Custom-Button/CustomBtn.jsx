@@ -29,7 +29,11 @@ const CustomBtn = ({
     >
       <button
         className={`${styles.button} ${className}`}
-        onClick={!disabled ? onClick : undefined}
+        onClick={(e) => {
+          if (disabled) return;
+
+          onClick?.(e);
+        }}
         type={type}
         disabled={disabled}
       >

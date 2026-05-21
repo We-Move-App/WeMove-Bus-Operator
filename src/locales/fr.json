@@ -401,6 +401,7 @@
     "licenseTitle": "Ajouter une licence de conducteur",
     "upload": "Télécharger vos fichiers",
     "save": "Enregistrer",
+    "saving": "Enregistrement...",
 
     "validation": "Veuillez remplir tous les champs avant d’enregistrer.",
     "success": "Conducteur ajouté avec succès !",

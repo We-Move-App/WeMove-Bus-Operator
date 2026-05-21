@@ -401,7 +401,7 @@
     "licenseTitle": "Add Driver License",
     "upload": "Upload your files",
     "save": "Save",
-
+     "saving": "Saving...",
     "validation": "Please fill in all fields before saving.",
     "success": "Driver added successfully!",
     "error": "Something went wrong. Please try again."
