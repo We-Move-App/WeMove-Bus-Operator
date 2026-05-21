@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 const TicketDetails = ({ onRouteSelect, routesOverride = null, filters }) => {
   const { t } = useTranslation();
-
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

@@ -408,7 +408,9 @@
   },
   "driverLicense": {
     "invalidFile": "Seuls les fichiers JPG, PNG et PDF sont autorisés.",
-    "uploading": "Téléchargement..."
+    "uploading": "Téléchargement...",
+    "completed": "Terminé",
+    "ready": "Prêt à télécharger"
   },
   "ticket": {
     "heading": "Gestion des billets",

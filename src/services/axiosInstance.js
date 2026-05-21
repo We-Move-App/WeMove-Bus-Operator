@@ -3,7 +3,7 @@ import i18n from "@/i18n";
 
 export const BASE_URL = "http://139.59.20.155:8000";
 // export const BASE_URL =
-//   "https://classification-nations-gbp-letting.trycloudflare.com";
+//   "https://upcoming-contents-holiday-scale.trycloudflare.com";
 export const API_VERSION = "v1";
 
 const axiosInstance = axios.create({

@@ -408,7 +408,9 @@
   },
   "driverLicense": {
     "invalidFile": "Only JPG, PNG, and PDF files are allowed.",
-    "uploading": "Uploading..."
+    "uploading": "Uploading...",
+    "completed": "Completed",
+    "ready": "Ready to upload"
   },
   "ticket": {
     "heading": "Ticket Management",

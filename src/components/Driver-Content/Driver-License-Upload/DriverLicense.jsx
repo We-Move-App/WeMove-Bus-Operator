@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import styles from "./driver-license-upload.module.css";
-import { Play, Pause, X, FilePlus, FileText } from "lucide-react";
+import { X, FilePlus, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const DriverLicense = ({
@@ -12,74 +12,51 @@ const DriverLicense = ({
   fieldKey,
   uploadProgress,
   setUploadProgress,
+  isSaving,
+  setIsFileReady,
 }) => {
   const { t } = useTranslation();
 
-  const [isPaused, setIsPaused] = useState(false);
-  const intervalRef = useRef(null);
   const fileInputRef = useRef(null);
-
-  useEffect(() => {
-    if (formData[fieldKey]) {
-      startUpload();
-    }
-    return () => clearInterval(intervalRef.current);
-  }, [formData[fieldKey]]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const allowedTypes = [
-        "image/png",
-        "image/jpeg",
-        "image/jpg",
-        "application/pdf",
-      ];
 
-      if (!allowedTypes.includes(file.type)) {
-        alert(t("driverLicense.invalidFile"));
-        return;
-      }
+    if (!file) return;
 
-      setFormData((prev) => ({ ...prev, [fieldKey]: file }));
+    const allowedTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "application/pdf",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert(t("driverLicense.invalidFile"));
+
+      return;
     }
-  };
 
-  const startUpload = () => {
-    setUploadProgress(0);
-    setIsPaused(false);
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    simulateUpload();
-  };
+    // first upload completed visually
+    setUploadProgress(100);
 
-  const simulateUpload = () => {
-    intervalRef.current = setInterval(() => {
-      setUploadProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(intervalRef.current);
-          return 100;
-        }
-        return prev + 5;
-      });
-    }, 200);
-  };
+    setIsFileReady(true);
 
-  const handlePause = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    setIsPaused(true);
-  };
-
-  const handlePlay = () => {
-    setIsPaused(false);
-    simulateUpload();
+    setFormData((prev) => ({
+      ...prev,
+      [fieldKey]: file,
+    }));
   };
 
   const handleClose = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
+    setFormData((prev) => ({
+      ...prev,
+      [fieldKey]: null,
+    }));
 
-    setFormData((prev) => ({ ...prev, [fieldKey]: null }));
     setUploadProgress(0);
-    setIsPaused(false);
+
+    setIsFileReady(false);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -105,6 +82,7 @@ const DriverLicense = ({
               }`}
             >
               <FilePlus size={40} />
+
               {formData[fieldKey] ? formData[fieldKey].name : uploadText}
             </span>
 
@@ -132,26 +110,10 @@ const DriverLicense = ({
                 <span>{formData[fieldKey].name}</span>
 
                 <div className={styles.controlButtons}>
-                  {uploadProgress < 100 &&
-                    (isPaused ? (
-                      <button
-                        className={`${styles.controlButton} ${styles.play}`}
-                        onClick={handlePlay}
-                      >
-                        <Play />
-                      </button>
-                    ) : (
-                      <button
-                        className={`${styles.controlButton} ${styles.pause}`}
-                        onClick={handlePause}
-                      >
-                        <Pause />
-                      </button>
-                    ))}
-
                   <button
                     className={`${styles.controlButton} ${styles.close}`}
                     onClick={handleClose}
+                    disabled={isSaving}
                   >
                     <X />
                   </button>
@@ -161,8 +123,10 @@ const DriverLicense = ({
               <div className={styles.progressBarContainer}>
                 <div
                   className={styles.progressBar}
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
+                  style={{
+                    width: `${uploadProgress}%`,
+                  }}
+                />
               </div>
 
               <div className={styles.progressControls}>
@@ -176,7 +140,11 @@ const DriverLicense = ({
                 </span>
 
                 <div className={styles.progressText}>
-                  {t("driverLicense.uploading")} {uploadProgress}%
+                  {isSaving
+                    ? `${t("driverLicense.uploading")} ${uploadProgress}%`
+                    : uploadProgress === 100
+                      ? t("driverLicense.completed")
+                      : t("driverLicense.ready")}
                 </div>
               </div>
             </div>

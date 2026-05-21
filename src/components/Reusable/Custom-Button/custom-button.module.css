@@ -1,7 +1,7 @@
 .button {
   width: auto;
-  max-width: none; 
-  min-width: fit-content; 
+  max-width: none;
+  min-width: fit-content;
 
   height: 50px;
   background-color: #2f604a;
@@ -21,7 +21,7 @@
 
   padding: 10px 16px;
 
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .button:hover {
@@ -37,6 +37,11 @@
 .addBusBtn {
   white-space: nowrap;
   padding: 10px 16px;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

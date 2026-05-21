@@ -10,6 +10,7 @@ const CustomBtn = ({
   showIcon = false,
   icon: Icon = IoAddOutline,
   iconSize = 24,
+  disabled = false,
   position = "right",
 }) => {
   const positionStyles = {
@@ -28,8 +29,9 @@ const CustomBtn = ({
     >
       <button
         className={`${styles.button} ${className}`}
-        onClick={onClick}
+        onClick={!disabled ? onClick : undefined}
         type={type}
+        disabled={disabled}
       >
         {showIcon && Icon && <Icon className={styles.icon} />}
         <span className={styles.label}>{label}</span>
