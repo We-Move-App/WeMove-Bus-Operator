@@ -40,6 +40,8 @@ const AddTicket = ({ formData = { routes: [] }, setFormData }) => {
   };
 
   const handleProceed = async () => {
+    if (loading) return;
+
     const selectedRoute = localFormData.routes[0];
 
     const isValidName = (name) => /^[A-Za-z\s]{2,50}$/.test(name);
