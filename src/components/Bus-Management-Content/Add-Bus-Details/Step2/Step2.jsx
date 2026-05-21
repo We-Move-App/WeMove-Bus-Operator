@@ -7,7 +7,7 @@ import BusRoutes from "../Step1/Bus-Routes/BusRoutes";
 import SnackbarNotification from "../../../Reusable/Snackbar-Notification/SnackbarNotification";
 import { useDispatch, useSelector } from "react-redux";
 import useFetch from "../../../../hooks/useFetch";
-import { setBusData } from "../../../../redux/slices/busSlice";
+import { setBusData, updateFormData } from "../../../../redux/slices/busSlice";
 import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
@@ -16,20 +16,39 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
   const topRef = useRef(null);
   const { fetchData } = useFetch();
   const dispatch = useDispatch();
-  const [totalSeats, setTotalSeats] = useState("");
-  const [stoppages, setStoppages] = useState({});
+  // const [totalSeats, setTotalSeats] = useState("");
+  // const [stoppages, setStoppages] = useState({});
   const formData = useSelector((state) => state.bus.formData);
   const { t } = useTranslation();
-  const [routes, setRoutes] = useState([
-    {
-      id: 1,
-      from: "",
-      to: "",
-      departureTime: "00:00",
-      arrivalTime: "00:00",
-      price: 0,
-    },
-  ]);
+  // const [routes, setRoutes] = useState([
+  //   {
+  //     id: 1,
+  //     from: "",
+  //     to: "",
+  //     departureTime: "00:00",
+  //     arrivalTime: "00:00",
+  //     price: 0,
+  //   },
+  // ]);
+
+  const [totalSeats, setTotalSeats] = useState(formData?.noOfSeats || "");
+
+  const [stoppages, setStoppages] = useState(formData?.stoppages || {});
+
+  const [routes, setRoutes] = useState(
+    formData?.routes?.length > 0
+      ? formData.routes
+      : [
+          {
+            id: 1,
+            from: "",
+            to: "",
+            departureTime: "00:00",
+            arrivalTime: "00:00",
+            price: 0,
+          },
+        ],
+  );
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -41,6 +60,17 @@ const Step2 = ({ onSubmit, onPrevious, step }) => {
   const handleSnackbarClose = () => {
     setSnackbar({ open: false, message: "", severity: "error" });
   };
+
+  useEffect(() => {
+    dispatch(
+      updateFormData({
+        ...formData,
+        routes,
+        stoppages,
+        noOfSeats: totalSeats,
+      }),
+    );
+  }, [routes, stoppages, totalSeats]);
 
   useEffect(() => {
     const el = topRef.current;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import images from "../../assets/image";
 import styles from "./navbar-new.module.css";
@@ -25,6 +25,24 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const { t, i18n } = useTranslation();
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -141,64 +159,71 @@ const NavbarNew = ({ isSidebarOpen, toggleSidebar }) => {
             />
           </div>
         </div>
-        <div
-          className={styles.notificationBlock}
-          onClick={handleNotificationClick}
-        >
-          <div className={styles.bellWrapper}>
-            <Bell size={35} color="#FFC107" fill="#FFC107" strokeWidth={1.5} />
+        <div ref={notificationRef}>
+          <div
+            className={styles.notificationBlock}
+            onClick={handleNotificationClick}
+          >
+            <div className={styles.bellWrapper}>
+              <Bell
+                size={35}
+                color="#FFC107"
+                fill="#FFC107"
+                strokeWidth={1.5}
+              />
 
-            {notifications.length > 0 && (
-              <span className={styles.notificationCount}>
-                {notifications.length > 99 ? "99+" : notifications.length}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Dropdown */}
-        {isOpen && (
-          <div className={styles.dropdown}>
-            {/* Header */}
-            <div className={styles.dropdownHeader}>
-              <span>{t("navbar.notifications")}</span>
-            </div>
-
-            <div className={styles.dropdownContent}>
-              {loading ? (
-                <p className={styles.loader}>{t("navbar.loading")}</p>
-              ) : notifications.length === 0 ? (
-                <p className={styles.empty}>{t("navbar.noNotifications")}</p>
-              ) : (
-                notifications.map((item) => (
-                  <div key={item._id} className={styles.notificationItem}>
-                    {/* Left icon */}
-                    <div className={styles.iconCircle}>
-                      <span>👤</span>
-                    </div>
-
-                    {/* Text */}
-                    <div className={styles.textBlock}>
-                      <div className={styles.titleRow}>
-                        <span className={styles.title}>{item.title}</span>
-                        {!item.isRead && <span className={styles.dot}></span>}
-                      </div>
-
-                      <p className={styles.subTitle}>
-                        {formatSubtitle(item.subTitle)}
-                      </p>
-                    </div>
-
-                    {/* Date */}
-                    <div className={styles.date}>
-                      {formatDate(item.createdAt)}
-                    </div>
-                  </div>
-                ))
+              {notifications.length > 0 && (
+                <span className={styles.notificationCount}>
+                  {notifications.length > 99 ? "99+" : notifications.length}
+                </span>
               )}
             </div>
           </div>
-        )}
+
+          {/* Dropdown */}
+          {isOpen && (
+            <div className={styles.dropdown}>
+              {/* Header */}
+              <div className={styles.dropdownHeader}>
+                <span>{t("navbar.notifications")}</span>
+              </div>
+
+              <div className={styles.dropdownContent}>
+                {loading ? (
+                  <p className={styles.loader}>{t("navbar.loading")}</p>
+                ) : notifications.length === 0 ? (
+                  <p className={styles.empty}>{t("navbar.noNotifications")}</p>
+                ) : (
+                  notifications.map((item) => (
+                    <div key={item._id} className={styles.notificationItem}>
+                      {/* Left icon */}
+                      <div className={styles.iconCircle}>
+                        <span>👤</span>
+                      </div>
+
+                      {/* Text */}
+                      <div className={styles.textBlock}>
+                        <div className={styles.titleRow}>
+                          <span className={styles.title}>{item.title}</span>
+                          {!item.isRead && <span className={styles.dot}></span>}
+                        </div>
+
+                        <p className={styles.subTitle}>
+                          {formatSubtitle(item.subTitle)}
+                        </p>
+                      </div>
+
+                      {/* Date */}
+                      <div className={styles.date}>
+                        {formatDate(item.createdAt)}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

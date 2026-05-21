@@ -230,7 +230,8 @@
   "busLicense": {
     "invalidFile": "Only JPG, PNG, and PDF files are allowed.",
     "uploading": "Uploading...",
-    "of": "of"
+    "of": "of",
+    "completed": "Upload Completed"
   },
   "busRoutes": {
     "departure": "Departure",
