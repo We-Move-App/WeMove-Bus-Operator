@@ -401,7 +401,7 @@
     "licenseTitle": "Add Driver License",
     "upload": "Upload your files",
     "save": "Save",
-     "saving": "Saving...",
+    "saving": "Saving...",
     "validation": "Please fill in all fields before saving.",
     "success": "Driver added successfully!",
     "error": "Something went wrong. Please try again."
@@ -522,6 +522,7 @@
     "withdrawTitle": "Withdraw Amount",
     "enterAmount": "Enter amount",
     "withdraw": "Withdraw",
+    "withdrawing": "Withdrawing...",
 
     "successTitle": "Congratulations! Successfully done.",
     "successMessage": "We are thrilled to extend a warm welcome to all newcomers and returning members alike.",

@@ -14,6 +14,7 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [bankData, setBankData] = useState(null);
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -40,6 +41,8 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
 
   const handleWithdraw = async () => {
     try {
+      setIsWithdrawing(true);
+
       const payload = {
         entity: "busOperator",
         amount: parseFloat(withdrawAmount),
@@ -65,6 +68,8 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
         message: errorMessage,
         severity: "error",
       });
+    } finally {
+      setIsWithdrawing(false);
     }
   };
 
@@ -92,9 +97,9 @@ const BankDetails = ({ openOnMount = false, onWithdrawComplete }) => {
         }
         actionButton={
           <CustomBtn
-            // width="160px"
-            label={t("bank.withdraw")}
+            label={isWithdrawing ? t("bank.withdrawing") : t("bank.withdraw")}
             onClick={handleWithdraw}
+            disabled={isWithdrawing}
           />
         }
         customClassName={styles.withdrawModal}

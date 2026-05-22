@@ -523,6 +523,7 @@
     "withdrawTitle": "Retirer un montant",
     "enterAmount": "Entrez le montant",
     "withdraw": "Retirer",
+    "withdrawing": "Retrait en cours...",
 
     "successTitle": "Félicitations ! Opération réussie.",
     "successMessage": "Nous sommes ravis d'accueillir chaleureusement tous les nouveaux et anciens membres.",
