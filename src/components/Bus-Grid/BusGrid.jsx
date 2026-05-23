@@ -13,6 +13,9 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
   const { fetchData, loading, error } = useFetch();
   const [buses, setBuses] = useState([]);
   const { t } = useTranslation();
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  const role = userData?.role;
 
   useEffect(() => {
     const getBuses = async () => {
@@ -57,6 +60,7 @@ const BusGrid = ({ filters, currentPage, setTotalPages }) => {
             busName={bus.busName}
             modelNumber={bus.busModelNumber}
             regNumber={bus.busRegNumber}
+            hideDeleteButton={role === "bus-operator-member"}
             driver={
               bus.assignedDriver?.length > 0
                 ? bus.assignedDriver.map((d) => d.fullName).join(", ")

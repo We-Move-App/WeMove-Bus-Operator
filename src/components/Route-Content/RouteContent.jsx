@@ -15,12 +15,13 @@ const RouteContent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const busData = useSelector((state) => state.bus?.formData) || {};
-  // console.log("Redux State in RouteContent:", busData);
   const busId = useSelector((state) => state.bus?.formData?._id);
-  // console.log("Bus Id:", busId);
   const [routeData, setRouteData] = useState([]);
   const [filters, setFilters] = useState({ search: "" });
   const [loading, setLoading] = useState(true);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  const role = userData?.role;
   const columns = [
     { key: "busRegNumber", title: t("routeManagement.columns.busRegNumber") },
     {
@@ -33,7 +34,14 @@ const RouteContent = () => {
     { key: "endLocation", title: t("routeManagement.columns.arrival") },
     { key: "arrivalTime", title: t("routeManagement.columns.time") },
     { key: "drops", title: t("routeManagement.columns.drops") },
-    { key: "status", title: t("routeManagement.columns.status") },
+    ...(role !== "bus-operator-member"
+      ? [
+          {
+            key: "status",
+            title: t("routeManagement.columns.status"),
+          },
+        ]
+      : []),
   ];
 
   const handleSearch = (params) => {

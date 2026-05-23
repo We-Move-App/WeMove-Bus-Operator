@@ -415,7 +415,7 @@
   "ticket": {
     "heading": "Ticket Management",
     "subHeading": "Customer Details",
-    "search": "Search Customer ID",
+    "search": "Search Booking ID",
     "addTicket": "Add Ticket",
     "noData": "No tickets data available",
 

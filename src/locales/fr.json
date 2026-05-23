@@ -416,7 +416,7 @@
   "ticket": {
     "heading": "Gestion des billets",
     "subHeading": "Détails du client",
-    "search": "Rechercher un client",
+    "search": "Rechercher un ID de réservation",
     "addTicket": "Ajouter un billet",
     "noData": "Aucune donnée de billet disponible",
 

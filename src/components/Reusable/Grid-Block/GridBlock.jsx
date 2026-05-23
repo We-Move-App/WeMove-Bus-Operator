@@ -11,7 +11,15 @@ import DriverList from "../Driver-Dropdown-List/DriverList";
 import SnackbarNotification from "../Snackbar-Notification/SnackbarNotification";
 import { useTranslation } from "react-i18next";
 
-const GridBlock = ({ _id, image, busName, modelNumber, regNumber, driver }) => {
+const GridBlock = ({
+  _id,
+  image,
+  busName,
+  modelNumber,
+  regNumber,
+  driver,
+  hideDeleteButton,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -118,13 +126,15 @@ const GridBlock = ({ _id, image, busName, modelNumber, regNumber, driver }) => {
               width="152px"
             />
 
-            <button
-              onClick={() => setShowDeleteModal(true)}
-              className={styles.deleteButton}
-              title={t("busManagement.deleteBus")}
-            >
-              <Trash2 size={20} />
-            </button>
+            {!hideDeleteButton && (
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className={styles.deleteButton}
+                title={t("busManagement.deleteBus")}
+              >
+                <Trash2 size={20} />
+              </button>
+            )}
 
             {showDeleteModal &&
               createPortal(

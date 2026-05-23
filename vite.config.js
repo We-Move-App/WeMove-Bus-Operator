@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 5173,
 
-    allowedHosts: ["stayed-lewis-vic-compaq.trycloudflare.com"],
+    allowedHosts: ["actively-outdoor-patricia-smithsonian.trycloudflare.com"],
   },
 
   plugins: [react()],
