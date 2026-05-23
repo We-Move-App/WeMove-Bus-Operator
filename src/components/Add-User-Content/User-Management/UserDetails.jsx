@@ -32,12 +32,12 @@ const UserDetails = () => {
 
   // State for checkboxes
   const [permissions, setPermissions] = useState({
-    dashboardManagement: true,
+    // dashboardManagement: true,
     busManagement: false,
     routeManagement: false,
     driverManagement: false,
     ticketManagement: false,
-    walletManagement: false,
+    // walletManagement: false,
   });
 
   const [snackbar, setSnackbar] = useState({
@@ -99,12 +99,12 @@ const UserDetails = () => {
     });
 
     setPermissions({
-      dashboardManagement: true,
+      // dashboardManagement: true,
       busManagement: userPermissions.includes("busManagement"),
       routeManagement: userPermissions.includes("routeManagement"),
       driverManagement: userPermissions.includes("driverManagement"),
       ticketManagement: userPermissions.includes("ticketManagement"),
-      walletManagement: userPermissions.includes("walletManagement"),
+      // walletManagement: userPermissions.includes("walletManagement"),
     });
   }, [existingUser]);
 
@@ -258,7 +258,16 @@ const UserDetails = () => {
                 layout="row"
                 type="tel"
                 value={formData.phoneNumber}
-                onChange={handleInputChange("phoneNumber")}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, "").slice(0, 9);
+
+                  handleInputChange("phoneNumber")({
+                    target: {
+                      value,
+                    },
+                  });
+                }}
+                maxLength={9}
               />
               <InputField
                 label={t("userDetails.email")}
@@ -306,13 +315,12 @@ const UserDetails = () => {
           <section className={styles.accessDetails}>
             <h3>{t("userDetails.accessManagement")}</h3>
             <div className={styles.inputUserContainer}>
-              <CheckBoxItem
+              {/* <CheckBoxItem
                 label={t("userDetails.permissions.dashboard")}
                 checked={permissions.dashboardManagement}
-                // onChange={() => togglePermission("dashboardManagement")}
                 onChange={() => {}}
                 disabled={true}
-              />
+              /> */}
               <CheckBoxItem
                 label={t("userDetails.permissions.bus")}
                 checked={permissions.busManagement}
@@ -333,11 +341,11 @@ const UserDetails = () => {
                 checked={permissions.ticketManagement}
                 onChange={() => togglePermission("ticketManagement")}
               />
-              <CheckBoxItem
+              {/* <CheckBoxItem
                 label={t("userDetails.permissions.wallet")}
                 checked={permissions.walletManagement}
                 onChange={() => togglePermission("walletManagement")}
-              />
+              /> */}
             </div>
           </section>
         </div>

@@ -89,14 +89,48 @@ const useLogInForm = () => {
 
       console.log("Response:", response.data);
 
+      // if (response.status === 200 && response.data.success) {
+      //   const { accessToken, refreshToken } = response.data.data;
+
+      //   localStorage.setItem("dashboardAccessToken", accessToken);
+      //   localStorage.setItem("dashboardRefreshToken", refreshToken);
+      //   setAuthToken(accessToken);
+      //   console.log("Navigation triggered");
+      //   navigate("/dashboard", { replace: true });
       if (response.status === 200 && response.data.success) {
         const { accessToken, refreshToken } = response.data.data;
 
         localStorage.setItem("dashboardAccessToken", accessToken);
         localStorage.setItem("dashboardRefreshToken", refreshToken);
+
+        const decodedToken = JSON.parse(atob(accessToken.split(".")[1]));
+
+        console.log("Decoded Token:", decodedToken);
+
+        localStorage.setItem("userData", JSON.stringify(decodedToken));
+
         setAuthToken(accessToken);
-        console.log("Navigation triggered");
-        navigate("/dashboard", { replace: true });
+
+        const role = decodedToken?.role;
+        const permissions = decodedToken?.permissions || {};
+
+        if (role === "bus-operator-member") {
+          if (permissions.busManagement) {
+            navigate("/bus-management", { replace: true });
+          } else if (permissions.routeManagement) {
+            navigate("/route-management", { replace: true });
+          } else if (permissions.driverManagement) {
+            navigate("/driver-management", { replace: true });
+          } else if (permissions.ticketManagement) {
+            navigate("/ticket-management", { replace: true });
+          } else if (permissions.walletManagement) {
+            navigate("/wallet-management", { replace: true });
+          } else {
+            navigate("/", { replace: true });
+          }
+        } else {
+          navigate("/dashboard", { replace: true });
+        }
       } else {
         console.log("Login failed");
         setErrorMessage("Login failed. Please try again.");

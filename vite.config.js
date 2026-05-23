@@ -15,9 +15,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 5173,
 
-    allowedHosts: [
-      "recognition-automation-allocated-specialty.trycloudflare.com",
-    ],
+    allowedHosts: ["stayed-lewis-vic-compaq.trycloudflare.com"],
   },
 
   plugins: [react()],

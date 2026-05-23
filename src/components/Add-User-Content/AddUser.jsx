@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 
 const AddUser = () => {
   const { t } = useTranslation();
-
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();

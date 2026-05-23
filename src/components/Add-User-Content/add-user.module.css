@@ -80,8 +80,10 @@
 }
 
 .cardContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
   gap: var(--gap-size);
+  justify-content: start;
 }
 
 .branchName h3.userName {

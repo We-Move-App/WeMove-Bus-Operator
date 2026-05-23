@@ -2,8 +2,7 @@ import axios from "axios";
 import i18n from "@/i18n";
 
 export const BASE_URL = "http://139.59.20.155:8000";
-// export const BASE_URL =
-//   "https://fibre-handled-recently-residence.trycloudflare.com";
+// export const BASE_URL = "https://three-cameron-inspector-pad.trycloudflare.com";
 export const API_VERSION = "v1";
 
 const axiosInstance = axios.create({

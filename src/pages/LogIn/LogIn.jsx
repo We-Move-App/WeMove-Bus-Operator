@@ -25,8 +25,34 @@ const LogIn = () => {
   const { t } = useTranslation();
 
   const token = localStorage.getItem("dashboardAccessToken");
+
   useEffect(() => {
-    if (token) {
+    if (!token) return;
+
+    const userData = JSON.parse(localStorage.getItem("userData"));
+
+    console.log("Stored User Data:", userData);
+
+    const role = userData?.data?.user?.role || userData?.role;
+
+    const permissions =
+      userData?.data?.user?.permissions || userData?.permissions || {};
+
+    if (role === "bus-operator-member") {
+      if (permissions.busManagement) {
+        navigate("/bus-management", { replace: true });
+      } else if (permissions.routeManagement) {
+        navigate("/route-management", { replace: true });
+      } else if (permissions.driverManagement) {
+        navigate("/driver-management", { replace: true });
+      } else if (permissions.ticketManagement) {
+        navigate("/ticket-management", { replace: true });
+      } else if (permissions.walletManagement) {
+        navigate("/wallet-management", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    } else {
       navigate("/dashboard", { replace: true });
     }
   }, [token, navigate]);

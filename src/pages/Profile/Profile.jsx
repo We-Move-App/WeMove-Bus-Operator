@@ -174,14 +174,6 @@ const Profile = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className={styles.loaderContainer}>
-  //       <FadeLoader color="#123abc" />
-  //     </div>
-  //   );
-  // }
-
   if (loading) {
     return (
       <div className={styles.profileContainer}>
@@ -248,7 +240,7 @@ const Profile = () => {
           {/* Left Half - User Details */}
           <div className={styles.leftHalf}>
             <div className={styles.imageBlockUser}>
-              <img src={user?.avatar?.url || images.userImg} alt="user" />
+              <img src={user?.avatar?.url || images.profileImg} alt="user" />
             </div>
             <div className={styles.userDetails}>
               <div className={styles.title}>
