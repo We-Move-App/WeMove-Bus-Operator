@@ -133,7 +133,10 @@ const DriverDetails = () => {
     } catch (error) {
       setSnackbar({
         open: true,
-        message: error.response?.data?.message || t("driverDetails.error"),
+        message:
+          error.response?.data?.message ||
+          error?.message ||
+          t("driverDetails.error"),
         severity: "error",
       });
 

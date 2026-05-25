@@ -254,7 +254,10 @@ const AssignDriver = () => {
 
       setSnackbar({
         open: true,
-        message: t("assignDriver.error"),
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          t("assignDriver.error"),
         severity: "error",
       });
     }
